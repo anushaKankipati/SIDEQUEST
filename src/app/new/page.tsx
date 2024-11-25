@@ -1,7 +1,7 @@
 'use client';
+import AdTextInputs from "@/src/components/AdTextInputs";
 import UploadArea from "@/src/components/UploadArea";
-import Uploader from "@/src/components/Uploader";
-import { faImage, faLocationCrosshairs, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
 import { useState } from "react";
@@ -25,26 +25,7 @@ export default function NewAdPage(){
             </div>
 
             <div className=" grow pt-2">
-                <label htmlFor="titleIn">Title</label>
-                <input id="titleIn" type="text" placeholder="Title" />
-
-                <label htmlFor="priceIn">Price</label>
-                <input id="priceIn" type="number" placeholder="Price" />
-
-                <label htmlFor="categoryIn">Category</label>
-                <select name="category" id="categoryIn" defaultValue="">
-                    <option disabled value="">Select category</option>
-                    <option value="Cars">Cars</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Properties">Properties</option>
-                </select>
-
-                <label htmlFor="descriptionIn">Description</label>
-                <textarea name="" id="descriptionIn" placeholder="description"></textarea>
-
-                <label htmlFor="contactIn">Contact Information</label>
-
-                <textarea name="" id="contactIn" placeholder="mobile: 669-225-6980"></textarea>
+                <AdTextInputs />
                 <button className="mt-2 bg-blue-600 text-white px-6 py-2 rounded">
                     Publish
                 </button>
