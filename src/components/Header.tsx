@@ -17,7 +17,7 @@ export default function Header({session}: {session:Session|null}) {
             <nav className="flex gap-4 *:rounded ">
                 <Link href="/new" className="border border-blue-600 text-blue-600 inline-flex gap-1 items-center px-2 mr-4">
                     <FontAwesomeIcon icon={faPlus} className="h-4"/>
-                    <span>Post an ad</span>
+                    <span>Post a task</span>
                 </Link>
                 <span className="border-r"></span>
                 {!session?.user && (

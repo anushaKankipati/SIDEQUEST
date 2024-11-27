@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
 import { useState } from "react";
 import { createAd } from "../actions/adActions";
+import SubmitButton from "@/src/components/SubmitButton";
+import { redirect } from "next/navigation";
 
 const locationDefault = {
     lat: 59.432226005726896,
@@ -31,7 +33,9 @@ export default function NewAdPage(){
     async function handleSubmit(formData:FormData){
         formData.set('location', JSON.stringify(location));
         formData.set('files', JSON.stringify(files));
-        await createAd(formData)
+        const result = await createAd(formData);
+        console.log({result});
+        redirect('/ad/'+result._id);
     }
 
     return(
@@ -69,9 +73,7 @@ export default function NewAdPage(){
 
             <div className=" grow pt-2">
                 <AdTextInputs />
-                <button className="mt-2 bg-blue-600 text-white px-6 py-2 rounded">
-                    Publish
-                </button>
+                <SubmitButton>Publish</SubmitButton>
             </div>
         </form>
     )

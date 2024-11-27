@@ -14,7 +14,7 @@ export default function UploadArea({files, setFiles}:Props) {
     const[isUploading, setIsUploading] = useState(false);
     return(
         <div className="bg-gray-100 p-4 rounded">
-        <h2 className="text-center text-xs text-gray-400 uppercase font-bold">Add photos of your product:</h2>
+        <h2 className="text-center text-xs text-gray-400 uppercase font-bold">Add relevant photos for the task:</h2>
         <div className="flex flex-col">
             <FontAwesomeIcon icon={faImage} className="h-24 text-gray-300"/>
             <label
