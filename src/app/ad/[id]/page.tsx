@@ -1,8 +1,6 @@
 'use server';
 
 import Gallery from "@/src/components/Gallery";
-import UploadThumbnail from "@/src/components/UploadThumbnail";
-import UploadView from "@/src/components/UploadView";
 import { connect } from "@/src/libs/helpers";
 import { AdModel } from "@/src/models/Ad";
 
