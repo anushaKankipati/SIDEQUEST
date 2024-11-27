@@ -33,6 +33,8 @@ export default async function SingleAdPage(args: Props) {
                 <p>{adDoc.category}</p>
                 <label>description</label>
                 <p className="text-sm">{adDoc.description}</p>
+                <label>Time estimate</label>
+                <p className="text-sm">{adDoc.time_estimate} hrs</p>
                 <label>contact</label>
                 <p>{adDoc.contact}</p>
             </div>
