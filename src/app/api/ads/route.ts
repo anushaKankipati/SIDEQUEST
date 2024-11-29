@@ -10,6 +10,9 @@ export async function GET(req: Request, res: Response){
 
     const phrase = searchParams.get('phrase');
     const category = searchParams.get('category');
+    const min = searchParams.get('min');
+    const max = searchParams.get('max');
+
     const filter:FilterQuery<Ad> = {};
     if(phrase){
         filter.title = {$regex: '.*'+phrase+'.*', $options: 'i'};
@@ -17,6 +20,10 @@ export async function GET(req: Request, res: Response){
     if(category){
         filter.category = category;
     }
+    if (min && !max) filter.price = {$gte: min};
+    if (max && !min) filter.price = {$lte: max};
+    if (min && max) filter.price = {$gte: min, $lte: max};
+
     const adsDocs = await AdModel.find(filter, null, {sort:{createdAt:-1}});
     return Response.json(adsDocs);
 }
