@@ -1,3 +1,5 @@
+import { categories } from "../libs/helpers";
+
 export default function AdTextInputs(){
     return(
         <>
@@ -9,10 +11,10 @@ export default function AdTextInputs(){
 
                 <label htmlFor="categoryIn">Category</label>
                 <select name="category" id="categoryIn" defaultValue="0">
-                    <option disabled value="0">Select category</option>
-                    <option value="home">Home</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="Carpentry">Carpentry</option>
+                    <option disabled value="0">select category</option>
+                    {categories.map(({key:categoryKey,label:categoryLabel}) => (
+                        <option key={categoryKey} value={categoryKey}>{categoryLabel}</option>
+                    ))}
                 </select>
 
                 <label htmlFor="descriptionIn">Description</label>

@@ -1,5 +1,6 @@
 'use server';
 
+import Gallery from "@/src/components/Gallery";
 import { connect } from "@/src/libs/helpers";
 import { AdModel } from "@/src/models/Ad";
 
@@ -19,10 +20,21 @@ export default async function SingleAdPage(args: Props) {
         return 'Not Found';
     }
     return (
-       <div className="flex">
-            <div className="grow bg-black">Photos</div>
-            <div className="w-52 p-4">
-                {adDoc.title}
+       <div className="flex absolute inset-0 top-16">
+            <div className="w-3/5 grow bg-black text-white flex flex-col relative">
+                <Gallery files={adDoc.files} />
+            </div>
+                
+            <div className="w-2/5 p-8 grow shrink-0">
+                <h1 className="text-lg bold">{adDoc.title}</h1>
+                <label>Category</label>
+                <p>{adDoc.category}</p>
+                <label>description</label>
+                <p className="text-sm">{adDoc.description}</p>
+                <label>Time estimate</label>
+                <p className="text-sm">{adDoc.time_estimate} hrs</p>
+                <label>contact</label>
+                <p>{adDoc.contact}</p>
             </div>
        </div>
     );

@@ -5,7 +5,7 @@ type LoaderProps = {
   src: string;
   width: number;
   height?: number;
-  quality?: number | undefined
+  quality?: number | undefined;
   aiCrop?: boolean;
 };
 
