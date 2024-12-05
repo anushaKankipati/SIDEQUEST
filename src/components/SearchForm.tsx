@@ -1,20 +1,31 @@
 'use client';
 
-import { useRef, useState } from "react";
-import { categories } from "../libs/helpers";
+import { useEffect, useRef, useState } from "react";
+import { categories, defaultRadius } from "../libs/helpers";
 import { faStore } from "@fortawesome/free-solid-svg-icons";
 import LabelRadioButton from "./LabelRadioButton";
 import SubmitButton from "./SubmitButton";
+import DistancePicker from "./DistancePicker";
+import {Location} from "./LocationPicker"
 
 type Props = {
   onSearch: (formData: FormData) => void;
 };
 
 export default function SearchForm({ onSearch }: Props) {
+  const [radius, setRadius] = useState(defaultRadius);
+  const [center, setCenter] = useState<Location|null>(null);
+  const [prevCenter, setPrevCenter] = useState<Location|null>(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const formRef = useRef<HTMLFormElement | null>(null);
+  useEffect(() => {
+    if (center && !prevCenter) {
+      formRef.current?.requestSubmit();
+      setPrevCenter(center);
+    }
+  }, [center]);
 
   function handleMinPriceChange(e: React.ChangeEvent<HTMLInputElement>) {
     setMinPrice(e.target.value);
@@ -30,6 +41,11 @@ export default function SearchForm({ onSearch }: Props) {
     formData.set('category', category);
     onSearch(formData);
   }
+  useEffect(() => {
+    if(radius !== defaultRadius){
+      formRef.current?.requestSubmit();
+    }
+  })
 
   return (
     <form 
@@ -82,6 +98,12 @@ export default function SearchForm({ onSearch }: Props) {
             />
           </div>
         </div>
+      </div>
+      <div>
+        <input type="hidden" name="radius" value={radius}></input>
+        <DistancePicker 
+          defaultRadius={defaultRadius} 
+          onChange={newRadius => setRadius(newRadius)}/>
       </div>
       <SubmitButton>Search</SubmitButton>
     </form>
