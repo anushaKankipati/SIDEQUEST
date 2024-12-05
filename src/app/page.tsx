@@ -4,6 +4,7 @@ import { Ad } from "../models/Ad";
 import AdItem from "../components/AdItem";
 import SearchForm from "../components/SearchForm";
 import { error } from "console";
+import { defaultRadius } from "../libs/helpers";
 
 export default function Home() {
   const [ads, setAds] = useState<Ad[]>([]);
@@ -13,6 +14,12 @@ export default function Home() {
   }, []);
 
   function fetchAds(params?: URLSearchParams) {
+    if(!params){
+      params = new URLSearchParams();
+    }
+    if(!params.has('radius')){
+      params.set('radius', defaultRadius.toString());
+    }
     const url = `/api/ads?${params?.toString() || ""}`;
     fetch(url)
       .then(response => response.json())

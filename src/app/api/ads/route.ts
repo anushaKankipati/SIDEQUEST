@@ -12,6 +12,9 @@ export async function GET(req: Request, res: Response){
     const category = searchParams.get('category');
     const min = searchParams.get('min');
     const max = searchParams.get('max');
+    const radius = searchParams.get('radius');
+    const center = searchParams.get('center');
+
 
     const filter:FilterQuery<Ad> = {};
     if(phrase){

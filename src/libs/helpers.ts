@@ -11,3 +11,5 @@ export const categories = [
   {key:'clothes', label:'Clothes', icon: faTshirt},
   {key:'properties', label:'Properties', icon: faHome},
 ];
+
+export const defaultRadius = 50 * 1000;
