@@ -52,6 +52,7 @@ export default function NewAdPage(){
                         <label htmlFor="" className="mt-0 mb-0">Where?</label>
                         <div>
                             <button 
+                                title="find-my-location"
                                 type="button"
                                 onClick={handleFindMyPositionClick}
                                 className="flex p-1 items-center gap-1 justify-center text-gray-600 rounded">

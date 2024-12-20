@@ -43,11 +43,13 @@ export default function Gallery({files}:{files:UploadResponse[]}) {
               <div className="absolute inset-4 flex items-center">
                 <div className="flex justify-between w-full">
                   <button
+                    title="prev-button"
                     onClick={prev}
                     className="rounded-full size-12 flex justify-center items-center transition bg-gray-500/40 hover:bg-gray-500/80">
                     <FontAwesomeIcon icon={faChevronLeft}/>
                   </button>
                   <button
+                    title="next-button"
                     onClick={next}
                     className="rounded-full size-12 flex justify-center items-center transition bg-gray-500/40 hover:bg-gray-500/80">
                     <FontAwesomeIcon icon={faChevronRight}/>
