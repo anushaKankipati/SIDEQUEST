@@ -41,12 +41,16 @@ export default function SearchForm({ onSearch }: Props) {
     formData.set('category', category);
     onSearch(formData);
   }
+  // useEffect(() => {
+  //   if(radius !== defaultRadius){
+  //     formRef.current?.requestSubmit();
+  //   }
+  // }, [radius])
   useEffect(() => {
-    if(radius !== defaultRadius){
-      formRef.current?.requestSubmit();
+    if (center) {
+
     }
   })
-
   return (
     <form 
       ref={formRef}
@@ -101,9 +105,13 @@ export default function SearchForm({ onSearch }: Props) {
       </div>
       <div>
         <input type="hidden" name="radius" value={radius}></input>
+        <input type="hidden" name="center" value={center?.lat}></input>
         <DistancePicker 
           defaultRadius={defaultRadius} 
-          onChange={newRadius => setRadius(newRadius)}/>
+          onChange={({radius, center}) => {
+            setRadius(radius); 
+            setCenter(center); 
+          }}/>
       </div>
       <SubmitButton>Search</SubmitButton>
     </form>

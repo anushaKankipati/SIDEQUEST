@@ -7,7 +7,7 @@ export default function DistancePicker({
     onChange,
     defaultRadius,
   }:{
-    onChange:(radius:number) => void;
+    onChange:({radius, center} : {radius: number, center: Location}) => void;
     defaultRadius:number;
   }) {
     const [radius, setRadius] = useState(50*1000);
@@ -23,10 +23,10 @@ export default function DistancePicker({
     }, [center]);
 
     useEffect(() => {
-        if (center) {
-          onChange(radius);
+        if (center && radius) {
+          onChange({center, radius});
         }
-      }, [radius]);
+      }, [radius, center]);
 
     useEffect(() =>{
         navigator.geolocation.getCurrentPosition(ev => {

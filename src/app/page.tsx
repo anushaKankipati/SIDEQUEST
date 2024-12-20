@@ -7,7 +7,7 @@ import { error } from "console";
 import { defaultRadius } from "../libs/helpers";
 
 export default function Home() {
-  const [ads, setAds] = useState<Ad[]>([]);
+  const [ads, setAds] = useState<Ad[]|null>(null);
 
   useEffect(() => {
     fetchAds();
@@ -32,6 +32,10 @@ export default function Home() {
   }
 
   function handleSearch(formData: FormData) {
+    if (!formData.has("center") ){
+      return;
+    }
+    
     const params = new URLSearchParams();
     formData.forEach((value, key) => {
       if (typeof value === "string") {
@@ -46,10 +50,16 @@ export default function Home() {
       <div className="p-4 grow bg-gray-100 w-3/4">
         <h2 className="font-bold mt-2 mb-4">Latest Tasks</h2>
         <div className="grid md:grid-cols-4 gap-x-4 gap-y-6">
-          {ads.map((ad) => (
+          {ads && ads.map((ad) => (
             <AdItem key={ad._id} ad={ad} />
           ))}
         </div>
+        {ads && ads?.length === 0 && (
+          <div className="text-gray-400">No Products found</div>
+        )}
+        {ads === null && (
+          <div className="text-gray-400">Loading...</div>
+        )}
       </div>
     </div>
   );
