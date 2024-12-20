@@ -1,6 +1,6 @@
 import { connect } from "@/src/libs/helpers";
 import { Ad, AdModel } from "@/src/models/Ad";
-import { FilterQuery } from "mongoose";
+import { FilterQuery, PipelineStage } from "mongoose";
 
 export async function GET(req: Request, res: Response) {
   await connect();
@@ -15,7 +15,7 @@ export async function GET(req: Request, res: Response) {
   const center = searchParams.get("center");
 
   const filter: FilterQuery<Ad> = {};
-  const aggregationSteps = []; 
+  const aggregationSteps:PipelineStage[] = [];
   if (phrase) {
     filter.title = { $regex: ".*" + phrase + ".*", $options: "i" };
   }
@@ -26,21 +26,25 @@ export async function GET(req: Request, res: Response) {
   if (max && !min) filter.price = { $lte: max };
   if (min && max) filter.price = { $gte: min, $lte: max };
   if (radius) {
-    aggregationSteps.push(AdModel.aggregate([
+    aggregationSteps.push(
       {
         $geoNear: {
-            near: { 
-                type: "Point", 
-                coordinates: [59.432226005726896, 18.057839558207103] 
-            },
-            distanceField: "location",
-            maxDistance: 10000,
-            spherical: true,
-      },
-    }
-    ]));
+          near: {
+            type: "Point",
+            coordinates: [59.432226005726896, 18.057839558207103],
+          },
+          distanceField: "location",
+          maxDistance: 10000,
+          spherical: true,
+        },
+      });
   }
-
-  const adsDocs = await AdModel.find(filter, null, { sort: { createdAt: -1 } });
+  aggregationSteps.push({
+    $match: filter
+  });
+  aggregationSteps.push({
+    $sort: {createdAt:-1}
+  })
+  const adsDocs = await AdModel.aggregate(aggregationSteps); 
   return Response.json(adsDocs);
 }
