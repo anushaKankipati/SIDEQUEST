@@ -4,6 +4,7 @@ import { AdModel } from "@/src/models/Ad";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { revalidatePath } from "next/cache";
 
 async function connect() {
   mongoose.connect(process.env.MONGODB_URL as string);
@@ -39,5 +40,6 @@ export async function updateAd(formData: FormData) {
   };
 
   const newAdDoc = await AdModel.findByIdAndUpdate(_id, adData);
+  revalidatePath("/ad/"+ _id);
   return JSON.parse(JSON.stringify(newAdDoc));
 }

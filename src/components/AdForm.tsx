@@ -9,6 +9,7 @@ import { useState } from "react";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
+import { revalidatePath } from "next/cache";
 
 type Props = {
   id?: string | null;
@@ -41,10 +42,10 @@ export default function AdForm({
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
     if (id) {
-      formData.set("_id", id); 
+      formData.set("_id", id);
     }
-    const result = id ? await updateAd(formData) : createAd(formData); 
-    redirect("/ad/"+result._id); 
+    const result = id ? await updateAd(formData) : createAd(formData);
+    redirect("/ad/" + result._id);
   }
 
   return (
