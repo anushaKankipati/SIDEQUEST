@@ -1,8 +1,13 @@
 'use server';
 
 import Gallery from "@/src/components/Gallery";
-import { connect } from "@/src/libs/helpers";
+import LocationMap from "@/src/components/LocationMap";
+import { connect, formatMoney } from "@/src/libs/helpers";
 import { AdModel } from "@/src/models/Ad";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -15,6 +20,7 @@ type Props = {
 
 export default async function SingleAdPage(args: Props) {
     await connect();
+    const session = await getServerSession(authOptions); 
     const adDoc = await AdModel.findById(args.params.id);
     if(!adDoc){
         return 'Not Found';
@@ -25,8 +31,22 @@ export default async function SingleAdPage(args: Props) {
                 <Gallery files={adDoc.files} />
             </div>
                 
-            <div className="w-2/5 p-8 grow shrink-0">
-                <h1 className="text-lg bold">{adDoc.title}</h1>
+            <div className="w-2/5 p-8 grow shrink-0 overflow-y-scroll">
+                <h1 className="text-2xl font-bold">{adDoc.title}</h1>
+                {session && session?.user?.email === adDoc.userEmail && (
+                    <div className="mt-2 flex gap-2">
+                        <button className="border border-blue-600 text-blue-600 rounded-md py-1 px-4 inline-flex gap-1 items-center">
+                            <FontAwesomeIcon icon={faPencil}/>
+                            <span>Edit</span>
+                        </button>
+                        <button className="border border-red-600 text-red-600 rounded-md py-1 px-4 inline-flex gap-1 items-center">
+                            <FontAwesomeIcon icon={faTrash}/>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                )}
+                <label>Price</label>
+                <p>{formatMoney(adDoc.price)}</p>
                 <label>Category</label>
                 <p>{adDoc.category}</p>
                 <label>description</label>
@@ -35,6 +55,8 @@ export default async function SingleAdPage(args: Props) {
                 <p className="text-sm">{adDoc.time_estimate} hrs</p>
                 <label>contact</label>
                 <p>{adDoc.contact}</p>
+                <label>Location</label>
+                <LocationMap className="w-full h-64"location={adDoc.location}/>
             </div>
        </div>
     );

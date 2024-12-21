@@ -55,7 +55,7 @@ export default function Home() {
           ))}
         </div>
         {ads && ads?.length === 0 && (
-          <div className="text-gray-400">No Products found</div>
+          <div className="text-gray-400">No Products Found</div>
         )}
         {ads === null && (
           <div className="text-gray-400">Loading...</div>
