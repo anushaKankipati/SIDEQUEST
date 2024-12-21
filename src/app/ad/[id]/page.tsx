@@ -8,8 +8,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
-
-
+import Link from "next/link";
 
 type Props = {
     params: {
@@ -35,10 +34,10 @@ export default async function SingleAdPage(args: Props) {
                 <h1 className="text-2xl font-bold">{adDoc.title}</h1>
                 {session && session?.user?.email === adDoc.userEmail && (
                     <div className="mt-2 flex gap-2">
-                        <button className="border border-blue-600 text-blue-600 rounded-md py-1 px-4 inline-flex gap-1 items-center">
+                        <Link href={`/edit/${adDoc._id}`} className="border border-blue-600 text-blue-600 rounded-md py-1 px-4 inline-flex gap-1 items-center">
                             <FontAwesomeIcon icon={faPencil}/>
                             <span>Edit</span>
-                        </button>
+                        </Link>
                         <button className="border border-red-600 text-red-600 rounded-md py-1 px-4 inline-flex gap-1 items-center">
                             <FontAwesomeIcon icon={faTrash}/>
                             <span>Delete</span>
