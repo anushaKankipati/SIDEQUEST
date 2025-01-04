@@ -1,4 +1,4 @@
-import { categories } from "../libs/helpers";
+import { categories } from "../../libs/helpers";
 
 export type AdTexts = {
   title?: string;

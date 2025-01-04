@@ -5,9 +5,11 @@ import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Header({ session }: { session: Session | null }) {
+  const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   return (
     <header className="border-b p-4 flex items-center justify-between h-16">
@@ -54,15 +56,17 @@ export default function Header({ session }: { session: Session | null }) {
                   <div
                     onClick={() => setShowDropdown(false)}
                     className="bg-black/90 fixed inset-0 z-40"
-                  > 
-                  </div>
+                  ></div>
                   <div className="absolute z-50 right-0 top-8 bg-white rounded-md w-24 border">
-                    <Link
-                      className="p-2 block text-center cursor-pointer"
-                      href={"/my-ads"}
+                    <button
+                      className="p-2 block text-center cursor-pointer w-full"
+                      onClick={() => {
+                        setShowDropdown(false);
+                        router.push("/my-ads");
+                      }}
                     >
                       My Ads
-                    </Link>
+                    </button>
                     <button
                       className="p-2 block w-full cursor-pointer"
                       onClick={() => signOut()}

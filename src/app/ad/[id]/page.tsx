@@ -2,14 +2,14 @@
 
 import Gallery from "@/src/components/Gallery";
 import LocationMap from "@/src/components/LocationMap";
-import { connect, formatMoney } from "@/src/libs/helpers";
+import { connect, formatMoney } from "@/libs/helpers";
 import { AdModel } from "@/src/models/Ad";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import DeleteButton from "@/src/components/deleteButton";
+import DeleteButton from "@/src/components/DeleteButton";
 
 type Props = {
   params: {

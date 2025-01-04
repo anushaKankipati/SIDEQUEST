@@ -1,4 +1,4 @@
-import { connect } from "@/src/libs/helpers";
+import { connect } from "@/libs/helpers";
 import { Ad, AdModel } from "@/src/models/Ad";
 import { FilterQuery, PipelineStage } from "mongoose";
 import { getServerSession } from "next-auth";

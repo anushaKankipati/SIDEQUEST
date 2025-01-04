@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
-import { categories, defaultRadius } from "../libs/helpers";
+import { categories, defaultRadius } from "../../libs/helpers";
 import { faStore } from "@fortawesome/free-solid-svg-icons";
 import LabelRadioButton from "./LabelRadioButton";
 import SubmitButton from "./SubmitButton";

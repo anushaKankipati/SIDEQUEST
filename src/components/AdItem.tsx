@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import UploadThumbnail from "./UploadThumbnail";
 import { Ad } from "../models/Ad";

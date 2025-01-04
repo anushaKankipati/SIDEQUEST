@@ -4,7 +4,7 @@ import { Ad } from "../models/Ad";
 import AdItem from "../components/AdItem";
 import SearchForm from "../components/SearchForm";
 import { error } from "console";
-import { defaultRadius } from "../libs/helpers";
+import { defaultRadius } from "../../libs/helpers";
 
 export default function Home() {
   const [ads, setAds] = useState<Ad[]|null>(null);
