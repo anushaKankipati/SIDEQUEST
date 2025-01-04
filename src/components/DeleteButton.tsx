@@ -3,7 +3,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function DeleteButton({id}: {id:string}) {
   const [showDeleteQuestion, setShowDeleteQuestion] = useState<boolean>(false);
@@ -28,7 +28,7 @@ export default function DeleteButton({id}: {id:string}) {
               No, Cancel Here
             </button>
             <button
-              className="py-1 px-2 bg-red-600 text-white border-rounded"
+              className="py-1 px-2 bg-red-600 text-white border-red-600 rounded-md"
               onClick={() => {
                 HandleDelete();
                 setShowDeleteQuestion(false);

@@ -44,7 +44,7 @@ export default function AdForm({
     if (id) {
       formData.set("_id", id);
     }
-    const result = id ? await updateAd(formData) : createAd(formData);
+    const result = id ? await updateAd(formData) : await createAd(formData);
     redirect("/ad/" + result._id);
   }
 
