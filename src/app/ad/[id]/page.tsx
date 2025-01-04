@@ -2,7 +2,7 @@
 
 import Gallery from "@/src/components/Gallery";
 import LocationMap from "@/src/components/LocationMap";
-import { connect, formatMoney } from "@/libs/helpers";
+import { connect, formatDate, formatMoney } from "@/libs/helpers";
 import { AdModel } from "@/src/models/Ad";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
@@ -57,6 +57,11 @@ export default async function SingleAdPage(args: Props) {
         <p>{adDoc.contact}</p>
         <label>Location</label>
         <LocationMap className="w-full h-64" location={adDoc.location} />
+        <p className="mt-8 text-sm grey-400">
+            Posted: {formatDate(adDoc.createdAt)}
+            <br/>
+            Last Update: {formatDate(adDoc.updatedAt)}
+        </p>
       </div>
     </div>
   );
