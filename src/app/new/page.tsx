@@ -2,8 +2,8 @@
 import AdForm from "@/src/components/AdForm";
 
 const locationDefault = {
-  lat: 59.432226005726896,
-  lng: 18.057839558207103,
+  lng: -121.9362816,
+  lat: 37.3358592,
 };
 
 export default function NewAdPage() {
