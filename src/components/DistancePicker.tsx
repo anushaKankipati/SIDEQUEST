@@ -39,7 +39,7 @@ export default function DistancePicker({
 
     useEffect(() =>{
         navigator.geolocation.getCurrentPosition(ev => {
-            setCenter({lat:ev.coords.latitude, lng:ev.coords.longitude});
+            setCenter({lng:ev.coords.longitude, lat:ev.coords.latitude});
         }, err => setGeoError(err.message));
     }, [])
 

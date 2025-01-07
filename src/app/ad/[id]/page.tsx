@@ -21,7 +21,8 @@ type Props = {
 export default async function SingleAdPage(args: Props) {
   await connect();
   const session = await getServerSession(authOptions);
-  const adDoc = await AdModel.findById(args.params.id);
+  const { id } = await args.params;
+  const adDoc = await AdModel.findById(id);
   if (!adDoc) {
     return "Not Found";
   }
@@ -58,9 +59,9 @@ export default async function SingleAdPage(args: Props) {
         <label>Location</label>
         <LocationMap className="w-full h-64" location={adDoc.location} />
         <p className="mt-8 text-sm grey-400">
-            Posted: {formatDate(adDoc.createdAt)}
-            <br/>
-            Last Update: {formatDate(adDoc.updatedAt)}
+          Posted: {formatDate(adDoc.createdAt)}
+          <br />
+          Last Update: {formatDate(adDoc.updatedAt)}
         </p>
       </div>
     </div>

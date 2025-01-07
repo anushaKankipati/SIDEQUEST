@@ -32,13 +32,14 @@ export default function AdForm({
 
   function handleFindMyPositionClick() {
     navigator.geolocation.getCurrentPosition((ev) => {
-      const location = { lat: ev.coords.latitude, lng: ev.coords.longitude };
+      const location = { lng: ev.coords.longitude, lat: ev.coords.latitude };
       setLocation(location);
       setGpsCoords(location);
     }, console.error);
   }
 
   async function handleSubmit(formData: FormData) {
+    console.log("location", location); 
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
     if (id) {

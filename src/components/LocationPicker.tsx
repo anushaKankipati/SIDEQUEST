@@ -39,7 +39,7 @@ export default function LocationPicker({
       pin.position = ev.latLng;
       const lat = ev.latLng.lat();
       const lng = ev.latLng.lng();
-      onChange({lat, lng});
+      onChange({lng, lat});
     });
   }
 

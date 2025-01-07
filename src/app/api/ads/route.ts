@@ -29,13 +29,13 @@ export async function GET(req: Request, res: Response) {
   if (min && max) filter.price = { $gte: min, $lte: max };
   if (radius && center) {
     console.log(center);
-    const cords = center.split("-");
+    const cords = center.split(",");
     console.log("cords", cords);
     aggregationSteps.push({
       $geoNear: {
         near: {
           type: "Point",
-          coordinates: [59.432226005726896, 18.057839558207103],
+          coordinates: [parseFloat(cords[1]), parseFloat(cords[0])],
         },
         distanceField: "location",
         maxDistance: parseInt(radius),
