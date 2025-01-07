@@ -27,9 +27,7 @@ export async function GET(req: Request, res: Response) {
   if (max && !min) filter.price = { $lte: max };
   if (min && max) filter.price = { $gte: min, $lte: max };
   if (radius && center) {
-    console.log(center);
     const cords = center.split(",");
-    console.log("cords", cords);
     aggregationSteps.push({
       $geoNear: {
         near: {
