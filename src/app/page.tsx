@@ -18,7 +18,7 @@ export default function Home() {
 
   function fetchAds(params?: URLSearchParams) {
     if (!params) {
-      params = new URLSearchParams();
+      return; //risky!!!! but seems to work
     }
     if (!params.has("radius")) {
       params.set("radius", defaultRadius.toString());

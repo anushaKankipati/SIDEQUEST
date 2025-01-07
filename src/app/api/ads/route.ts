@@ -6,7 +6,6 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(req: Request, res: Response) {
   await connect();
-  //console.log(req);
   const { searchParams } = new URL(req.url);
 
   const phrase = searchParams.get("phrase");

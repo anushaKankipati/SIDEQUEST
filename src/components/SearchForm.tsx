@@ -45,7 +45,7 @@ export default function SearchForm({ onSearch }: Props) {
   }
   useEffect(() => {
     if (center) formRef.current?.requestSubmit();
-  }, [center]);
+  }, []);
   return (
     <form
       ref={formRef}
