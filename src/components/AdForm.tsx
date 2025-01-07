@@ -39,7 +39,6 @@ export default function AdForm({
   }
 
   async function handleSubmit(formData: FormData) {
-    console.log("location", location); 
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
     if (id) {

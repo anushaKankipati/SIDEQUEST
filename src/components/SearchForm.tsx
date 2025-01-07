@@ -8,13 +8,15 @@ import SubmitButton from "./SubmitButton";
 import DistancePicker from "./DistancePicker";
 import { Location } from "./LocationPicker";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import useRadius from "../hooks/useRadius";
 
 type Props = {
   onSearch: (formData: FormData) => void;
 };
 
 export default function SearchForm({ onSearch }: Props) {
-  const [radius, setRadius] = useState(defaultRadius);
+  const radius = useRadius(state => state.radius); 
+  const setRadius = useRadius(state => state.setRadius); 
   const center = useCurrentLocation((state) => state.currLocation);
   const setCenter = useCurrentLocation((state) => state.setCurrLocation);
   const [prevCenter, setPrevCenter] = useState<Location | null>(null);
