@@ -41,16 +41,10 @@ export default function SearchForm({ onSearch }: Props) {
     formData.set('category', category);
     onSearch(formData);
   }
-  // useEffect(() => {
-  //   if(radius !== defaultRadius){
-  //     formRef.current?.requestSubmit();
-  //   }
-  // }, [radius])
   useEffect(() => {
-    if (center) {
-
-    }
-  })
+    if (center)
+      formRef.current?.requestSubmit(); 
+  }, [center])
   return (
     <form 
       ref={formRef}
