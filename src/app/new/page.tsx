@@ -1,11 +1,9 @@
 "use client";
 import AdForm from "@/src/components/AdForm";
-
-const locationDefault = {
-  lng: -121.9362816,
-  lat: 37.3358592,
-};
+import useCurrentLocation from "@/src/hooks/useCurrentLocation";
+import { Location } from "../../components/LocationPicker";
 
 export default function NewAdPage() {
-  return <AdForm defaultLocation={locationDefault} />;
+  const center = useCurrentLocation((state) => state.currLocation);
+  return <AdForm defaultLocation={center as Location} />;
 }

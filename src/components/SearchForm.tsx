@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { categories, defaultRadius } from "../../libs/helpers";
@@ -6,7 +6,8 @@ import { faStore } from "@fortawesome/free-solid-svg-icons";
 import LabelRadioButton from "./LabelRadioButton";
 import SubmitButton from "./SubmitButton";
 import DistancePicker from "./DistancePicker";
-import {Location} from "./LocationPicker"
+import { Location } from "./LocationPicker";
+import useCurrentLocation from "../hooks/useCurrentLocation";
 
 type Props = {
   onSearch: (formData: FormData) => void;
@@ -14,8 +15,9 @@ type Props = {
 
 export default function SearchForm({ onSearch }: Props) {
   const [radius, setRadius] = useState(defaultRadius);
-  const [center, setCenter] = useState<Location|null>(null);
-  const [prevCenter, setPrevCenter] = useState<Location|null>(null);
+  const center = useCurrentLocation((state) => state.currLocation);
+  const setCenter = useCurrentLocation((state) => state.setCurrLocation);
+  const [prevCenter, setPrevCenter] = useState<Location | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -38,34 +40,33 @@ export default function SearchForm({ onSearch }: Props) {
   function handleCategoryChange(category: string) {
     setSelectedCategory(category);
     const formData = new FormData(formRef.current!);
-    formData.set('category', category);
+    formData.set("category", category);
     onSearch(formData);
   }
   useEffect(() => {
-    if (center)
-      formRef.current?.requestSubmit(); 
-  }, [center])
+    if (center) formRef.current?.requestSubmit();
+  }, [center]);
   return (
-    <form 
+    <form
       ref={formRef}
       action={onSearch}
       className="bg-white grow w-1/4 p-4 border-r flex flex-col gap-4"
     >
       <input name="phrase" type="text" placeholder="Search SIDEQUE$T..." />
       <div className="flex flex-col gap-0">
-        <LabelRadioButton 
-          key={'category'}
-          name={'category'} 
-          value={''}
+        <LabelRadioButton
+          key={"category"}
+          name={"category"}
+          value={""}
           icon={faStore}
           onClick={handleCategoryChange}
-          isSelected={selectedCategory === ''}
-          label={'All Categories'}
+          isSelected={selectedCategory === ""}
+          label={"All Categories"}
         />
-        {categories.map(({key:categoryKey, label, icon}) => (
-          <LabelRadioButton 
+        {categories.map(({ key: categoryKey, label, icon }) => (
+          <LabelRadioButton
             key={categoryKey}
-            name={'category'} 
+            name={"category"}
             value={categoryKey}
             icon={icon}
             onClick={handleCategoryChange}
@@ -78,19 +79,19 @@ export default function SearchForm({ onSearch }: Props) {
         <label>Filter by price</label>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <input 
-              name="min" 
-              type="number" 
-              placeholder="min" 
+            <input
+              name="min"
+              type="number"
+              placeholder="min"
               value={minPrice}
               onChange={handleMinPriceChange}
             />
           </div>
           <div>
-            <input 
-              name="max" 
-              type="number" 
-              placeholder="max" 
+            <input
+              name="max"
+              type="number"
+              placeholder="max"
               value={maxPrice}
               onChange={handleMaxPriceChange}
             />
@@ -99,16 +100,20 @@ export default function SearchForm({ onSearch }: Props) {
       </div>
       <div>
         <input type="hidden" name="radius" value={radius}></input>
-        <input type="hidden" name="center" value={[JSON.stringify(center?.lat), JSON.stringify(center?.lng)]}></input>
-        <DistancePicker 
-          defaultRadius={defaultRadius} 
-          onChange={({radius, center}) => {
-            setRadius(radius); 
-            setCenter(center); 
-          }}/>
+        <input
+          type="hidden"
+          name="center"
+          value={[JSON.stringify(center?.lat), JSON.stringify(center?.lng)]}
+        ></input>
+        <DistancePicker
+          defaultRadius={defaultRadius}
+          onChange={({ radius, center }) => {
+            setRadius(radius);
+            setCenter(center);
+          }}
+        />
       </div>
       <SubmitButton>Search</SubmitButton>
     </form>
   );
 }
-
