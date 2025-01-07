@@ -40,7 +40,6 @@ export async function GET(req: Request, res: Response) {
       },
     });
   }
-  console.log("filter", filter); 
   aggregationSteps.push({
     $match: filter,
   });
