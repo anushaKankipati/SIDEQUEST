@@ -43,7 +43,7 @@ export default async function SingleAdPage(args: Props) {
               <FontAwesomeIcon icon={faPencil} />
               <span>Edit</span>
             </Link>
-            <DeleteButton id={adDoc._id} />
+            <DeleteButton id={adDoc._id.toString()} />
           </div>
         )}
         <label>Price</label>
