@@ -29,6 +29,8 @@ export default function AdForm({
     defaultLocation
   );
   const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
+  const [isPayingByHour, setIsPayingByHour] = useState<boolean>(false); 
+
 
   function handleFindMyPositionClick() {
     navigator.geolocation.getCurrentPosition((ev) => {
@@ -41,6 +43,7 @@ export default function AdForm({
   async function handleSubmit(formData: FormData) {
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
+    formData.set("isPayingByHour", JSON.stringify(isPayingByHour)); 
     if (id) {
       formData.set("_id", id);
     }
@@ -84,7 +87,8 @@ export default function AdForm({
       </div>
 
       <div className=" grow pt-2">
-        <AdTextInputs defaultValues={defaultTexts} />
+        <input className={(isPayingByHour ? 'bg-gray-400' : 'bg-blue-600') + " mt-2 text-white px-6 py-2 rounded"} type="button" value={"Pay " + (isPayingByHour ? "Hourly" : "Upon Quest Completion")} onClick={() => {setIsPayingByHour(!isPayingByHour)}}/>
+        <AdTextInputs isPayingByHour={isPayingByHour} defaultValues={defaultTexts} />
         <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
       </div>
     </form>

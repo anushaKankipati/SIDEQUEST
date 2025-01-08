@@ -46,8 +46,8 @@ export default async function SingleAdPage(args: Props) {
             <DeleteButton id={adDoc._id.toString()} />
           </div>
         )}
-        <label>Price</label>
-        <p>{formatMoney(adDoc.price)}</p>
+        <label>{adDoc.isPayingByHour ? "Hourly Rate" : "Price Upon Completion"}</label>
+        <p>{formatMoney(adDoc.price)}{adDoc.isPayingByHour && ("/hr")}</p>
         <label>Category</label>
         <p>{adDoc.category}</p>
         <label>description</label>

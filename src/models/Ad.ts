@@ -10,6 +10,7 @@ export type Ad = {
     time_estimate: number;
     contact: string;
     files: UploadResponse[];
+    isPayingByHour: boolean; 
     location: {
         lat: number;
         lng: number;
@@ -27,6 +28,7 @@ const  adSchema = new Schema<Ad>({
     time_estimate: Number,
     contact: String,
     files: [Object],
+    isPayingByHour: Boolean, 
     location: Object,
     userEmail: {type:String, required: true},
 }, {

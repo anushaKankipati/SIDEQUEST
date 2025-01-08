@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { categories } from "../../libs/helpers";
 
 export type AdTexts = {
@@ -11,9 +12,11 @@ export type AdTexts = {
 
 type Props = {
   defaultValues: AdTexts;
+  isPayingByHour: boolean; 
 };
 
-export default function AdTextInputs({ defaultValues }: Props) {
+export default function AdTextInputs({ defaultValues, isPayingByHour }: Props) {
+  
   return (
     <>
       <label htmlFor="titleIn">Title</label>
@@ -26,7 +29,7 @@ export default function AdTextInputs({ defaultValues }: Props) {
       />
 
       <label htmlFor="priceIn">
-        Price (how much are you willing to pay a worker?)
+        Price (how much are you willing to pay a worker {isPayingByHour ? "By Hour": "Upon Completion"}?)
       </label>
       <input
         name="price"
