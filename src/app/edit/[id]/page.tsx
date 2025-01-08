@@ -31,6 +31,7 @@ export default async function EditPage(props: Props) {
       defaultTexts={adDoc}
       defaultFiles={adDoc.files}
       defaultLocation={adDoc.location}
+      defaultIsPayingByHour={adDoc.isPayingByHour}
     />
   );
 }

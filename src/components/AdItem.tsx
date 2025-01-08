@@ -3,6 +3,7 @@
 import Link from "next/link";
 import UploadThumbnail from "./UploadThumbnail";
 import { Ad } from "../models/Ad";
+import { formatMoney } from "@/libs/helpers";
 
 export default function AdItem({ad}:{ad:Ad}){
     return (
@@ -14,7 +15,7 @@ export default function AdItem({ad}:{ad:Ad}){
                 </div>
               )}
               <div>
-                <p className="mt-1 font-bold">${ad.price}</p>
+                <p className="mt-1 font-bold">{ad.isPayingByHour ? formatMoney(ad.price) + "/hr" : formatMoney(ad.price)}</p>
                 <Link href={`/ad/${ad._id}`}>{ad.title}</Link>
               </div>
         </div>

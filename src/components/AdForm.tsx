@@ -16,6 +16,7 @@ type Props = {
   defaultFiles?: UploadResponse[];
   defaultLocation: Location;
   defaultTexts?: AdTexts;
+  defaultIsPayingByHour?: boolean; 
 };
 
 export default function AdForm({
@@ -23,13 +24,14 @@ export default function AdForm({
   defaultFiles = [],
   defaultLocation,
   defaultTexts = {},
+  defaultIsPayingByHour = false,
 }: Props) {
   const [files, setFiles] = useState<UploadResponse[]>(defaultFiles);
   const [location, setLocation] = useState<Location | undefined>(
     defaultLocation
   );
   const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
-  const [isPayingByHour, setIsPayingByHour] = useState<boolean>(false); 
+  const [isPayingByHour, setIsPayingByHour] = useState<boolean>(defaultIsPayingByHour); 
 
 
   function handleFindMyPositionClick() {
