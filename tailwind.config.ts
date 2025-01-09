@@ -10,7 +10,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         "theme-green": "var(--theme-green)", 
-        "theme-black": "text-gray-800",
+        "theme-black": "var(--theme-black)",
         "light-hover-green": "var(--light-hover-green)",
       },
     },

@@ -9,7 +9,6 @@ import { useState } from "react";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
-import { revalidatePath } from "next/cache";
 
 type Props = {
   id?: string | null;

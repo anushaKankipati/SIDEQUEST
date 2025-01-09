@@ -35,7 +35,7 @@ export default function Header ({ session }: { session: Session | null }) {
             <span>Post a task</span>
           </Link>
         ) : (
-          <div className='border h-full border-blue-600 text-blue-600 inline-flex gap-1 items-center px-2 mr-4 py-2'>
+          <div className='border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2'>
             <FontAwesomeIcon icon={faPlus} className='h-4' color='gray-800' />
             <span onClick={handlePostClick}>Post a Quest</span>
           </div>
@@ -43,10 +43,10 @@ export default function Header ({ session }: { session: Session | null }) {
         <span className='border-r'></span>
         {!session?.user && (
           <>
-            <Link href="/new-profile" className='border-0 text-gray-600'>Sign up as a Quester</Link>
+            <Link href="/new-profile" className='h-full border border-theme-black text-theme-black inline-flex gap-1 items-center px-2 mr-4 py-2'>Sign up as a Quester</Link>
             <button
               onClick={() => signIn('google')}
-              className='bg-blue-600 text-white border-0 px-6'
+              className='bg-theme-green text-white  h-full  text-theme-green inline-flex gap-1 items-center px-2 py-2'
             >
               Login to Post Jobs
             </button>
