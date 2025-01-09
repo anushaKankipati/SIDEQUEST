@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --theme-green: #00BF63;
+    --theme-black: "text-gray-800";
+    --light-hover-green: rgb(220 252 231 / var(--tw-bg-opacity, 1));
+}
+
 input[type="text"], input[type="number"], select, textarea{
     @apply w-full border p-2 rounded;
 }

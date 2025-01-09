@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import TextLogo from './TextLogo'
 
 export default function Header ({ session }: { session: Session | null }) {
   const router = useRouter()
@@ -21,21 +22,21 @@ export default function Header ({ session }: { session: Session | null }) {
 
   return (
     <header className='border-b p-4 flex items-center justify-between h-16'>
-      <Link className='text-blue-600 font-bold text-2xl' href='/'>
-        SIDEQUE$T
+      <Link href='/'>
+        <TextLogo/>
       </Link>
       <nav className=' items-center flex gap-4 *:rounded '>
         {session?.user ? (
           <Link
             href='/new'
-            className='border h-full border-blue-600 text-blue-600 inline-flex gap-1 items-center px-2 mr-4 py-2'
+            className='border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2'
           >
             <FontAwesomeIcon icon={faPlus} className='h-4' />
             <span>Post a task</span>
           </Link>
         ) : (
           <div className='border h-full border-blue-600 text-blue-600 inline-flex gap-1 items-center px-2 mr-4 py-2'>
-            <FontAwesomeIcon icon={faPlus} className='h-4' />
+            <FontAwesomeIcon icon={faPlus} className='h-4' color='gray-800' />
             <span onClick={handlePostClick}>Post a Quest</span>
           </div>
         )}

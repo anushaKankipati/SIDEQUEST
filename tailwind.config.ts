@@ -9,6 +9,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "theme-green": "var(--theme-green)", 
+        "theme-black": "text-gray-800",
+        "light-hover-green": "var(--light-hover-green)",
       },
     },
   },

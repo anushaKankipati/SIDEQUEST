@@ -143,8 +143,8 @@ export default function SearchForm ({ onSearch }: Props) {
             <input
               className={
                 (hourlyFilterClicked
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-400 border border-gray-400') +
+                  ? 'bg-theme-green text-white'
+                  : 'bg-white text-gray-400 border border-gray-200') +
                 ' mt-2 px-6 py-2 rounded cursor-pointer wrap'
               }
               type='button'
@@ -166,8 +166,8 @@ export default function SearchForm ({ onSearch }: Props) {
             <input
               className={
                 (fixedFilterClicked
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-400 border border-gray-400') +
+                  ? 'bg-theme-green text-white'
+                  : 'bg-white text-gray-400 border border-gray-200') +
                 ' mt-2 px-6 py-2 rounded cursor-pointer wrap'
               }
               type='button'

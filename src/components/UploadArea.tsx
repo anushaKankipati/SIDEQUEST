@@ -23,7 +23,7 @@ export default function UploadArea({files, setFiles}:Props) {
                     + (
                     isUploading
                         ? 'text-gray-400 cursor-not-allowed'
-                        : "border-blue-600 text-blue-600 cursor-pointer"
+                        : "border-theme-green text-theme-green cursor-pointer"
                     )
                 }>
                 <Uploader
