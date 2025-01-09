@@ -6,12 +6,14 @@ import SearchForm from '../components/SearchForm'
 import { error } from 'console'
 import { defaultRadius, toTitleCase } from '../../libs/helpers'
 import { json } from 'stream/consumers'
+import useIsPayingHourly from '../hooks/useIsPayingHourly'
 
 export default function Home () {
   const [ads, setAds] = useState<Ad[] | null>(null)
   const [adsParams, setAdsParams] = useState<URLSearchParams | null>(
     new URLSearchParams()
   )
+  const isPayingHourly = useIsPayingHourly(state => state.isPayingHourly)
   useEffect(() => {
     fetchAds()
   }, [])
@@ -46,13 +48,14 @@ export default function Home () {
         params.set(key, value)
       }
     })
+    if (!params.get("hourly")) params.set("hourly", JSON.stringify(isPayingHourly))
     fetchAds(params)
   }
   const formDirty =
     adsParams?.get('phrase') ||
     adsParams?.get('category') ||
     adsParams?.get('min') ||
-    adsParams?.get('max')
+    adsParams?.get('max') 
   return (
     <div className='flex w-full h-screen'>
       <SearchForm onSearch={handleSearch} />

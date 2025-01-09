@@ -11,6 +11,7 @@ import useCurrentLocation from '../hooks/useCurrentLocation'
 import useRadius from '../hooks/useRadius'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
+import useIsPayingHourly from '../hooks/useIsPayingHourly'
 
 type Props = {
   onSearch: (formData: FormData) => void
@@ -27,6 +28,8 @@ export default function SearchForm ({ onSearch }: Props) {
   const [maxPrice, setMaxPrice] = useState('')
   const [fixedFilterClicked, setFixedFilterClicked] = useState<boolean>(false)
   const [hourlyFilterClicked, setHourlyFilterClicked] = useState<boolean>(false)
+  const isPayingHourly = useIsPayingHourly(state => state.isPayingHourly)
+  const setIsPayingHourly = useIsPayingHourly(state => state.setIsPayingHourly);
   const formRef = useRef<HTMLFormElement | null>(null)
   useEffect(() => {
     if (center && !prevCenter) {
@@ -47,6 +50,7 @@ export default function SearchForm ({ onSearch }: Props) {
     setSelectedCategory(category)
     const formData = new FormData(formRef.current!)
     formData.set('category', category)
+    formData.set("hourly", JSON.stringify(isPayingHourly))
     onSearch(formData)
   }
 
@@ -56,11 +60,13 @@ export default function SearchForm ({ onSearch }: Props) {
     let searchState
     if (!hourlyFilterClicked) {
       searchState = true
+      setIsPayingHourly(true)
       setFixedFilterClicked(false)
       setHourlyFilterClicked(true)
     } else {
       searchState = undefined
       setHourlyFilterClicked(false)
+      setIsPayingHourly(undefined)
     }
     const formData = new FormData(formRef.current!)
     formData.set('hourly', JSON.stringify(searchState))
@@ -72,9 +78,12 @@ export default function SearchForm ({ onSearch }: Props) {
     let searchState
     if (!fixedFilterClicked) {
       searchState = false
+      setIsPayingHourly(false)
       setFixedFilterClicked(true)
       setHourlyFilterClicked(false)
+
     } else {
+      setIsPayingHourly(undefined)
       searchState = undefined
       setFixedFilterClicked(false)
       console.log('here')
@@ -120,57 +129,55 @@ export default function SearchForm ({ onSearch }: Props) {
       </div>
 
       <div>
-      <label>Preferred Quest Modality</label>
-      <div className='flex justify-between items-center flex-wrap'>
-        <div className='shrink'>
-          {hourlyFilterClicked && (
-            <FontAwesomeIcon
-              onClick={() => setFixedFilterClicked(false)}
-              className='relative bottom-2 left-5 cursor-pointer'
-              icon={faX}
-              color='white'
+        <label>Preferred Quest Modality</label>
+        <div className='flex justify-between items-center flex-wrap'>
+          <div className='shrink'>
+            {hourlyFilterClicked && (
+              <FontAwesomeIcon
+                onClick={() => setHourlyFilterClicked(false)}
+                className='relative bottom-2 left-5 cursor-pointer'
+                icon={faX}
+                color='white'
+              />
+            )}
+            <input
+              className={
+                (hourlyFilterClicked
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-400 border border-gray-400') +
+                ' mt-2 px-6 py-2 rounded cursor-pointer wrap'
+              }
+              type='button'
+              name='hourly'
+              value={'Hourly Only'}
+              onClick={handleOnlyHourly}
             />
-          )}
-          <input
-            className={
-              (hourlyFilterClicked
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-400 border border-gray-400') +
-              ' mt-2 px-6 py-2 rounded cursor-pointer wrap'
-            }
-            type='button'
-            name='hourly'
-            value={'Hourly Only'}
-            onClick={handleOnlyHourly}
-          />
-        </div>
+          </div>
 
-        <div className='shrink'>
-          {fixedFilterClicked && (
-            <FontAwesomeIcon
-              onClick={() => setFixedFilterClicked(false)}
-              className='relative bottom-2 left-5 cursor-pointer'
-              icon={faX}
-              color='white'
+          <div className='shrink'>
+            {fixedFilterClicked && (
+              <FontAwesomeIcon
+                onClick={() => setFixedFilterClicked(false)}
+                className='relative bottom-2 left-5 cursor-pointer'
+                icon={faX}
+                color='white'
+              />
+            )}
+            <input
+              className={
+                (fixedFilterClicked
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-400 border border-gray-400') +
+                ' mt-2 px-6 py-2 rounded cursor-pointer wrap'
+              }
+              type='button'
+              name='hourly'
+              value={'Fixed Only'}
+              onClick={handleFixedRateOnly}
             />
-          )}
-          <input
-            className={
-              (fixedFilterClicked
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-400 border border-gray-400') +
-              ' mt-2 px-6 py-2 rounded cursor-pointer wrap'
-            }
-            type='button'
-            name='hourly'
-            value={'Fixed Only'}
-            onClick={handleFixedRateOnly}
-          />
+          </div>
         </div>
       </div>
-      </div>
-
-      
 
       <div className=''>
         <label>Filter by price</label>
