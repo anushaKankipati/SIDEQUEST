@@ -27,8 +27,8 @@ export default async function EditPage(props: Props) {
 
   return (
     <AdForm
-      id={adDoc._id}
-      defaultTexts={adDoc}
+      id={adDoc._id.toString()}
+      defaultTexts={JSON.parse(JSON.stringify(adDoc))}
       defaultFiles={adDoc.files}
       defaultLocation={adDoc.location}
       defaultIsPayingByHour={adDoc.isPayingByHour}
