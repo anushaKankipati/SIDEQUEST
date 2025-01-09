@@ -27,7 +27,7 @@ export default function LocationPicker({
     const map = new Map(divRef.current as HTMLDivElement, {
       mapId: 'map',
       center: defaultLocation,
-      zoom: 6,
+      zoom: 12,
       mapTypeControl: false,
       streetViewControl: false,
     });

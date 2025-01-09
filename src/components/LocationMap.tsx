@@ -20,7 +20,7 @@ export default function LocationMap({location, ...divProps}:Props) {
         const map = new Map(mapsDivRef.current as HTMLDivElement, {
           mapId: 'map',
           center: location,
-          zoom: 6,
+          zoom: 14,
           mapTypeControl: false,
           streetViewControl: false,
           zoomControl: true,
