@@ -38,7 +38,7 @@ export default async function SingleAdPage(args: Props) {
           <div className="mt-2 flex gap-2">
             <Link
               href={`/edit/${adDoc._id.toString()}`}
-              className="border border-blue-600 text-blue-600 rounded-md py-1 px-4 inline-flex gap-1 items-center"
+              className="border border-theme-green text-theme-green rounded-md py-1 px-4 inline-flex gap-1 items-center"
             >
               <FontAwesomeIcon icon={faPencil} />
               <span>Edit</span>

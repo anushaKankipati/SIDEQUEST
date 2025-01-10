@@ -22,7 +22,7 @@ export default function DeleteButton({id}: {id:string}) {
           <h2 className="text-lg">Do you really want to Delete this ad?</h2>
           <div className="flex justify-center gap-2 mt-2">
             <button
-              className="px-2 py-1 border rounded"
+              className="px-2 py-1 border border-theme-black rounded"
               onClick={() => setShowDeleteQuestion(false)}
             >
               No, Cancel Here
