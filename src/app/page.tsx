@@ -59,7 +59,7 @@ export default function Home () {
   return (
     <div className='flex w-full h-screen'>
       <SearchForm onSearch={handleSearch} />
-      <div className='p-4 grow bg-gray-100 w-3/4 overflow-y-auto'>
+      <div className='p-4 grow w-3/4 overflow-y-auto'>
         <h2 className='font-bold mt-2 mb-4'>
           {formDirty
             ? 'Search Results for ' + toTitleCase(formDirty.toString())
