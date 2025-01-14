@@ -1,16 +1,17 @@
 "use client"; 
 
 import { useState } from "react";
-import tags from "../../public/data/tags.json"
+import preDefinedTags from "../../public/data/tags.json"
 
 
 type SkillTagsProps = {
+  tags: string[]; 
   setTags: (tags: string[]) => void;
 };
 
-export default function SkillTags({setTags }: SkillTagsProps) {
-  const predefinedSkills = tags; 
-  const [addedSkills, setAddedSkills] = useState<string[]>([]);
+export default function SkillTags({tags, setTags }: SkillTagsProps) {
+  const predefinedSkills = preDefinedTags; 
+  const [addedSkills, setAddedSkills] = useState<string[]>(tags)
   const [suggestedSkills, setSuggestedSkills] = useState<string[]>([]);
   const [currentInput, setCurrentInput] = useState<string>("");
 
