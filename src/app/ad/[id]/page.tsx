@@ -46,14 +46,29 @@ export default async function SingleAdPage(args: Props) {
             <DeleteButton id={adDoc._id.toString()} />
           </div>
         )}
-        <label>{adDoc.isPayingByHour ? "Hourly Rate" : "Price Upon Completion"}</label>
-        <p>{formatMoney(adDoc.price)}{adDoc.isPayingByHour && ("/hr")}</p>
+        <label>
+          {adDoc.isPayingByHour ? "Hourly Rate" : "Price Upon Completion"}
+        </label>
+        <p>
+          {formatMoney(adDoc.price)}
+          {adDoc.isPayingByHour && "/hr"}
+        </p>
         <label>Category</label>
         <p>{adDoc.category}</p>
         <label>description</label>
         <p className="text-sm">{adDoc.description}</p>
         <label>Quest Tags</label>
-        <p className="text-sm">{adDoc.tags}</p>
+        {adDoc?.tags.length > 0 ? (
+          <div className="flex flex-wrap">
+            {adDoc.tags.map((tag, index) => (
+              <span key={index} className="text-sm tag m-1">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm">No Tags Found for this Quest</p>
+        )}
         <label>Time estimate</label>
         <p className="text-sm">{adDoc.time_estimate} hrs</p>
         <label>contact</label>

@@ -99,6 +99,7 @@ export default function AdForm({
         />
         <AdTextInputs isPayingByHour={isPayingByHour} defaultValues={defaultTexts} />
         <SkillTags
+          tags={tags}
           setTags={setTags} 
         />
         <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
