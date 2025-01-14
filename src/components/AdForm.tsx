@@ -1,14 +1,16 @@
-"use client";
+"use client"
+
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AdTextInputs, { AdTexts } from "./AdTextInputs";
 import LocationPicker, { Location } from "./LocationPicker";
 import SubmitButton from "./SubmitButton";
 import UploadArea from "./UploadArea";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
-import { useState } from "react";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
+import SkillTags from "./SkillTags";
 
 type Props = {
   id?: string | null;
@@ -16,6 +18,7 @@ type Props = {
   defaultLocation: Location;
   defaultTexts?: AdTexts;
   defaultIsPayingByHour?: boolean; 
+  defaultTags?: string[];
 };
 
 export default function AdForm({
@@ -24,14 +27,13 @@ export default function AdForm({
   defaultLocation,
   defaultTexts = {},
   defaultIsPayingByHour = false,
+  defaultTags = [],
 }: Props) {
   const [files, setFiles] = useState<UploadResponse[]>(defaultFiles);
-  const [location, setLocation] = useState<Location | undefined>(
-    defaultLocation
-  );
+  const [location, setLocation] = useState<Location | undefined>(defaultLocation);
   const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
   const [isPayingByHour, setIsPayingByHour] = useState<boolean>(defaultIsPayingByHour); 
-
+  const [tags, setTags] = useState<string[]>(defaultTags); // New state for tags
 
   function handleFindMyPositionClick() {
     navigator.geolocation.getCurrentPosition((ev) => {
@@ -45,6 +47,7 @@ export default function AdForm({
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
     formData.set("isPayingByHour", JSON.stringify(isPayingByHour)); 
+    formData.set("tags", JSON.stringify(tags)); // Add tags to formData
     if (id) {
       formData.set("_id", id);
     }
@@ -87,9 +90,17 @@ export default function AdForm({
         </div>
       </div>
 
-      <div className=" grow pt-2">
-        <input className={(isPayingByHour ? 'bg-gray-800' : 'bg-theme-green') + " mt-2 text-white px-6 py-2 rounded"} type="button" value={"Pay " + (isPayingByHour ? "Hourly" : "Upon Quest Completion")} onClick={() => {setIsPayingByHour(!isPayingByHour)}}/>
+      <div className="grow pt-2">
+        <input
+          className={(isPayingByHour ? 'bg-gray-800' : 'bg-theme-green') + " mt-2 text-white px-6 py-2 rounded"}
+          type="button"
+          value={"Pay " + (isPayingByHour ? "Hourly" : "Upon Quest Completion")}
+          onClick={() => { setIsPayingByHour(!isPayingByHour); }}
+        />
         <AdTextInputs isPayingByHour={isPayingByHour} defaultValues={defaultTexts} />
+        <SkillTags
+          setTags={setTags} 
+        />
         <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
       </div>
     </form>

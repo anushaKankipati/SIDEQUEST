@@ -71,7 +71,7 @@ export default function Header ({ session }: { session: Session | null }) {
                 <>
                   <div
                     onClick={() => setShowDropdown(false)}
-                    className='bg-black/90 fixed inset-0 z-40'
+                    className='bg-black/50 fixed inset-0 z-40'
                   ></div>
                   <div className='absolute z-50 right-0 top-8 bg-white rounded-md w-24 border'>
                     <button

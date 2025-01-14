@@ -30,3 +30,26 @@ label.radio-btn svg{
 label.radio-btn{
     @apply normal-case;
 }
+.tags{
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 4px; 
+}
+.tag{
+    display: flex; 
+    align-items: center; 
+    background: #e0e0e0;
+    padding: 5px 10px; 
+    border-radius:15px; 
+}
+.tag button { 
+    background: transparent;
+    color: crimson;
+    border: none;
+    margin-left: 5px; 
+    cursor: pointer;
+}
+.suggestions div:hover{
+    cursor: pointer;
+    background: #f0f0f0
+}
