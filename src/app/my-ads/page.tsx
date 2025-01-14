@@ -18,7 +18,7 @@ export default async function MyAdsPage() {
   return (
     <div className="container my-8 mx-auto">
       <h1 className="text-2xl font-bold mb-4">Your Ads</h1>
-      <div className="grid grid-cols-4 gap-x-2 gap-y-4">
+      <div className="flex flex-col gap-y-6 pr-7">
         {adDocs.map((ad) => (
           <AdItem key={ad._id} ad={JSON.parse(JSON.stringify(ad))} />
         ))}
