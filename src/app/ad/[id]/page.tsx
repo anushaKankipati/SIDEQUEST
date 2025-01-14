@@ -28,11 +28,17 @@ export default async function SingleAdPage(args: Props) {
   }
   return (
     <div className="flex absolute inset-0 top-16">
-      <div className="w-3/5 grow bg-black text-white flex flex-col relative">
-        <Gallery files={adDoc.files} />
+      <div className="w-1/2 grow flex flex-col relative">
+        {adDoc.files && adDoc.files.length > 0 ? (
+          <div className="h-full bg-black text-white flex flex-col relative">
+            <Gallery files={adDoc.files} />
+          </div>
+        ) : (
+          <LocationMap className="w-full h-full" location={adDoc.location} />
+        )}
       </div>
-
-      <div className="w-2/5 p-8 grow shrink-0 overflow-y-scroll">
+  
+      <div className="w-1/2 p-8 grow shrink-0 overflow-y-scroll">
         <h1 className="text-2xl font-bold">{adDoc.title}</h1>
         {session && session?.user?.email === adDoc.userEmail && (
           <div className="mt-2 flex gap-2">
@@ -46,6 +52,11 @@ export default async function SingleAdPage(args: Props) {
             <DeleteButton id={adDoc._id.toString()} />
           </div>
         )}
+        <p className="mt-8 text-sm grey-400">
+          Posted: {formatDate(adDoc.createdAt)}
+          <br />
+          Last Update: {formatDate(adDoc.updatedAt)}
+        </p>
         <label>
           {adDoc.isPayingByHour ? "Hourly Rate" : "Price Upon Completion"}
         </label>
@@ -73,13 +84,12 @@ export default async function SingleAdPage(args: Props) {
         <p className="text-sm">{adDoc.time_estimate} hrs</p>
         <label>contact</label>
         <p>{adDoc.contact}</p>
-        <label>Location</label>
-        <LocationMap className="w-full h-64" location={adDoc.location} />
-        <p className="mt-8 text-sm grey-400">
-          Posted: {formatDate(adDoc.createdAt)}
-          <br />
-          Last Update: {formatDate(adDoc.updatedAt)}
-        </p>
+        {adDoc.files && adDoc.files.length > 0 ? (
+          <>
+            <label>Location</label>
+            <LocationMap className="w-full h-64" location={adDoc.location} />
+          </>
+        ) : null}
       </div>
     </div>
   );

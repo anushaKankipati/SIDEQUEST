@@ -56,23 +56,27 @@ export default function Home () {
     adsParams?.get('category') ||
     adsParams?.get('min') ||
     adsParams?.get('max') 
-  return (
-    <div className='flex w-full h-screen'>
-      <SearchForm onSearch={handleSearch} />
-      <div className='p-4 grow w-3/4 overflow-y-auto'>
-        <h2 className='font-bold mt-2 mb-4'>
-          {formDirty
-            ? 'Search Results for ' + toTitleCase(formDirty.toString())
-            : 'Latest Ads'}
-        </h2>
-        <div className='grid md:grid-cols-4 gap-x-4 gap-y-6'>
-          {ads && ads.map(ad => <AdItem key={ad._id} ad={ad} />)}
+    return (
+      <div className='flex w-full h-screen'>
+        <SearchForm onSearch={handleSearch} />
+        <div className='p-4 grow w-3/5 overflow-y-auto'>
+          <h2 className='font-bold mt-2 mb-4'>
+            {formDirty
+              ? 'Search Results for ' + toTitleCase(formDirty.toString())
+              : 'Latest Ads'}
+          </h2>
+          <div className='flex flex-col gap-y-6 pr-7'>
+            {ads && ads.map(ad => (
+              <div key={ad._id} className='w-full'>
+                <AdItem ad={ad} />
+              </div>
+            ))}
+          </div>
+          {ads && ads?.length === 0 && (
+            <div className='text-gray-400'>No Products Found</div>
+          )}
+          {ads === null && <div className='text-gray-400'>Loading...</div>}
         </div>
-        {ads && ads?.length === 0 && (
-          <div className='text-gray-400'>No Products Found</div>
-        )}
-        {ads === null && <div className='text-gray-400'>Loading...</div>}
       </div>
-    </div>
-  )
+    );
 }
