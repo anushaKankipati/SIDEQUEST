@@ -7,6 +7,7 @@ export type Ad = {
     price: number;
     category: string;
     description: string;
+    tags: string[];
     time_estimate: number;
     contact: string;
     files: UploadResponse[];
@@ -25,6 +26,7 @@ const  adSchema = new Schema<Ad>({
     price: Number,
     category: String,
     description: String,
+    tags: [String],
     time_estimate: Number,
     contact: String,
     files: [Object],
