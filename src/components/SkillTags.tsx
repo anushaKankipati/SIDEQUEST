@@ -87,7 +87,7 @@ export default function SkillTags({tags, setTags }: SkillTagsProps) {
       )}
 
       {/* Render added skills */}
-      <div className="tags">
+      <div className="tags mt-2">
         {addedSkills.map((skill, index) => (
           <span key={index} className="tag">
             {skill}
