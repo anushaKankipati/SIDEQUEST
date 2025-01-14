@@ -59,9 +59,9 @@ export default async function SingleAdPage(args: Props) {
         <p className="text-sm">{adDoc.description}</p>
         <label>Quest Tags</label>
         {adDoc?.tags.length > 0 ? (
-          <div className="flex">
+          <div className="flex flex-wrap">
             {adDoc.tags.map((tag, index) => (
-              <span key={index} className="text-sm tag mx-1">
+              <span key={index} className="text-sm tag m-1">
                 {tag}
               </span>
             ))}
