@@ -1,11 +1,15 @@
+"use client"; 
+
 import { useState } from "react";
+import tags from "../../public/data/tags.json"
+
 
 type SkillTagsProps = {
   setTags: (tags: string[]) => void;
 };
 
 export default function SkillTags({setTags }: SkillTagsProps) {
-  const predefinedSkills = ["Java", "Javascript", "TypeScript", "Python", "React"];
+  const predefinedSkills = tags; 
   const [addedSkills, setAddedSkills] = useState<string[]>([]);
   const [suggestedSkills, setSuggestedSkills] = useState<string[]>([]);
   const [currentInput, setCurrentInput] = useState<string>("");
@@ -15,7 +19,8 @@ export default function SkillTags({setTags }: SkillTagsProps) {
     const input = event.target.value;
     setCurrentInput(input);
     if (input) {
-      const suggestions = predefinedSkills.filter((skill) => skill.toLowerCase().startsWith(input.toLowerCase())
+      const suggestions = Array.from(predefinedSkills.filter((skill) => skill.toLowerCase().startsWith(input.toLowerCase())).slice(0, 5)
+      
       );
       setSuggestedSkills(suggestions);
     } else {
