@@ -148,7 +148,6 @@ export default function SearchForm({ onSearch }: Props) {
         <label>Preferred Quest Modality</label>
         <div className="flex justify-between items-center flex-wrap">
           <div className="shrink relative">
-            {/* Reserve space for the icon */}
             <button
               title={"X button wrapped"}
               onClick={() => {
@@ -158,7 +157,8 @@ export default function SearchForm({ onSearch }: Props) {
                   handleHourlyXClicked();
                 }
               }}
-            >
+              >
+              {/* Reserve space for the icon */}
               <div
                 className={
                   "absolute top-1/2 left-1 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center"
@@ -190,7 +190,6 @@ export default function SearchForm({ onSearch }: Props) {
           </div>
 
           <div className="shrink relative">
-            {/* Reserve space for the icon */}
             <button
               onClick={() => {
                 if (!fixedFilterClicked) {
@@ -199,7 +198,8 @@ export default function SearchForm({ onSearch }: Props) {
                   handleFixedXClicked();
                 }
               }}
-            >
+              >
+              {/* Reserve space for the icon */}
               <div
                 className={
                   "absolute top-1/2 left-1 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center"
