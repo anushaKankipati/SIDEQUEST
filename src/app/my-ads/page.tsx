@@ -5,7 +5,6 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { connect } from "@/libs/helpers";
 import { AdModel } from "@/src/models/Ad";
 import AdItem from "@/src/components/AdItem";
-import { stringify } from "querystring";
 
 export default async function MyAdsPage() {
   const session = await getServerSession(authOptions);
@@ -16,9 +15,9 @@ export default async function MyAdsPage() {
   await connect();
   const adDocs = await AdModel.find({ userEmail: email });
   return (
-    <div className="container my-8 mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Your Ads</h1>
-      <div className="flex flex-col gap-y-6 pr-7">
+    <div className="container my-3 mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-center">Your Ads</h1>
+      <div className="flex flex-col gap-y-6">
         {adDocs.map((ad) => (
           <AdItem key={ad._id} ad={JSON.parse(JSON.stringify(ad))} />
         ))}
