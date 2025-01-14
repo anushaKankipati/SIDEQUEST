@@ -34,3 +34,11 @@ export function toTitleCase(text: string): string {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
+
+export function formatLongText(text: string): string {
+  let idx = 399;
+  while (idx < text.length && text[idx] != " ") {
+    idx++;
+  }
+  return text.slice(0, idx) + " ...";
+}
