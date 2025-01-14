@@ -47,8 +47,7 @@ export default function AdForm({
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
     formData.set("isPayingByHour", JSON.stringify(isPayingByHour)); 
-    console.log(tags);
-    formData.set("tags", JSON.parse(JSON.stringify(tags))); // Add tags to formData
+    formData.set("tags", JSON.stringify(tags)); // Add tags to formData
     if (id) {
       formData.set("_id", id);
     }

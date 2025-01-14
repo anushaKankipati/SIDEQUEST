@@ -11,13 +11,14 @@ async function connect() {
 }
 
 export async function createAd(formData: FormData) {
-  const { files, location, ...data } = Object.fromEntries(formData);
+  const { files, location, tags, ...data } = Object.fromEntries(formData);
   await connect();
   const session = await getServerSession(authOptions);
   const newAdData = {
     ...data,
     files: JSON.parse(files as string),
     location: JSON.parse(location as string),
+    tags: JSON.parse(tags as string),
     userEmail: session?.user?.email,
   };
 
@@ -26,7 +27,7 @@ export async function createAd(formData: FormData) {
 }
 
 export async function updateAd(formData: FormData) {
-  const { _id, files, location, ...data } = Object.fromEntries(formData);
+  const { _id, files, tags, location, ...data } = Object.fromEntries(formData);
   await connect();
   const session = await getServerSession(authOptions);
   const adDoc = await AdModel.findById(_id);
@@ -37,6 +38,7 @@ export async function updateAd(formData: FormData) {
     ...data,
     files: JSON.parse(files as string),
     location: JSON.parse(location as string),
+    tags: JSON.parse(tags as string)
   };
 
   const newAdDoc = await AdModel.findByIdAndUpdate(_id, adData);
