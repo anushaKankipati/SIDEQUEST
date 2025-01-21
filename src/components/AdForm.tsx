@@ -11,6 +11,8 @@ import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
 import SkillTags from "./SkillTags";
+import GooglePlacesAutoComplete from "./GooglePlacesAutocomplete"; 
+import useGoogleMapsApi from "../hooks/useGoogleMapsApi";
 
 type Props = {
   id?: string | null;
@@ -33,7 +35,8 @@ export default function AdForm({
   const [location, setLocation] = useState<Location | undefined>(defaultLocation);
   const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
   const [isPayingByHour, setIsPayingByHour] = useState<boolean>(defaultIsPayingByHour); 
-  const [tags, setTags] = useState<string[]>(defaultTags); // New state for tags
+  const [tags, setTags] = useState<string[]>(defaultTags); 
+
 
   function handleFindMyPositionClick() {
     navigator.geolocation.getCurrentPosition((ev) => {
@@ -89,8 +92,9 @@ export default function AdForm({
           </div>
         </div>
       </div>
-
       <div className="grow pt-2">
+      <label className="mt-0 mb-0">Quest Location</label>
+      <GooglePlacesAutoComplete/>
         <input
           className={(isPayingByHour ? 'bg-gray-800' : 'bg-theme-green') + " mt-2 text-white px-6 py-2 rounded"}
           type="button"
