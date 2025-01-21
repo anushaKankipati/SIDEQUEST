@@ -4,8 +4,15 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import useGoogleMapsApi from "../hooks/useGoogleMapsApi";
+import useCurrentLocation from "../hooks/useCurrentLocation";
+import { Location } from "./LocationPicker";
 
-const PlacesAutoComplete = () => {
+interface PlacesAutoCompleteProps {
+  location?: Location; 
+  setLocation: (newLocation: Location) => void; 
+}
+
+const PlacesAutoComplete = ({location, setLocation} : PlacesAutoCompleteProps) => {
   const {
     ready,
     value,
@@ -17,13 +24,10 @@ const PlacesAutoComplete = () => {
     debounce: 300,
   });
   const ref = useOnclickOutside(() => {
-    // When the user clicks outside of the component, we can dismiss
-    // the searched suggestions by calling this method
     clearSuggestions();
   });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Update the keyword of the input element
     setValue(e.target.value);
   };
 
@@ -38,7 +42,8 @@ const PlacesAutoComplete = () => {
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
-        console.log("📍 Coordinates: ", { lat, lng });
+        const newLocation: Location = {lng: lng, lat: lat}
+        setLocation(newLocation); 
       });
     };
 
@@ -59,23 +64,24 @@ const PlacesAutoComplete = () => {
   return (
     <div ref={ref}>
       <input
+      type="text"
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        placeholder="Address"
       />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
+      {/* We can use the "status" to decide whether we should display the dropdown or not. "OK" denotes a successful API call*/}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
   );
 };
 
-const ReadyComponent = () => {
+const ReadyComponent = ({location, setLocation}: PlacesAutoCompleteProps) => {
   const [loading] = useGoogleMapsApi({library: "places"}); 
   if (loading) {
     return <div>Loading Google Maps Location Autocomplete...</div>
   }
-  return <PlacesAutoComplete/>
+  return <PlacesAutoComplete location={location} setLocation={setLocation}/>
 }
 
 export default ReadyComponent; 

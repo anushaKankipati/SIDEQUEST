@@ -94,7 +94,8 @@ export default function AdForm({
       </div>
       <div className="grow pt-2">
       <label className="mt-0 mb-0">Quest Location</label>
-      <GooglePlacesAutoComplete/>
+      <GooglePlacesAutoComplete location={location} setLocation={setLocation}/>
+        <label htmlFor="">Preferred Quest Modality</label>
         <input
           className={(isPayingByHour ? 'bg-gray-800' : 'bg-theme-green') + " mt-2 text-white px-6 py-2 rounded"}
           type="button"
