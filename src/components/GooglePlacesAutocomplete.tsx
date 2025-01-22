@@ -3,16 +3,15 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
-import useGoogleMapsApi from "../hooks/useGoogleMapsLoader";
-import useCurrentLocation from "../hooks/useCurrentLocation";
+import useGoogleMapsLoader from "../hooks/useGoogleMapsLoader";
 import { Location } from "./LocationPicker";
 
 interface PlacesAutoCompleteProps {
   location?: Location; 
-  setLocation: (newLocation: Location) => void; 
+  onChange: (location: Location) => void; 
 }
 
-const PlacesAutoComplete = ({location, setLocation} : PlacesAutoCompleteProps) => {
+const PlacesAutoComplete = ({location, onChange} : PlacesAutoCompleteProps) => {
   const {
     ready,
     value,
@@ -43,7 +42,7 @@ const PlacesAutoComplete = ({location, setLocation} : PlacesAutoCompleteProps) =
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
         const newLocation: Location = {lng: lng, lat: lat}
-        setLocation(newLocation); 
+        onChange(newLocation); 
       });
     };
 
@@ -76,12 +75,12 @@ const PlacesAutoComplete = ({location, setLocation} : PlacesAutoCompleteProps) =
   );
 };
 
-const ReadyComponent = ({location, setLocation}: PlacesAutoCompleteProps) => {
-  const isLoaded = useGoogleMapsApi(); 
+const ReadyComponent = ({location, onChange}: PlacesAutoCompleteProps) => {
+  const isLoaded = useGoogleMapsLoader(); 
   if (!isLoaded) {
     return <div>Loading Google Maps Location Autocomplete...</div>
   }
-  return <PlacesAutoComplete location={location} setLocation={setLocation}/>
+  return <PlacesAutoComplete location={location} onChange={onChange}/>
 }
 
 export default ReadyComponent; 
