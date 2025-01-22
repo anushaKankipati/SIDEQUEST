@@ -87,7 +87,7 @@ export default function AdForm({
 
           <div className="bg-gray-100  rounded overflow-hidden text-gray-400 text-center">
             <LocationPicker
-              defaultLocation={location as Location}
+              location={location}
               gpsCoords={gpsCoords}
               onChange={(location) => setLocation(location)}
             />

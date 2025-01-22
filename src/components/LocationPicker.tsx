@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import useGoogleMapsLoader from "../hooks/useGoogleMapsLoader";
+import useCurrentLocation from "../hooks/useCurrentLocation";
+import { LatLng } from "use-places-autocomplete";
 
 export type Location = {
   lat: number;
@@ -7,11 +9,11 @@ export type Location = {
 };
 
 export default function LocationPicker({
-  defaultLocation,
+  location,
   onChange,
   gpsCoords,
 }: {
-  defaultLocation: Location;
+  location?: Location;
   onChange: (location: Location) => void;
   gpsCoords: Location | null;
 }) {
@@ -19,6 +21,7 @@ export default function LocationPicker({
   const mapRef = useRef<google.maps.Map | null>(null); // Ref to store the map instance
   const markerRef = useRef<google.maps.Marker | null>(null); // Ref to store the marker instance
   const isLoaded = useGoogleMapsLoader();
+  const currentLocation = useCurrentLocation((state) => state.currLocation);
 
   // Initialize the map and marker
   useEffect(() => {
@@ -28,7 +31,7 @@ export default function LocationPicker({
     if (!mapRef.current) {
       mapRef.current = new google.maps.Map(divRef.current, {
         mapId: "map",
-        center: defaultLocation,
+        center: location ? location : currentLocation,
         zoom: 12,
         mapTypeControl: false,
         streetViewControl: false,
@@ -36,7 +39,7 @@ export default function LocationPicker({
 
       // Create the marker instance
       markerRef.current = new google.maps.Marker({
-        position: defaultLocation,
+        position: location ? location : currentLocation,
         map: mapRef.current,
       });
 
@@ -50,16 +53,13 @@ export default function LocationPicker({
     }
   }, [isLoaded]);
 
-  // Recenter the map and update the marker when `defaultLocation` changes
+  // Recenter the map and update the marker when `location` changes
   useEffect(() => {
     if (isLoaded && mapRef.current && markerRef.current) {
-      // Recenter the map to the new location
-      mapRef.current.setCenter(defaultLocation);
-
-      // Update the marker's position to the new location
-      markerRef.current.setPosition(defaultLocation);
+      mapRef.current.setCenter(location as LatLng);
+      markerRef.current.setPosition(location);
     }
-  }, [isLoaded, defaultLocation]);
+  }, [isLoaded, location]);
 
   return <div ref={divRef} id="map" className="w-full h-[200px]" />;
 }
