@@ -44,5 +44,5 @@ export function formatLongText(text: string): string {
 }
 
 export function extractCityName(text: string): string {
-  return text.slice(0, text.indexOf(",")); 
+  return text.slice(0, text.indexOf(","));
 }

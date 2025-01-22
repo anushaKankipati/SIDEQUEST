@@ -1,4 +1,4 @@
-import { faLocationDot, faX } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface GoogleAutocompleteSuggestionProps {
