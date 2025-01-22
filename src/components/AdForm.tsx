@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,8 +11,7 @@ import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
 import SkillTags from "./SkillTags";
-import GooglePlacesAutoComplete from "./GooglePlacesAutocomplete"; 
-import useGoogleMapsApi from "../hooks/useGoogleMapsLoader";
+import GooglePlacesAutoComplete from "./GooglePlacesAutocomplete";
 import useGoogleMapsLoader from "../hooks/useGoogleMapsLoader";
 
 type Props = {
@@ -20,7 +19,7 @@ type Props = {
   defaultFiles?: UploadResponse[];
   defaultLocation: Location;
   defaultTexts?: AdTexts;
-  defaultIsPayingByHour?: boolean; 
+  defaultIsPayingByHour?: boolean;
   defaultTags?: string[];
 };
 
@@ -33,11 +32,15 @@ export default function AdForm({
   defaultTags = [],
 }: Props) {
   const [files, setFiles] = useState<UploadResponse[]>(defaultFiles);
-  const [location, setLocation] = useState<Location | undefined>(defaultLocation);
+  const [location, setLocation] = useState<Location | undefined>(
+    defaultLocation
+  );
   const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
-  const [isPayingByHour, setIsPayingByHour] = useState<boolean>(defaultIsPayingByHour); 
-  const [tags, setTags] = useState<string[]>(defaultTags); 
-  const isLoaded = useGoogleMapsLoader(); 
+  const [isPayingByHour, setIsPayingByHour] = useState<boolean>(
+    defaultIsPayingByHour
+  );
+  const [tags, setTags] = useState<string[]>(defaultTags);
+  const isLoaded = useGoogleMapsLoader();
 
   function handleFindMyPositionClick() {
     navigator.geolocation.getCurrentPosition((ev) => {
@@ -50,7 +53,7 @@ export default function AdForm({
   async function handleSubmit(formData: FormData) {
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
-    formData.set("isPayingByHour", JSON.stringify(isPayingByHour)); 
+    formData.set("isPayingByHour", JSON.stringify(isPayingByHour));
     formData.set("tags", JSON.stringify(tags)); // Add tags to formData
     if (id) {
       formData.set("_id", id);
@@ -58,12 +61,12 @@ export default function AdForm({
     const result = id ? await updateAd(formData) : await createAd(formData);
     redirect("/ad/" + result._id);
   }
-  if (!isLoaded) return <p>Loading Google Maps...</p>
+  if (!isLoaded) return <p>Loading Google Maps...</p>;
 
   return (
     <form
       action={handleSubmit}
-      className=" max-w-2xl mx-auto grid grid-cols-2 gap-12"
+      className=" max-w-4xl mx-auto grid grid-cols-2 gap-12"
     >
       <div className="grow pt-8">
         <UploadArea files={files} setFiles={setFiles} />
@@ -95,20 +98,28 @@ export default function AdForm({
         </div>
       </div>
       <div className="grow pt-2">
-      <label className="mt-0 mb-0">Quest Location</label>
-      <GooglePlacesAutoComplete location={location} onChange={(location) => setLocation(location)}/>
+        <label className="mt-0 mb-0">Quest Location</label>
+        <GooglePlacesAutoComplete
+          location={location}
+          onChange={(location) => setLocation(location)}
+        />
         <label htmlFor="">Preferred Quest Modality</label>
         <input
-          className={(isPayingByHour ? 'bg-gray-800' : 'bg-theme-green') + " mt-2 text-white px-6 py-2 rounded"}
+          className={
+            (isPayingByHour ? "bg-gray-800" : "bg-theme-green") +
+            " mt-2 text-white px-6 py-2 rounded"
+          }
           type="button"
           value={"Pay " + (isPayingByHour ? "Hourly" : "Upon Quest Completion")}
-          onClick={() => { setIsPayingByHour(!isPayingByHour); }}
+          onClick={() => {
+            setIsPayingByHour(!isPayingByHour);
+          }}
         />
-        <AdTextInputs isPayingByHour={isPayingByHour} defaultValues={defaultTexts} />
-        <SkillTags
-          tags={tags}
-          setTags={setTags} 
+        <AdTextInputs
+          isPayingByHour={isPayingByHour}
+          defaultValues={defaultTexts}
         />
+        <SkillTags tags={tags} setTags={setTags} />
         <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
       </div>
     </form>

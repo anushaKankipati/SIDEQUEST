@@ -5,13 +5,17 @@ import usePlacesAutocomplete, {
 import useOnclickOutside from "react-cool-onclickoutside";
 import useGoogleMapsLoader from "../hooks/useGoogleMapsLoader";
 import { Location } from "./LocationPicker";
+import GoogleAutocompleteSuggestion from "./GoogleAutocompleteSuggestion";
 
 interface PlacesAutoCompleteProps {
-  location?: Location; 
-  onChange: (location: Location) => void; 
+  location?: Location;
+  onChange: (location: Location) => void;
 }
 
-const PlacesAutoComplete = ({location, onChange} : PlacesAutoCompleteProps) => {
+const PlacesAutoComplete = ({
+  location,
+  onChange,
+}: PlacesAutoCompleteProps) => {
   const {
     ready,
     value,
@@ -41,8 +45,8 @@ const PlacesAutoComplete = ({location, onChange} : PlacesAutoCompleteProps) => {
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
-        const newLocation: Location = {lng: lng, lat: lat}
-        onChange(newLocation); 
+        const newLocation: Location = { lng: lng, lat: lat };
+        onChange(newLocation);
       });
     };
 
@@ -54,33 +58,37 @@ const PlacesAutoComplete = ({location, onChange} : PlacesAutoCompleteProps) => {
       } = suggestion;
 
       return (
-        <li key={place_id} onClick={handleSelect(suggestion)}>
-          <strong>{main_text}</strong> <small>{secondary_text}</small>
-        </li>
+        <GoogleAutocompleteSuggestion
+          key={place_id}
+          onClick={handleSelect(suggestion)}
+          mainText={main_text}
+          secondaryText={secondary_text}
+        />
       );
     });
 
   return (
     <div ref={ref}>
       <input
-      type="text"
+        type="text"
         value={value}
         onChange={handleInput}
         disabled={!ready}
         placeholder="Address"
+        className="mt-1"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not. "OK" denotes a successful API call*/}
-      {status === "OK" && <ul>{renderSuggestions()}</ul>}
+      {status === "OK" && <ul className="grow">{renderSuggestions()}</ul>}
     </div>
   );
 };
 
-const ReadyComponent = ({location, onChange}: PlacesAutoCompleteProps) => {
-  const isLoaded = useGoogleMapsLoader(); 
+const ReadyComponent = ({ location, onChange }: PlacesAutoCompleteProps) => {
+  const isLoaded = useGoogleMapsLoader();
   if (!isLoaded) {
-    return <div>Loading Google Maps Location Autocomplete...</div>
+    return <div>Loading Google Maps Location Autocomplete...</div>;
   }
-  return <PlacesAutoComplete location={location} onChange={onChange}/>
-}
+  return <PlacesAutoComplete location={location} onChange={onChange} />;
+};
 
-export default ReadyComponent; 
+export default ReadyComponent;
