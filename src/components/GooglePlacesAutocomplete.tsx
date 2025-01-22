@@ -60,6 +60,7 @@ const PlacesAutoComplete = ({
       return (
         <GoogleAutocompleteSuggestion
           key={place_id}
+          uniqueKey={place_id}
           onClick={handleSelect(suggestion)}
           mainText={main_text}
           secondaryText={secondary_text}
