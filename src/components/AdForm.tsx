@@ -12,7 +12,8 @@ import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
 import SkillTags from "./SkillTags";
 import GooglePlacesAutoComplete from "./GooglePlacesAutocomplete"; 
-import useGoogleMapsApi from "../hooks/useGoogleMapsApi";
+import useGoogleMapsApi from "../hooks/useGoogleMapsLoader";
+import useGoogleMapsLoader from "../hooks/useGoogleMapsLoader";
 
 type Props = {
   id?: string | null;
@@ -36,7 +37,7 @@ export default function AdForm({
   const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
   const [isPayingByHour, setIsPayingByHour] = useState<boolean>(defaultIsPayingByHour); 
   const [tags, setTags] = useState<string[]>(defaultTags); 
-
+  const isLoaded = useGoogleMapsLoader(); 
 
   function handleFindMyPositionClick() {
     navigator.geolocation.getCurrentPosition((ev) => {
@@ -57,6 +58,7 @@ export default function AdForm({
     const result = id ? await updateAd(formData) : await createAd(formData);
     redirect("/ad/" + result._id);
   }
+  if (!isLoaded) return <p>Loading Google Maps...</p>
 
   return (
     <form

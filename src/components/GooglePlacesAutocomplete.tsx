@@ -3,7 +3,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
-import useGoogleMapsApi from "../hooks/useGoogleMapsApi";
+import useGoogleMapsApi from "../hooks/useGoogleMapsLoader";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { Location } from "./LocationPicker";
 
@@ -77,8 +77,8 @@ const PlacesAutoComplete = ({location, setLocation} : PlacesAutoCompleteProps) =
 };
 
 const ReadyComponent = ({location, setLocation}: PlacesAutoCompleteProps) => {
-  const [loading] = useGoogleMapsApi({library: "places"}); 
-  if (loading) {
+  const isLoaded = useGoogleMapsApi(); 
+  if (!isLoaded) {
     return <div>Loading Google Maps Location Autocomplete...</div>
   }
   return <PlacesAutoComplete location={location} setLocation={setLocation}/>

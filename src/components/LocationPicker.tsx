@@ -1,55 +1,46 @@
-'use effect';
-import {createRef, useEffect} from "react";
-import { Loader } from "@googlemaps/js-api-loader"
+import { useEffect, useRef } from "react";
+import useGoogleMapsLoader from "../hooks/useGoogleMapsLoader";
 
 export type Location = {
   lat: number;
   lng: number;
-}
+};
 
 export default function LocationPicker({
   defaultLocation,
   onChange,
   gpsCoords,
-}:{
+}: {
   defaultLocation: Location;
   onChange: (location: Location) => void;
-  gpsCoords: Location|null;
+  gpsCoords: Location | null;
 }) {
-  const divRef = createRef<HTMLDivElement>();
+  const divRef = useRef<HTMLDivElement>(null);
+  const isLoaded = useGoogleMapsLoader();
 
-  async function loadMap() {
-    const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_MAPS_KEY as string,
-    });
-    const {Map} = await loader.importLibrary('maps');
-    const {AdvancedMarkerElement} = await loader.importLibrary('marker');
-    const map = new Map(divRef.current as HTMLDivElement, {
-      mapId: 'map',
+  useEffect(() => {
+    if (!isLoaded || !divRef.current) return;
+
+    const map = new google.maps.Map(divRef.current, {
+      mapId: "map",
       center: defaultLocation,
       zoom: 12,
       mapTypeControl: false,
       streetViewControl: false,
     });
-    const pin = new AdvancedMarkerElement({
-      map,
+
+    const marker = new google.maps.Marker({
       position: defaultLocation,
+      map,
     });
-    map.addListener('click', (ev:any) => {
-      pin.position = ev.latLng;
+
+    map.addListener("click", (ev: any) => {
       const lat = ev.latLng.lat();
       const lng = ev.latLng.lng();
-      onChange({lng, lat});
+      marker.setPosition({ lat, lng });
+      onChange({ lng, lat });
     });
-  }
+  }, [isLoaded, gpsCoords]);
 
-  useEffect(() => {
-    loadMap();
-  }, [gpsCoords]);
-
-  return (
-    <>
-      <div ref={divRef} id="map" className="w-full h-[200px]"></div>
-    </>
-  );
+  return <div ref={divRef} id="map" className="w-full h-[200px]" />;
 }
