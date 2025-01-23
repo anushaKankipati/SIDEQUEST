@@ -39,6 +39,7 @@ export default function AdForm({
   const [isPayingByHour, setIsPayingByHour] = useState<boolean>(
     defaultIsPayingByHour
   );
+  const [cityName, setCityName] = useState<string>(""); 
   const [tags, setTags] = useState<string[]>(defaultTags);
   const isLoaded = useGoogleMapsLoader();
 
@@ -51,6 +52,7 @@ export default function AdForm({
   }
 
   async function handleSubmit(formData: FormData) {
+    formData.set("cityName", cityName); 
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
     formData.set("isPayingByHour", JSON.stringify(isPayingByHour));
@@ -100,6 +102,7 @@ export default function AdForm({
       <div className="grow pt-2">
         <label className="mt-0 mb-0">Quest Location</label>
         <GooglePlacesAutoComplete
+          onCityChange={(cityName) => setCityName(cityName)}
           location={location}
           onChange={(location) => setLocation(location)}
         />

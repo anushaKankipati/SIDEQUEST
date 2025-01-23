@@ -5,6 +5,7 @@ export type Ad = {
     _id: string;
     title: string;
     price: number;
+    cityName: string; 
     category: string;
     description: string;
     tags: string[];
@@ -21,9 +22,10 @@ export type Ad = {
     updatedAt: Date; 
 }
 
-const  adSchema = new Schema<Ad>({
+const adSchema = new Schema<Ad>({
     title: String,
     price: Number,
+    cityName: String,
     category: String,
     description: String,
     tags: [String],

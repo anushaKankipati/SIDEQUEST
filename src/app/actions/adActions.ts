@@ -14,6 +14,7 @@ export async function createAd(formData: FormData) {
   const { files, location, tags, ...data } = Object.fromEntries(formData);
   await connect();
   const session = await getServerSession(authOptions);
+  console.log(data);
   const newAdData = {
     ...data,
     files: JSON.parse(files as string),
