@@ -9,6 +9,7 @@ export default function AdItem({ad}:{ad:Ad}){
         <Link href={`/ad/${ad._id}`} className="p-4 bg-gray-100 rounded-2xl min-h-24 flex flex-col justify-start">
               <div className="p-2">
                 <div className="mt-1 text-2xl">{ad.title}</div>
+                {ad?.cityName && <div>{ad?.cityName} {"- _ miles from you"}</div>}
                 <p className="">{ad.isPayingByHour ? "Hourly Rate: " : "Fixed Rate: "}<span className="font-bold">{ad.isPayingByHour ? formatMoney(ad.price) + "/hr" : formatMoney(ad.price)}</span></p>
                 <p className="mt-3 mb-3">{ad.description.length > 400 ?  formatLongText(ad.description) : ad.description }</p>
                 <label>Quest Tags</label>
