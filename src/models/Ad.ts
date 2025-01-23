@@ -5,7 +5,7 @@ export type Ad = {
     _id: string;
     title: string;
     price: number;
-    cityName: string; 
+    cityName?: string; 
     category: string;
     description: string;
     tags: string[];
