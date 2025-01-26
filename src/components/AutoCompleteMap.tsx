@@ -1,12 +1,17 @@
 "use client";
-import { useEffect, useReducer, useRef, useState } from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { useEffect, useRef, useState } from "react";
+import { useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import { FormattedAutocompleteLocation } from "@/libs/types";
 
+
+interface AutoCompleteMapProps {
+  onLocationChange: (location: FormattedAutocompleteLocation) => void;
+}
 
 const libs: Library[] = ["core", "maps", "marker", "places"];
-export default function AutoCompleteMap() {
+export default function AutoCompleteMap({ onLocationChange }: AutoCompleteMapProps) {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [autoComplete, setAutoComplete] =
     useState<google.maps.places.Autocomplete>();
@@ -65,6 +70,16 @@ export default function AutoCompleteMap() {
     if (autoComplete) [
       autoComplete.addListener("place_changed", () => {
         const place = autoComplete.getPlace(); 
+        onLocationChange({
+          formatted_address: place.formatted_address as string, 
+          name: place.name as string, 
+          location: {
+            lng: place.geometry?.location?.lng() as number, 
+            lat: place.geometry?.location?.lat() as number,
+          },
+          vicinity: place.vicinity as string, 
+          place_id: place.place_id as string, 
+        })
         setPlace(place.formatted_address as string); 
         const position = place.geometry?.location; 
         if (position) {

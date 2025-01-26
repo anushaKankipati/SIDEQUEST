@@ -3,8 +3,8 @@ import {createRef, useEffect} from "react";
 import { Loader } from "@googlemaps/js-api-loader"
 
 export type Location = {
-  lat: number;
   lng: number;
+  lat: number;
 }
 
 export default function LocationPicker({
