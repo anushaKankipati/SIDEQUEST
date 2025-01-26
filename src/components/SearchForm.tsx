@@ -141,6 +141,7 @@ export default function SearchForm({ onSearch }: Props) {
           onChange={handleTagsChange}
         />
       </div>
+      <label>Preferred Quest Modality</label>
       <div className="flex flex-col gap-0">
         <LabelRadioButton
           key={"category"}
@@ -149,7 +150,7 @@ export default function SearchForm({ onSearch }: Props) {
           icon={faStore}
           onClick={handleCategoryChange}
           isSelected={selectedCategory === ""}
-          label={"All Categories"}
+          label={"Either"}
         />
         {categories.map(({ key: categoryKey, label, icon }) => (
           <LabelRadioButton

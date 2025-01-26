@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { categories } from "../../libs/helpers";
+import useIsPayingHourly from "../hooks/useIsPayingHourly";
 
 export type AdTexts = {
   title?: string;
@@ -12,11 +13,11 @@ export type AdTexts = {
 
 type Props = {
   defaultValues: AdTexts;
-  isPayingByHour: boolean; 
 };
 
-export default function AdTextInputs({ defaultValues, isPayingByHour }: Props) {
-  
+export default function AdTextInputs({ defaultValues }: Props) {
+
+  const [questModality, setQuestModality] = useState<string>("fixed");  
   return (
     <>
       <label htmlFor="titleIn">Title</label>
@@ -29,7 +30,7 @@ export default function AdTextInputs({ defaultValues, isPayingByHour }: Props) {
       />
 
       <label htmlFor="priceIn">
-        Price (how much are you willing to pay a worker {isPayingByHour ? "By Hour": "Upon Completion"}?)
+        Price (how much are you willing to pay a worker {questModality === "hourly" ? "By Hour": "Upon Completion"}?)
       </label>
       <input
         name="price"
@@ -39,11 +40,12 @@ export default function AdTextInputs({ defaultValues, isPayingByHour }: Props) {
         defaultValue={defaultValues.price}
       />
 
-      <label htmlFor="categoryIn">Category</label>
+      <label htmlFor="categoryIn">Preferred Quest Modality</label>
       <select
         name="category"
         id="categoryIn"
-        defaultValue={defaultValues.category || "0"}
+        defaultValue={defaultValues.category || "fixed"}
+        onChange={(ev) => setQuestModality(ev.target.value)}
       >
         <option disabled value="0">
           select category

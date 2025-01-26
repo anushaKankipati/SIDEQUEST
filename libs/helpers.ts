@@ -1,9 +1,8 @@
 import {
-  faCar,
-  faHome,
-  faMobile,
-  faTshirt,
+  faCircleCheck, 
+  faClock,
 } from "@fortawesome/free-solid-svg-icons";
+// import {faClock, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import mongoose from "mongoose";
 
 export async function connect() {
@@ -11,10 +10,8 @@ export async function connect() {
 }
 
 export const categories = [
-  { key: "cars", label: "Cars", icon: faCar },
-  { key: "electronics", label: "Electronics", icon: faMobile },
-  { key: "clothes", label: "Clothes", icon: faTshirt },
-  { key: "properties", label: "Properties", icon: faHome },
+  { key: "hourly", label: "Hourly Only", icon: faClock },
+  { key: "fixed", label: "Fixed Rate Only", icon: faCircleCheck },
 ];
 
 export function formatMoney(amount: number): string {

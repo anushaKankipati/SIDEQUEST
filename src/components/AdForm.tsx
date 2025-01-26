@@ -32,7 +32,6 @@ export default function AdForm({
   const [files, setFiles] = useState<UploadResponse[]>(defaultFiles);
   const [location, setLocation] = useState<Location | undefined>(defaultLocation);
   const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
-  const [isPayingByHour, setIsPayingByHour] = useState<boolean>(defaultIsPayingByHour); 
   const [tags, setTags] = useState<string[]>(defaultTags); // New state for tags
 
   function handleFindMyPositionClick() {
@@ -46,7 +45,6 @@ export default function AdForm({
   async function handleSubmit(formData: FormData) {
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
-    formData.set("isPayingByHour", JSON.stringify(isPayingByHour)); 
     formData.set("tags", JSON.stringify(tags)); // Add tags to formData
     if (id) {
       formData.set("_id", id);
@@ -91,13 +89,7 @@ export default function AdForm({
       </div>
 
       <div className="grow pt-2">
-        <input
-          className={(isPayingByHour ? 'bg-gray-800' : 'bg-theme-green') + " mt-2 text-white px-6 py-2 rounded"}
-          type="button"
-          value={"Pay " + (isPayingByHour ? "Hourly" : "Upon Quest Completion")}
-          onClick={() => { setIsPayingByHour(!isPayingByHour); }}
-        />
-        <AdTextInputs isPayingByHour={isPayingByHour} defaultValues={defaultTexts} />
+        <AdTextInputs defaultValues={defaultTexts} />
         <SkillTags
           tags={tags}
           setTags={setTags} 
