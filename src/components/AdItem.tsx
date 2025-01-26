@@ -1,9 +1,14 @@
-import { formatMoney, formatLongText } from "@/libs/helpers";
+"use client";
+
+import { formatMoney, formatLongText, getDistanceInMiles } from "@/libs/helpers";
 import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
 import { Ad } from "../models/Ad";
+import useCurrentLocation from "../hooks/useCurrentLocation";
+import { Location } from "./LocationPicker";
 
 export default function AdItem({ ad }: { ad: Ad }) {
+  const currentLocation = useCurrentLocation  (state => state.currLocation);
   return (
     <Link
       href={`/ad/${ad._id}`}
@@ -13,9 +18,9 @@ export default function AdItem({ ad }: { ad: Ad }) {
         <div className="flex justify-between align-top">
           <div className="flex flex-col">
             <h1 className="text-2xl">{ad.title}</h1>
-            {ad?.formattedLocation.vicinity && (
+            {ad?.formattedLocation?.vicinity && (
               <div>
-                {ad?.formattedLocation.vicinity} {"- _ miles from you"}
+                {ad?.formattedLocation?.vicinity} - {getDistanceInMiles(currentLocation as Location, ad.formattedLocation.location)} Miles From You
               </div>
             )}
           </div>
