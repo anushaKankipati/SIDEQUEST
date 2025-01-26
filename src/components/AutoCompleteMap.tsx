@@ -112,9 +112,16 @@ export default function AutoCompleteMap({
       });
     }
   }, [autoComplete]);
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  } 
+  if (!isLoaded || !google || !google.maps || !google.maps.places) {
+    return (
+      <div className="flex flex-col space-y-1">
+        <p>Loading Google Maps...</p>
+        <p>
+          If this issue persists for longer than a few seconds, refresh the page
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col space-y-4">
