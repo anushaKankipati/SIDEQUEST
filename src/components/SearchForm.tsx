@@ -13,12 +13,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import useIsPayingHourly from "../hooks/useIsPayingHourly";
 import { getRedirectStatusCodeFromError } from "next/dist/client/components/redirect";
+import SkillTags from "./SkillTags";
 
 type Props = {
   onSearch: (formData: FormData) => void;
 };
 
 export default function SearchForm({ onSearch }: Props) {
+  const [tags, setTags] = useState<string[]>([]); // New state for tags
+  const [tagsFilter, setTagsFilter] = useState('');
   const radius = useRadius((state) => state.radius);
   const setRadius = useRadius((state) => state.setRadius);
   const center = useCurrentLocation((state) => state.currLocation);
@@ -55,7 +58,12 @@ export default function SearchForm({ onSearch }: Props) {
     const formData = new FormData(formRef.current!);
     formData.set("category", category);
     formData.set("hourly", JSON.stringify(isPayingHourly));
+    formData.set("input_tags", tagsFilter);
     onSearch(formData);
+  }
+
+  function handleTagsChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setTagsFilter(e.target.value);
   }
 
   function handleOnlyHourly() {
@@ -121,6 +129,18 @@ export default function SearchForm({ onSearch }: Props) {
       className="bg-white grow w-1/4 p-4 border-r flex flex-col gap-4 overflow-y-auto"
     >
       <input name="phrase" type="text" placeholder="Search SIDEQUE$T..." />
+      <div className="">
+        <SkillTags
+          tags={tags}
+          setTags={setTags}
+        />
+        <input
+          name="input_tags"
+          type="hidden" //Hidden input to pass tags as "input_tags" parameter
+          value={tags}
+          onChange={handleTagsChange}
+        />
+      </div>
       <div className="flex flex-col gap-0">
         <LabelRadioButton
           key={"category"}
