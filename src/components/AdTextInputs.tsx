@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { categories } from "../../libs/helpers";
-import useIsPayingHourly from "../hooks/useIsPayingHourly";
 
 export type AdTexts = {
   title?: string;

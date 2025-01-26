@@ -4,14 +4,13 @@ import { Ad } from "../models/Ad";
 import AdItem from "../components/AdItem";
 import SearchForm from "../components/SearchForm";
 import { defaultRadius, toTitleCase } from "../../libs/helpers";
-import useIsPayingHourly from "../hooks/useIsPayingHourly";
 
 export default function HomeAdsView() {
   const [ads, setAds] = useState<Ad[] | null>(null);
   const [adsParams, setAdsParams] = useState<URLSearchParams | null>(
     new URLSearchParams()
   );
-  const isPayingHourly = useIsPayingHourly((state) => state.isPayingHourly);
+
   useEffect(() => {
     fetchAds();
   }, []);
@@ -46,8 +45,6 @@ export default function HomeAdsView() {
         params.set(key, value);
       }
     });
-    if (!params.get("hourly"))
-      params.set("hourly", JSON.stringify(isPayingHourly));
     fetchAds(params);
   }
   const formDirty =
