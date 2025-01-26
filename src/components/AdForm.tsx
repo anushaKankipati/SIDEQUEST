@@ -21,6 +21,7 @@ type Props = {
   defaultTexts?: AdTexts;
   defaultIsPayingByHour?: boolean;
   defaultTags?: string[];
+  defaultFormattedLocation?: FormattedAutocompleteLocation | null;
 };
 
 export default function AdForm({
@@ -30,13 +31,13 @@ export default function AdForm({
   defaultTexts = {},
   defaultIsPayingByHour = false,
   defaultTags = [],
+  defaultFormattedLocation = null,
 }: Props) {
   const [files, setFiles] = useState<UploadResponse[]>(defaultFiles);
   const [location, setLocation] = useState<
     Location | undefined
   >(defaultLocation);
-  const [formattedLocation, setFormattedLocation] = useState<FormattedAutocompleteLocation | null>(null); 
-  const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
+  const [formattedLocation, setFormattedLocation] = useState<FormattedAutocompleteLocation | null>(defaultFormattedLocation); 
   const [isPayingByHour, setIsPayingByHour] = useState<boolean>(
     defaultIsPayingByHour
   );
