@@ -7,6 +7,7 @@ import { FormattedAutocompleteLocation } from "@/libs/types";
 import { Location } from "./LocationPicker";
 
 interface AutoCompleteMapProps {
+  defaultLocation?: Location;
   mapHeight?: string;
   onLocationChange: (location: Location) => void;
   onFormattedLocationChange: (location: FormattedAutocompleteLocation) => void;
@@ -14,6 +15,7 @@ interface AutoCompleteMapProps {
 
 const libs: Library[] = ["core", "maps", "marker", "places"];
 export default function AutoCompleteMap({
+  defaultLocation,
   mapHeight,
   onLocationChange,
   onFormattedLocationChange,
@@ -62,8 +64,20 @@ export default function AutoCompleteMap({
       );
       setAutoComplete(googleAutoComplete);
       setMap(gMap);
-    }
-  }, [isLoaded]);
+      
+    }}, [isLoaded]);
+
+  useEffect(() => {
+     // add the marker for a default location
+     if (defaultLocation && google && google.maps && google.maps.LatLng) {
+      const defaultLatLng = new google.maps.LatLng({
+        lat: defaultLocation.lat,
+        lng: defaultLocation.lng,
+      });
+      setMarker(defaultLatLng, "Default Location");
+   }
+
+  }, [map]);
 
   function setMarker(location: google.maps.LatLng, name: string) {
     if (!map) {

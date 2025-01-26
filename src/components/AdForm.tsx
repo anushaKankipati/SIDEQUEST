@@ -84,6 +84,7 @@ export default function AdForm({
       <div className="grow lg:pt-8">
         <label htmlFor="">Quest Location</label>
         <AutoCompleteMap
+          defaultLocation={defaultLocation}
           mapHeight="300px"
           onLocationChange={(location) => setLocation(location)}
           onFormattedLocationChange={(formattedLocation) => setFormattedLocation(formattedLocation)}
