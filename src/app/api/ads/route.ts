@@ -9,6 +9,7 @@ export async function GET(req: Request, res: Response) {
   const { searchParams } = new URL(req.url);
 
   const phrase = searchParams.get("phrase");
+  const input_tags = searchParams.get("input_tags");
   const category = searchParams.get("category");
   const min = searchParams.get("min");
   const max = searchParams.get("max");
@@ -20,6 +21,13 @@ export async function GET(req: Request, res: Response) {
   const aggregationSteps: PipelineStage[] = [];
   if (phrase) {
     filter.title = { $regex: ".*" + phrase + ".*", $options: "i" };
+  }
+  if (input_tags) {
+    const tagsArray = input_tags.split(',').map(tag => tag.trim());
+    filter.tags = {
+      $regex: tagsArray.join('|'),
+      $options: "i"
+    };
   }
   if (category) {
     filter.category = category;

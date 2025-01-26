@@ -52,6 +52,7 @@ export default function HomeAdsView() {
   }
   const formDirty =
     adsParams?.get("phrase") ||
+    adsParams?.get("input_tags") ||
     adsParams?.get("category") ||
     adsParams?.get("min") ||
     adsParams?.get("max");
