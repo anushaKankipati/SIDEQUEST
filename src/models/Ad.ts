@@ -16,7 +16,7 @@ export type Ad = {
         lat: number;
         lng: number;
     },
-    formattedLocation?: FormattedAutocompleteLocation
+    formattedLocation: FormattedAutocompleteLocation;
     userEmail: string;
     createdAt: Date; 
     updatedAt: Date; 
@@ -32,6 +32,7 @@ const  adSchema = new Schema<Ad>({
     contact: String,
     files: [Object],
     location: Object,
+    formattedLocation: Object,
     userEmail: {type:String, required: true},
 }, {
     timestamps: true,

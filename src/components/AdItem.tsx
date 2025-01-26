@@ -1,9 +1,9 @@
 "use client";
 
+import { formatMoney, formatLongText, getDistanceInMiles } from "@/libs/helpers";
 import Link from "next/link";
-import { Ad } from "../models/Ad";
-import { formatLongText, formatMoney, getDistanceInMiles } from "@/libs/helpers";
 import FavoriteButton from "./FavoriteButton";
+import { Ad } from "../models/Ad";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { Location } from "./LocationPicker";
 

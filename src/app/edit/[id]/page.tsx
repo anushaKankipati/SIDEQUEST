@@ -33,6 +33,7 @@ export default async function EditPage(props: Props) {
       defaultLocation={adDoc.location}
       defaultIsPayingByHour={adDoc.isPayingByHour}
       defaultTags={adDoc.tags}
+      defaultFormattedLocation={adDoc.formattedLocation}
     />
   );
 }

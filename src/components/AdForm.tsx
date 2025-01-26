@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,14 +11,17 @@ import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
 import SkillTags from "./SkillTags";
+import AutoCompleteMap from "./AutoCompleteMap";
+import { FormattedAutocompleteLocation } from "@/libs/types";
 
 type Props = {
   id?: string | null;
   defaultFiles?: UploadResponse[];
   defaultLocation: Location;
   defaultTexts?: AdTexts;
-  defaultIsPayingByHour?: boolean; 
+  defaultIsPayingByHour?: boolean;
   defaultTags?: string[];
+  defaultFormattedLocation?: FormattedAutocompleteLocation | null;
 };
 
 export default function AdForm({
@@ -26,26 +29,21 @@ export default function AdForm({
   defaultFiles = [],
   defaultLocation,
   defaultTexts = {},
-  defaultIsPayingByHour = false,
   defaultTags = [],
+  defaultFormattedLocation = null,
 }: Props) {
   const [files, setFiles] = useState<UploadResponse[]>(defaultFiles);
-  const [location, setLocation] = useState<Location | undefined>(defaultLocation);
-  const [gpsCoords, setGpsCoords] = useState<Location | null>(null);
+  const [location, setLocation] = useState<
+    Location | undefined
+  >(defaultLocation);
+  const [formattedLocation, setFormattedLocation] = useState<FormattedAutocompleteLocation | null>(defaultFormattedLocation); 
   const [tags, setTags] = useState<string[]>(defaultTags); // New state for tags
-
-  function handleFindMyPositionClick() {
-    navigator.geolocation.getCurrentPosition((ev) => {
-      const location = { lng: ev.coords.longitude, lat: ev.coords.latitude };
-      setLocation(location);
-      setGpsCoords(location);
-    }, console.error);
-  }
 
   async function handleSubmit(formData: FormData) {
     formData.set("location", JSON.stringify(location));
     formData.set("files", JSON.stringify(files));
     formData.set("tags", JSON.stringify(tags)); // Add tags to formData
+    formData.set("formattedLocation", JSON.stringify(formattedLocation));
     if (id) {
       formData.set("_id", id);
     }
@@ -56,37 +54,8 @@ export default function AdForm({
   return (
     <form
       action={handleSubmit}
-      className=" max-w-2xl mx-auto grid grid-cols-2 gap-12"
+      className=" max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 flex-wrap"
     >
-      <div className="grow pt-8">
-        <UploadArea files={files} setFiles={setFiles} />
-
-        <div className="mt-8">
-          <div className="flex justify-between items-center mb-1">
-            <label htmlFor="" className="mt-0 mb-0">
-              Where?
-            </label>
-            <div>
-              <button
-                title="find-my-location"
-                type="button"
-                onClick={handleFindMyPositionClick}
-                className="flex p-1 items-center gap-1 justify-center text-gray-600 rounded"
-              >
-                <FontAwesomeIcon icon={faLocationCrosshairs} />
-              </button>
-            </div>
-          </div>
-
-          <div className="bg-gray-100  rounded overflow-hidden text-gray-400 text-center">
-            <LocationPicker
-              defaultLocation={defaultLocation}
-              gpsCoords={gpsCoords}
-              onChange={(location) => setLocation(location)}
-            />
-          </div>
-        </div>
-      </div>
 
       <div className="grow pt-2">
         <AdTextInputs defaultValues={defaultTexts} />
@@ -94,8 +63,24 @@ export default function AdForm({
           tags={tags}
           setTags={setTags} 
         />
+        <SkillTags tags={tags} setTags={setTags} />
+        
+      </div>
+      <div className="grow lg:pt-8">
+        <label htmlFor="">Quest Location</label>
+        <AutoCompleteMap
+          defaultLocation={defaultLocation}
+          mapHeight="300px"
+          onLocationChange={(location) => setLocation(location)}
+          onFormattedLocationChange={(formattedLocation) => setFormattedLocation(formattedLocation)}
+        />
+        <div className="mt-8">
+          <label htmlFor="">Quest Images</label>
+        <UploadArea files={files} setFiles={setFiles} />
+        </div>
         <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
       </div>
+ 
     </form>
   );
 }
