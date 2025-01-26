@@ -1,3 +1,4 @@
+import { FormattedAutocompleteLocation } from "@/libs/types";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
 import {Model, model, models, Schema} from "mongoose";
 
@@ -6,7 +7,6 @@ export type Ad = {
     title: string;
     price: number;
     category: string;
-    cityName?: string; 
     description: string;
     tags: string[];
     time_estimate: number;
@@ -17,6 +17,7 @@ export type Ad = {
         lat: number;
         lng: number;
     },
+    formattedLocation: FormattedAutocompleteLocation;
     userEmail: string;
     createdAt: Date; 
     updatedAt: Date; 
@@ -26,7 +27,6 @@ const  adSchema = new Schema<Ad>({
     title: String,
     price: Number,
     category: String,
-    cityName: String,
     description: String,
     tags: [String],
     time_estimate: Number,
@@ -34,6 +34,7 @@ const  adSchema = new Schema<Ad>({
     files: [Object],
     isPayingByHour: Boolean, 
     location: Object,
+    formattedLocation: Object,
     userEmail: {type:String, required: true},
 }, {
     timestamps: true,

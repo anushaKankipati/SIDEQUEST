@@ -13,9 +13,9 @@ export default function AdItem({ ad }: { ad: Ad }) {
         <div className="flex justify-between align-top">
           <div className="flex flex-col">
             <h1 className="text-2xl">{ad.title}</h1>
-            {ad?.cityName && (
+            {ad?.formattedLocation.vicinity && (
               <div>
-                {ad?.cityName} {"- _ miles from you"}
+                {ad?.formattedLocation.vicinity} {"- _ miles from you"}
               </div>
             )}
           </div>

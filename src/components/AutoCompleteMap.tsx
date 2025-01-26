@@ -4,14 +4,17 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { FormattedAutocompleteLocation } from "@/libs/types";
+import { Location } from "./LocationPicker";
 
 
 interface AutoCompleteMapProps {
-  onLocationChange: (location: FormattedAutocompleteLocation) => void;
+  mapHeight?: string; 
+  onLocationChange: (location: Location) => void;
+  onFormattedLocationChange: (location: FormattedAutocompleteLocation) => void;  
 }
 
 const libs: Library[] = ["core", "maps", "marker", "places"];
-export default function AutoCompleteMap({ onLocationChange }: AutoCompleteMapProps) {
+export default function AutoCompleteMap({ mapHeight, onLocationChange, onFormattedLocationChange }: AutoCompleteMapProps) {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [autoComplete, setAutoComplete] =
     useState<google.maps.places.Autocomplete>();
@@ -67,10 +70,10 @@ export default function AutoCompleteMap({ onLocationChange }: AutoCompleteMapPro
   // Infowindow library for info pop ups
 
   useEffect(() => {
-    if (autoComplete) [
+    if (autoComplete) {
       autoComplete.addListener("place_changed", () => {
         const place = autoComplete.getPlace(); 
-        onLocationChange({
+        onFormattedLocationChange({
           formatted_address: place.formatted_address as string, 
           name: place.name as string, 
           location: {
@@ -80,19 +83,24 @@ export default function AutoCompleteMap({ onLocationChange }: AutoCompleteMapPro
           vicinity: place.vicinity as string, 
           place_id: place.place_id as string, 
         })
+        onLocationChange({
+          lng: place.geometry?.location?.lng() as number, 
+          lat: place.geometry?.location?.lat() as number,
+        })
         setPlace(place.formatted_address as string); 
         const position = place.geometry?.location; 
         if (position) {
           setMarker(position, place.name!); 
-        }
-        // } else {
-        //   const newPosition: google.maps.LatLng = {
-        //     lat: 
-        //   }
-        //   setMarker(currentLocation as google.maps.LatLng, ""); 
+        } // TODO: quirk to work out later: let the default location be displayed before the autocomplete
+        // else {
+        //   const currentPosition = new google.maps.LatLng({
+        //     lat: currentLocation?.lat as number, 
+        //     lng: currentLocation?.lng as number,
+        //   });
+        //   setMarker(currentPosition, "");
         // }
       })
-    ]
+  }
   }, [autoComplete])
 
   return (
@@ -100,7 +108,7 @@ export default function AutoCompleteMap({ onLocationChange }: AutoCompleteMapPro
       <input type="text" placeholder="Quest Location" ref={placesAutoCompleteRef}/>
       <label>{place}</label>
       {isLoaded ? (
-        <div style={{ height: "600px" }} ref={mapRef} />
+        <div style={{ height: mapHeight}} ref={mapRef} />
       ) : (
         <p>Loading...</p>
       )}
