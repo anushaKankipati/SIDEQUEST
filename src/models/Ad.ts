@@ -1,3 +1,4 @@
+import { FormattedAutocompleteLocation } from "@/libs/types";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
 import {Model, model, models, Schema} from "mongoose";
 
@@ -15,6 +16,7 @@ export type Ad = {
         lat: number;
         lng: number;
     },
+    formattedLocation?: FormattedAutocompleteLocation
     userEmail: string;
     createdAt: Date; 
     updatedAt: Date; 
