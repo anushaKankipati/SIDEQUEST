@@ -10,6 +10,7 @@ import { Location } from "./LocationPicker";
 export default function AdItem({ad}:{ad:Ad}){
     const isHourlyRateQuest = ad.category === "hourly";
     const currentLocation = useCurrentLocation  (state => state.currLocation);
+    console.log(ad); 
     return (
       
         <Link
@@ -20,9 +21,9 @@ export default function AdItem({ad}:{ad:Ad}){
             <div className="flex justify-between align-top">
               <div className="flex flex-col">
                 <h1 className="text-2xl">{ad.title}</h1>
-                {ad?.formattedLocation?.vicinity && (
+                {ad.formattedLocation?.vicinity && (
                   <div>
-                    {ad?.formattedLocation?.vicinity} - {getDistanceInMiles(currentLocation as Location, ad.formattedLocation.location)} Miles From You
+                    {ad.formattedLocation?.vicinity} - {getDistanceInMiles(currentLocation as Location, ad.formattedLocation.location)} Miles From You
                   </div>
                 )}
               </div>

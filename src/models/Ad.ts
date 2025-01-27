@@ -16,7 +16,7 @@ export type Ad = {
         lat: number;
         lng: number;
     },
-    formattedLocation: FormattedAutocompleteLocation;
+    formattedLocation?: FormattedAutocompleteLocation;
     userEmail: string;
     createdAt: Date; 
     updatedAt: Date; 

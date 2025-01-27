@@ -14,6 +14,7 @@ export async function createAd(formData: FormData) {
   const { files, location, tags, formattedLocation, ...data } = Object.fromEntries(formData);
   await connect();
   const session = await getServerSession(authOptions);
+  console.log("formattedLocation:", formattedLocation);
   const newAdData = {
     ...data,
     files: JSON.parse(files as string),
@@ -24,6 +25,7 @@ export async function createAd(formData: FormData) {
   };
 
   const newAdDoc = await AdModel.create(newAdData);
+  console.log(newAdDoc);
   return JSON.parse(JSON.stringify(newAdDoc));
 }
 
@@ -35,6 +37,8 @@ export async function updateAd(formData: FormData) {
   if (!adDoc || adDoc.userEmail !== session?.user?.email) {
     return;
   }
+  console.log("adDoc", adDoc);
+  console.log(formattedLocation);
   const adData = {
     ...data,
     files: JSON.parse(files as string),
