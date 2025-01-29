@@ -33,10 +33,11 @@ export default function AdForm({
   defaultFormattedLocation = null,
 }: Props) {
   const [files, setFiles] = useState<UploadResponse[]>(defaultFiles);
-  const [location, setLocation] = useState<
-    Location | undefined
-  >(defaultLocation);
-  const [formattedLocation, setFormattedLocation] = useState<FormattedAutocompleteLocation | null>(defaultFormattedLocation); 
+  const [location, setLocation] = useState<Location | undefined>(
+    defaultLocation
+  );
+  const [formattedLocation, setFormattedLocation] =
+    useState<FormattedAutocompleteLocation | null>(defaultFormattedLocation);
   const [tags, setTags] = useState<string[]>(defaultTags); // New state for tags
 
   async function handleSubmit(formData: FormData) {
@@ -54,33 +55,28 @@ export default function AdForm({
   return (
     <form
       action={handleSubmit}
-      className=" max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 flex-wrap"
+      className=" max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap"
     >
-
       <div className="grow pt-2">
         <AdTextInputs defaultValues={defaultTexts} />
-        <SkillTags
-          tags={tags}
-          setTags={setTags} 
-        />
         <SkillTags tags={tags} setTags={setTags} />
-        
       </div>
-      <div className="grow lg:pt-8">
+      <div className="grow lg:pt-2">
         <label htmlFor="">Quest Location</label>
         <AutoCompleteMap
           defaultLocation={defaultLocation}
           mapHeight="300px"
           onLocationChange={(location) => setLocation(location)}
-          onFormattedLocationChange={(formattedLocation) => setFormattedLocation(formattedLocation)}
+          onFormattedLocationChange={(formattedLocation) =>
+            setFormattedLocation(formattedLocation)
+          }
         />
         <div className="mt-8">
           <label htmlFor="">Quest Images</label>
-        <UploadArea files={files} setFiles={setFiles} />
+          <UploadArea files={files} setFiles={setFiles} />
         </div>
         <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
       </div>
- 
     </form>
   );
 }
