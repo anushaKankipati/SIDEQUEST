@@ -1,9 +1,5 @@
 import { Location } from "@/src/components/LocationPicker";
-import {
-  faCircleCheck, 
-  faClock,
-} from "@fortawesome/free-solid-svg-icons";
-// import {faClock, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
+import { faClock, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import mongoose from "mongoose";
 
 export async function connect() {
@@ -12,7 +8,7 @@ export async function connect() {
 
 export const categories = [
   { key: "hourly", label: "Hourly Only", icon: faClock },
-  { key: "fixed", label: "Fixed Rate Only", icon: faCircleCheck },
+  { key: "fixed", label: "Fixed Rate Only", icon: faMoneyCheckDollar },
 ];
 
 export function formatMoney(amount: number): string {
@@ -62,8 +58,8 @@ export function getDistanceInMiles(origin: Location, destination: Location) {
 
   // Haversine formula
   const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) ** 2;
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) ** 2;
 
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 

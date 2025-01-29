@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { categories, defaultRadius } from "../../libs/helpers";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
 import LabelRadioButton from "./LabelRadioButton";
 import SubmitButton from "./SubmitButton";
 import DistancePicker from "./DistancePicker";
@@ -17,7 +17,7 @@ type Props = {
 
 export default function SearchForm({ onSearch }: Props) {
   const [tags, setTags] = useState<string[]>([]); // New state for tags
-  const [tagsFilter, setTagsFilter] = useState('');
+  const [tagsFilter, setTagsFilter] = useState("");
   const radius = useRadius((state) => state.radius);
   const setRadius = useRadius((state) => state.setRadius);
   const center = useCurrentLocation((state) => state.currLocation);
@@ -62,14 +62,21 @@ export default function SearchForm({ onSearch }: Props) {
     <form
       ref={formRef}
       action={onSearch}
-      className="bg-white grow w-1/4 p-4 border-r flex flex-col gap-4 overflow-y-auto"
+      className="bg-white grow w-1/4 p-4 border-r flex flex-col gap-3 overflow-y-auto"
     >
-      <input name="phrase" type="text" placeholder="Search SIDEQUE$T..." />
-      <div className="">
-        <SkillTags
-          tags={tags}
-          setTags={setTags}
+      <div>
+        <label className="mt-0 p-0" htmlFor="phraseSearch">
+          Search for Quests
+        </label>
+        <input
+          id="phraseSearch"
+          name="phrase"
+          type="text"
+          placeholder="Search SIDEQUE$T..."
         />
+      </div>
+      <div className="">
+        <SkillTags tags={tags} setTags={setTags} />
         <input
           name="input_tags"
           type="hidden" //Hidden input to pass tags as "input_tags" parameter
@@ -83,7 +90,7 @@ export default function SearchForm({ onSearch }: Props) {
           key={"category"}
           name={"category"}
           value={""}
-          icon={faGear}
+          icon={faMoneyBillWave}
           onClick={handleCategoryChange}
           isSelected={selectedCategory === ""}
           label={"Either"}
