@@ -1,6 +1,7 @@
 import { Loader } from "@googlemaps/js-api-loader";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { Location } from "./LocationPicker";
+import useCurrentLocation from "../hooks/useCurrentLocation";
 
 
 export default function DistancePicker({
@@ -11,10 +12,15 @@ export default function DistancePicker({
     defaultRadius:number;
   }) {
     const [radius, setRadius] = useState(50*1000);
-    const [center, setCenter] = useState<Location|null>(null);
+    // const [center, setCenter] = useCurrentLocation((state) => [state.currLocation, state.setCurrLocation]);
     const [zoom, setZoom] = useState<number>(7);
     const [geoError, setGeoError] = useState('');
     const mapsDiv = useRef<HTMLDivElement|null>(null);
+    // const [currentLocation, setCurrentLocation] = useCurrentLocation((state) => [state.currLocation, state.setCurrLocation]);
+    // const currentLocation = useCurrentLocation((state) => state.currLocation);
+    // const setCurrentLocation = useCurrentLocation((state) => state.setCurrLocation);
+    const center = useCurrentLocation((state) => state.currLocation);
+    const setCenter = useCurrentLocation((state) => state.setCurrLocation); 
 
     useEffect(()=> {
         if(center){
@@ -80,7 +86,7 @@ export default function DistancePicker({
             else if (radius > 25000) map.setZoom(7);
             else if (radius > 11000) map.setZoom(8);
             else if (radius > 5000) map.setZoom(9);
-            else if (radius <= 10000) map.setZoom(10);
+            else if (radius <= 5000) map.setZoom(10);
             setZoom(map.getZoom() as number);
           });
           Core.event.addListener(circle, 'center_changed', () => {

@@ -13,13 +13,6 @@ export default function Header ({ session }: { session: Session | null }) {
   const router = useRouter()
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
 
-  const handlePostClick = () => {
-    if (!session?.user) {
-      alert('You must Login or Signup before posting a task!')
-      return
-    }
-  }
-
   return (
     <header className='border-b p-4 flex items-center justify-between h-16'>
       <Link href='/'>

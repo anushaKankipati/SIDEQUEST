@@ -31,8 +31,8 @@ export default async function EditPage(props: Props) {
       defaultTexts={JSON.parse(JSON.stringify(adDoc))}
       defaultFiles={adDoc.files}
       defaultLocation={adDoc.location}
-      defaultIsPayingByHour={adDoc.isPayingByHour}
       defaultTags={adDoc.tags}
+      defaultFormattedLocation={adDoc.formattedLocation}
     />
   );
 }

@@ -15,7 +15,6 @@ export async function GET(req: Request, res: Response) {
   const max = searchParams.get("max");
   const radius = searchParams.get("radius");
   const center = searchParams.get("center");
-  let hourly = searchParams.get("hourly"); 
 
   const filter: FilterQuery<Ad> = {};
   const aggregationSteps: PipelineStage[] = [];
@@ -35,11 +34,6 @@ export async function GET(req: Request, res: Response) {
   if (min && !max) filter.price = { $gte: parseInt(min) };
   if (max && !min) filter.price = { $lte: parseInt(max) };
   if (min && max) filter.price = { $gte: parseInt(min), $lte: parseInt(max) };
-  if (!hourly) hourly = "undefined"
-  if (hourly != "undefined") {
-    console.log("filter called", hourly); 
-    filter.isPayingByHour = JSON.parse(hourly as string); 
-  }
   if (radius && center) {
     const cords = center.split(",");
     aggregationSteps.push({

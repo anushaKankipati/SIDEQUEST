@@ -23,6 +23,7 @@ export default async function SingleAdPage(args: Props) {
   const session = await getServerSession(authOptions);
   const { id } = await args.params;
   const adDoc = await AdModel.findById(id);
+  const isHourlyRateQuest = adDoc?.category === "hourly";
   if (!adDoc) {
     return "Not Found";
   }
@@ -58,14 +59,12 @@ export default async function SingleAdPage(args: Props) {
           Last Update: {formatDate(adDoc.updatedAt)}
         </p>
         <label>
-          {adDoc.isPayingByHour ? "Hourly Rate" : "Price Upon Completion"}
+          {isHourlyRateQuest ? "Hourly Rate" : "Price Upon Completion"}
         </label>
         <p>
           {formatMoney(adDoc.price)}
-          {adDoc.isPayingByHour && "/hr"}
+          {isHourlyRateQuest && "/hr"}
         </p>
-        <label>Category</label>
-        <p>{adDoc.category}</p>
         <label>description</label>
         <p className="text-sm">{adDoc.description}</p>
         <label>Quest Tags</label>
