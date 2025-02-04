@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import toast from "react-hot-toast";
 import AdTextInputs, { AdTexts } from "./AdTextInputs";
 import LocationPicker, { Location } from "./LocationPicker";
 import SubmitButton from "./SubmitButton";
@@ -49,7 +50,14 @@ export default function AdForm({
       formData.set("_id", id);
     }
     const result = id ? await updateAd(formData) : await createAd(formData);
-    redirect("/ad/" + result._id);
+    if (!result) {
+      toast.error(`Failed to ${id ? "Update" : "Create"} Task`);
+    } else {
+      toast.success(`Task Successfully ${id ? "Updated" : "Created"}`);
+      setTimeout(() => {
+        redirect("/ad/" + result._id);
+      }, 1000);
+    }
   }
 
   return (
