@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header session={session}/>
+        <Toaster position="top-center"/>
         {children}
       </body>
     </html>

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function DeleteButton({id}: {id:string}) {
   const [showDeleteQuestion, setShowDeleteQuestion] = useState<boolean>(false);
@@ -12,7 +13,11 @@ export default function DeleteButton({id}: {id:string}) {
   function HandleDelete() {
     fetch(`/api/ads?id=${id}`, { method: "DELETE" }).then(() => {
       setShowDeleteQuestion(false);
-      router.push("/"); 
+      router.push("/");
+      toast.success("Task Successfully Deleted");  
+    }).catch((e) => {
+      console.log("Error deleting task: " + e); 
+      toast.error("Error Deleting Task"); 
     });
   }
   if (showDeleteQuestion) {
