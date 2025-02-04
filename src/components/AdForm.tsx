@@ -54,9 +54,7 @@ export default function AdForm({
       toast.error(`Failed to ${id ? "Update" : "Create"} Task`);
     } else {
       toast.success(`Task Successfully ${id ? "Updated" : "Created"}`);
-      setTimeout(() => {
-        redirect("/ad/" + result._id);
-      }, 1000);
+      redirect("/ad/" + result._id);
     }
   }
 
