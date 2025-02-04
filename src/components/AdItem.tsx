@@ -15,7 +15,7 @@ export default function AdItem({ad}:{ad:Ad}){
       
         <Link
           href={`/ad/${ad._id}`}
-          className="p-4 bg-gray-100 rounded-2xl min-h-24 flex flex-col justify-start"
+          className="p-4 bg-gray-100 rounded-2xl min-h-24 flex flex-col justify-start hover:scale-[103%] hover:bg-light-hover-green"
         >
           <div className="p-2">
             <div className="flex justify-between align-top">

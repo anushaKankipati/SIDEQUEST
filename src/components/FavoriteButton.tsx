@@ -5,7 +5,7 @@ export default function FavoriteButton() {
   return (
     <FontAwesomeIcon
       icon={faHeart}
-      className="fa-xl p-1.5 bg-gray-200 rounded-[50%] hover:bg-light-hover-green hover:color-green"
+      className="fa-xl p-1.5 bg-gray-200 rounded-[50%] hover:bg-green-300 hover:color-green"
     />
   );
 }
