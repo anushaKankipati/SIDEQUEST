@@ -74,6 +74,15 @@ export default function Header ({ session }: { session: Session | null }) {
                       My Ads
                     </button>
                     <button
+                      className='p-2 block text-center cursor-pointer w-full'
+                      onClick={() => {
+                        setShowDropdown(false)
+                        router.push('/my-profile')
+                      }}
+                    >
+                      My Profile
+                    </button>
+                    <button
                       className='p-2 block w-full cursor-pointer'
                       onClick={() => signOut()}
                     >
