@@ -20,7 +20,7 @@ model User {
   profile_image  String?
   skills         String[]
   about          String?
-  Certifications String?
+  Certifications String?  // TODO: split this inot a separate table
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   Quest          Quest[]
