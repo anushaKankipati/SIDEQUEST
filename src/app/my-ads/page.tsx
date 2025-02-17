@@ -26,6 +26,9 @@ export default async function MyAdsPage() {
     return <h1>No Email Found</h1>;
   }
   const adDocs = await getQuestsByUserEmail(email);
+  if (adDocs.length === 0) {
+    return <h1>No Ads Found</h1>;
+  }
   return (
     <div className="container my-3 mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-center">Your Ads</h1>
