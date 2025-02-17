@@ -1,9 +1,6 @@
 "use server";
-
-import { connect } from "../../../../libs/helpers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
-import { AdModel } from "@/src/models/Ad";
 import AdForm from "@/src/components/AdForm";
 import { getQuestById } from "../../ad/[id]/page";
 

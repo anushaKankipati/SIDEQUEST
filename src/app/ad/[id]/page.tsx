@@ -2,12 +2,11 @@
 
 import Gallery from "@/src/components/Gallery";
 import LocationMap from "@/src/components/LocationMap";
-import { connect, formatDate, formatMoney } from "@/libs/helpers";
-import { Ad, AdModel } from "@/src/models/Ad";
+import { formatDate, formatMoney } from "@/libs/helpers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import DeleteButton from "@/src/components/DeleteButton";
 import prisma from "@/libs/prismadb";
@@ -41,7 +40,6 @@ export async function getQuestById(id: string): Promise<any> {
 }
 
 export default async function SingleAdPage(args: Props) {
-  await connect();
   const session = await getServerSession(authOptions);
   const { id } = await args.params;
   const adDoc = await getQuestById(id);

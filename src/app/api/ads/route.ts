@@ -1,5 +1,4 @@
-import { connect } from "@/libs/helpers";
-import { Ad, AdModel } from "@/src/models/Ad";
+import { Ad } from "@/src/models/Ad";
 import { FilterQuery } from "mongoose";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
