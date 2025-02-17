@@ -12,20 +12,20 @@ interface AggregationResult<T = unknown> {
 }
 
 interface WrappedItems {
-  _id: string, 
-  userId: string,
-  createdAt: string,
-  updatedAt: string,
+  _id: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 function cleanResponseItem(rawAdDoc: any) {
   const { _id, userId, createdAt, updatedAt } = rawAdDoc;
   const wrappedItems: WrappedItems = {
-    _id: _id.$oid.toString() ,
-    userId:  userId.$oid.toString() ,
+    _id: _id.$oid.toString(),
+    userId: userId.$oid.toString(),
     createdAt: createdAt.$date.toString(),
-    updatedAt: updatedAt.$date.toString(),  
-  }
+    updatedAt: updatedAt.$date.toString(),
+  };
   return {
     ...rawAdDoc,
     _id: wrappedItems._id,
@@ -88,7 +88,9 @@ export async function GET(req: Request) {
     });
     const rawAdDocsTyped = rawAdDocs as AggregationResult;
     if (rawAdDocsTyped?.cursor?.firstBatch) {
-      return Response.json((rawAdDocsTyped.cursor?.firstBatch).map(cleanResponseItem));
+      return Response.json(
+        (rawAdDocsTyped.cursor?.firstBatch).map(cleanResponseItem)
+      );
     } else {
       return Response.json([]); //TODO: add error handling
     }
@@ -104,13 +106,40 @@ export async function GET(req: Request) {
 export async function DELETE(req: Request) {
   const url = new URL(req.url);
   const id = url.searchParams.get("id");
-  await connect();
-  const rawAdDoc = await AdModel.findById(id);
-  const session = await getServerSession(authOptions);
-  if (!rawAdDoc || rawAdDoc.userId !== session?.user?.email) {
-    return Response.json(false);
+
+  if (!id) {
+    return Response.json(
+      { success: false, error: "Missing ID" },
+      { status: 400 }
+    );
   }
 
-  await AdModel.findByIdAndDelete(id);
-  return Response.json(true);
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.email) {
+    return Response.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+
+  // Fetch the quest by ID and check user
+  const quest = await prisma.quest.findUnique({
+    where: { id },
+    select: { user: { select: { email: true } } },
+  });
+
+  if (!quest || quest.user?.email !== session.user.email) {
+    return Response.json(
+      { success: false, error: "Not authorized or Quest not found" },
+      { status: 403 }
+    );
+  }
+
+  // Delete the quest
+  await prisma.quest.delete({
+    where: { id },
+  });
+
+  return Response.json({ success: true }, { status: 204 });
 }
