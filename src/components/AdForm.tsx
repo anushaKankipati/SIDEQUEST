@@ -82,7 +82,7 @@ export default function AdForm({
           <UploadArea files={files} setFiles={setFiles} />
         </div>
         <div className="flex justify-center align-center mt-4">
-        <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
+          <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
         </div>
       </div>
     </form>
