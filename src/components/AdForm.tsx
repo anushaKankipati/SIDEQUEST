@@ -61,7 +61,7 @@ export default function AdForm({
   return (
     <form
       action={handleSubmit}
-      className=" max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap"
+      className=" mx-6 lg:max-w-4xl lg:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap"
     >
       <div className="grow pt-2">
         <AdTextInputs defaultValues={defaultTexts} />
