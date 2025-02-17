@@ -62,9 +62,12 @@ export async function updateAd(formData: FormData) {
   // Fetch existing ad to check ownership
   const existingAd = await prisma.quest.findUnique({
     where: { id: _id as string },
+    include: {
+      user: { select: { email: true } },
+    }
   });
 
-  if (!existingAd || existingAd.userEmail !== session.user.email) {
+  if (!existingAd || existingAd.user.email !== session.user.email) {
     throw new Error("Ad not found or unauthorized");
   }
 

@@ -47,14 +47,15 @@ export default function AdForm({
     formData.set("tags", JSON.stringify(tags)); // Add tags to formData
     formData.set("formattedLocation", JSON.stringify(formattedLocation));
     if (id) {
-      formData.set("_id", id);
+      formData.set("_id", id); //TODO: comeback here to make sure this works
     }
     const result = id ? await updateAd(formData) : await createAd(formData);
+    console.log(result);
     if (!result) {
       toast.error(`Failed to ${id ? "Update" : "Create"} Task`);
     } else {
       toast.success(`Task Successfully ${id ? "Updated" : "Created"}`);
-      redirect("/ad/" + result._id);
+      redirect("/ad/" + result.id); //change made here
     }
   }
 
