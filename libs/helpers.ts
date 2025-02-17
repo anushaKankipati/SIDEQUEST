@@ -62,6 +62,5 @@ export function getDistanceInMiles(origin: Location, destination: Location) {
 
   // Distance in miles
   const distance = R * c;
-  console.log(distance);
   return distance.toFixed(1);
 }

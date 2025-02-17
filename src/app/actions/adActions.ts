@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/libs/prismadb";
 import toast from "react-hot-toast";
 
-
 export async function createAd(formData: FormData) {
   const { files, location, tags, formattedLocation, ...data } =
     Object.fromEntries(formData);
@@ -27,7 +26,7 @@ export async function createAd(formData: FormData) {
       : null, // Because formattedLocation is optional
     price: parseFloat(data.price as string) || 0, // Prisma expects Float type
     time_estimate: parseFloat(data.time_estimate as string) || 0, // Prisma expects Float type
-    
+
     user: {
       connectOrCreate: {
         where: { email: session?.user?.email },
@@ -64,7 +63,7 @@ export async function updateAd(formData: FormData) {
     where: { id: _id as string },
     include: {
       user: { select: { email: true } },
-    }
+    },
   });
 
   if (!existingAd || existingAd.user.email !== session.user.email) {
@@ -89,6 +88,5 @@ export async function updateAd(formData: FormData) {
   });
 
   revalidatePath(`/ad/${_id}`);
-
   return JSON.parse(JSON.stringify(updatedAd));
 }
