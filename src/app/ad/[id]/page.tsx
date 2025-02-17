@@ -11,7 +11,6 @@ import Link from "next/link";
 import DeleteButton from "@/src/components/DeleteButton";
 import prisma from "@/libs/prismadb";
 
-
 type Props = {
   params: {
     id: string;
@@ -30,7 +29,6 @@ export async function getQuestById(id: string): Promise<any> {
       },
     },
   });
-  console.log(quest);
   return {
     ...quest,
     createdAt: new Date(quest?.createdAt.toISOString() as string),

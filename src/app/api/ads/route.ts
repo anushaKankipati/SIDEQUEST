@@ -10,8 +10,11 @@ interface AggregationResult<T = unknown> {
   };
 }
 
+// since prisma adds the $oid and $date automatically, 
+// we need to remove them before we pass them back to the client
+// this interface provides type safety for the response
 interface WrappedItems {
-  _id: string;
+  id: string;
   userId: string;
   createdAt: string;
   updatedAt: string;
@@ -20,14 +23,14 @@ interface WrappedItems {
 function cleanResponseItem(rawAdDoc: any) {
   const { _id, userId, createdAt, updatedAt } = rawAdDoc;
   const wrappedItems: WrappedItems = {
-    _id: _id.$oid.toString(),
+    id: _id.$oid.toString(),
     userId: userId.$oid.toString(),
     createdAt: createdAt.$date.toString(),
     updatedAt: updatedAt.$date.toString(),
   };
   return {
     ...rawAdDoc,
-    _id: wrappedItems._id,
+    id: wrappedItems.id,
     userId: wrappedItems.userId,
     createdAt: wrappedItems.createdAt,
     updatedAt: wrappedItems.updatedAt,

@@ -65,7 +65,7 @@ export default function HomeAdsView() {
         <div className="flex flex-col gap-6 pr-7 2xl:grid 2xl:grid-cols-2">
           {ads &&
             ads.map((ad) => (
-              <div key={ad._id} className="w-full">
+              <div key={ad.id} className="w-full">
                 <AdItem ad={ad} />
               </div>
             ))}

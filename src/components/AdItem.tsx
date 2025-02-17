@@ -10,11 +10,10 @@ import { Location } from "./LocationPicker";
 export default function AdItem({ad}:{ad:Ad}){
     const isHourlyRateQuest = ad.category === "hourly";
     const currentLocation = useCurrentLocation  (state => state.currLocation);
-    console.log(ad); 
     return (
       
         <Link
-          href={`/ad/${ad._id}`}
+          href={`/ad/${ad.id}`}
           className="p-4 bg-gray-100 rounded-2xl min-h-24 flex flex-col justify-start hover:scale-[103%] hover:bg-light-hover-green"
         >
           <div className="p-2">

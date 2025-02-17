@@ -50,7 +50,6 @@ export default function AdForm({
       formData.set("_id", id); //TODO: comeback here to make sure this works
     }
     const result = id ? await updateAd(formData) : await createAd(formData);
-    console.log(result);
     if (!result) {
       toast.error(`Failed to ${id ? "Update" : "Create"} Task`);
     } else {
