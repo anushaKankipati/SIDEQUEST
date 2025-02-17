@@ -11,13 +11,14 @@ export type Ad = {
     tags: string[];
     time_estimate: number;
     contact: string;
+    userId: string;
     files: UploadResponse[];
     location: {
         lat: number;
         lng: number;
     },
     formattedLocation?: FormattedAutocompleteLocation;
-    userEmail: string;
+    userEmail: string; //TODO: refactor to deletion when possible
     createdAt: Date; 
     updatedAt: Date; 
 }
