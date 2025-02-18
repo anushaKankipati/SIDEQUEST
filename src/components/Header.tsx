@@ -9,16 +9,33 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import TextLogo from "./TextLogo";
 import { Redirect } from "next";
+import SearchBar from './SearchBar'
 
-export default function Header({ session }: { session: Session | null }) {
+export default function Header ({ session }: { session: Session | null }) {
   const router = useRouter();
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false)
+
+  const handleSearch = (formData: FormData) => {
+    const searchPhrase = formData.get("phrase") as string;
+    const searchCategory = formData.get("category") as string;
+  
+    console.log("Search Query:", searchPhrase);
+    console.log("Selected Category:", searchCategory);
+  
+    //router.push('/filters.phrase')
+    router.push(`?phrase=${encodeURIComponent(searchPhrase)}&category=${encodeURIComponent(searchCategory)}`);
+  };
 
   return (
-    <header className="border-b p-4 flex items-center justify-between h-16">
-      <Link href="/">
-        <TextLogo />
+    <header className='border-b-2 border-theme-green p-4 flex items-center justify-between h-20'>
+      <Link href='/'>
+        <TextLogo/>
       </Link>
+
+      <div className="flex-1 flex justify-center">
+        <SearchBar onSearch={handleSearch} />
+      </div>
+
       <nav className=" items-center flex gap-4 *:rounded ">
         {session?.user && (
           <Link
