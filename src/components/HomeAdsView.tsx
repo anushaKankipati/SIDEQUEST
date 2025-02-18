@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Ad } from "../models/Ad";
 import AdItem from "../components/AdItem";
 import SearchForm from "../components/SearchForm";
