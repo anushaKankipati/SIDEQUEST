@@ -26,18 +26,14 @@ export default function Header ({ session }: { session: Session | null }) {
     router.push(`?phrase=${encodeURIComponent(searchPhrase)}&category=${encodeURIComponent(searchCategory)}`);
   };
 
+
   return (
     <header className='border-b-2 border-theme-green p-4 flex items-center justify-between h-20'>
       <Link href='/'>
         <TextLogo/>
       </Link>
-
-      <div className="flex-1 flex justify-center">
-        <SearchBar onSearch={handleSearch} />
-      </div>
-
-      <nav className=" items-center flex gap-4 *:rounded ">
-        {session?.user && (
+      <nav className=' items-center flex gap-4 *:rounded '>
+      {session?.user && (
           <Link
             href="/new"
             className="border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2"
