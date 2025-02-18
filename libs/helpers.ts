@@ -2,9 +2,6 @@ import { Location } from "@/src/components/LocationPicker";
 import { faClock, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import mongoose from "mongoose";
 
-export async function connect() {
-  mongoose.connect(process.env.MONGODB_URL as string);
-}
 
 export const categories = [
   { key: "hourly", label: "Hourly Only", icon: faClock },
@@ -65,6 +62,5 @@ export function getDistanceInMiles(origin: Location, destination: Location) {
 
   // Distance in miles
   const distance = R * c;
-  console.log(distance);
   return distance.toFixed(1);
 }

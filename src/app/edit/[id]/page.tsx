@@ -1,10 +1,8 @@
 "use server";
-
-import { connect } from "../../../../libs/helpers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
-import { AdModel } from "@/src/models/Ad";
 import AdForm from "@/src/components/AdForm";
+import { getQuestById } from "../../ad/[id]/page";
 
 type Props = {
   params: {
@@ -14,10 +12,9 @@ type Props = {
 };
 
 export default async function EditPage(props: Props) {
-  await connect();
   const session = await getServerSession(authOptions);
   const {id} = await props.params;
-  const adDoc = await AdModel.findById(id);
+  const adDoc = await getQuestById(id);
   if (!adDoc) {
     return "404 Not Found";
   }
@@ -27,7 +24,7 @@ export default async function EditPage(props: Props) {
 
   return (
     <AdForm
-      id={adDoc._id.toString()}
+      id={adDoc.id.toString()}
       defaultTexts={JSON.parse(JSON.stringify(adDoc))}
       defaultFiles={adDoc.files}
       defaultLocation={adDoc.location}

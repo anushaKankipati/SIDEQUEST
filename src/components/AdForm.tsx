@@ -47,21 +47,21 @@ export default function AdForm({
     formData.set("tags", JSON.stringify(tags)); // Add tags to formData
     formData.set("formattedLocation", JSON.stringify(formattedLocation));
     if (id) {
-      formData.set("_id", id);
+      formData.set("_id", id); //TODO: comeback here to make sure this works
     }
     const result = id ? await updateAd(formData) : await createAd(formData);
     if (!result) {
       toast.error(`Failed to ${id ? "Update" : "Create"} Task`);
     } else {
       toast.success(`Task Successfully ${id ? "Updated" : "Created"}`);
-      redirect("/ad/" + result._id);
+      redirect("/ad/" + result.id); //change made here
     }
   }
 
   return (
     <form
       action={handleSubmit}
-      className=" max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap"
+      className="mb-10 mx-6 lg:max-w-4xl lg:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap"
     >
       <div className="grow pt-2">
         <AdTextInputs defaultValues={defaultTexts} />
@@ -81,7 +81,9 @@ export default function AdForm({
           <label htmlFor="">Quest Images</label>
           <UploadArea files={files} setFiles={setFiles} />
         </div>
-        <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
+        <div className="flex justify-center align-center mt-4">
+          <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
+        </div>
       </div>
     </form>
   );
