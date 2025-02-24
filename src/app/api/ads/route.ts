@@ -143,5 +143,5 @@ export async function DELETE(req: Request) {
     where: { id },
   });
 
-  return Response.json({ success: true }, { status: 204 });
+  return Response.json({ message: "success", success: true }, { status: 200 });
 }
