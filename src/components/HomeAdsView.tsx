@@ -47,9 +47,10 @@ export default function HomeAdsView() {
     });
     fetchAds(params);
   }
+  const tagDirty =
+    adsParams?.get("input_tags");
   const formDirty =
     adsParams?.get("phrase") ||
-    adsParams?.get("input_tags") ||
     adsParams?.get("category") ||
     adsParams?.get("min") ||
     adsParams?.get("max");
@@ -58,7 +59,9 @@ export default function HomeAdsView() {
       <SearchForm onSearch={handleSearch} />
       <div className="p-4 grow w-3/5 overflow-y-auto">
         <h2 className="font-bold mt-2 mb-4">
-          {formDirty
+          {tagDirty
+            ? ("Search Results for Selected Tags")
+            : formDirty
             ? "Search Results for " + toTitleCase(formDirty.toString())
             : "Latest Ads"}
         </h2>

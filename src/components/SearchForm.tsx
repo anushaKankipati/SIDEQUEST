@@ -115,6 +115,12 @@ export default function SearchForm({ onSearch }: Props) {
             <input
               name="min"
               type="number"
+              min="0"
+              onKeyDown={(e) => {
+                if (e.key =="e"||e.key == "-"){
+                  e.preventDefault();
+                }
+              }}
               placeholder="min"
               value={minPrice}
               onChange={handleMinPriceChange}
@@ -124,6 +130,12 @@ export default function SearchForm({ onSearch }: Props) {
             <input
               name="max"
               type="number"
+              min="0"
+              onKeyDown={(e) => {
+                if (e.key =="e"||e.key == "-"){
+                  e.preventDefault();
+                }
+              }}
               placeholder="max"
               value={maxPrice}
               onChange={handleMaxPriceChange}
