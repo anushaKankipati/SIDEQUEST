@@ -35,6 +35,12 @@ export default function AdTextInputs({ defaultValues }: Props) {
         name="price"
         id="priceIn"
         type="number"
+        min="0"
+        onKeyDown={(e) => {
+          if (e.key =="e"||e.key == "-"){
+            e.preventDefault();
+          }
+        }}
         placeholder="$"
         defaultValue={defaultValues.price}
       />
@@ -69,6 +75,12 @@ export default function AdTextInputs({ defaultValues }: Props) {
         name="time_estimate"
         id="timeIn"
         type="number"
+        min="0"
+        onKeyDown={(e) => {
+          if (e.key =="e"||e.key == "-"){
+            e.preventDefault();
+          }
+        }}
         step="0.1"
         placeholder="Enter hours (e.g., 1.5 for 1 hour 30 minutes)"
         defaultValue={defaultValues.time_estimate}
