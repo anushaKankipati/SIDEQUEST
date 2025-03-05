@@ -62,7 +62,7 @@ export async function updateProfile(formData: FormData) {
       profile_image: data.profile_image as string,
     }
 
-    console.log("Prepared profile data:", profileData)
+    // console.log("Prepared profile data:", profileData)
 
     const updatedProfile = await prisma.user.update({
       where: { email: session.user.email },
