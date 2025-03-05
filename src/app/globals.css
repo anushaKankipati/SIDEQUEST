@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --theme-green: #00BF63;
+    --theme-green: #27AE60;
     --theme-black: #1F2937;
     --light-hover-green: rgb(220 252 231 / var(--tw-bg-opacity, 1));
 }

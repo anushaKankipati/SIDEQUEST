@@ -62,7 +62,7 @@ export default function SearchForm({ onSearch }: Props) {
     <form
       ref={formRef}
       action={onSearch}
-      className="bg-white grow w-1/4 p-4 border-r flex flex-col gap-3 overflow-y-auto"
+      className="bg-white grow w-1/4 p-4 border-r flex flex-col gap-3 overflow-y-auto mt-16"
     >
       <div>
         <label className="mt-0 p-0" htmlFor="phraseSearch">

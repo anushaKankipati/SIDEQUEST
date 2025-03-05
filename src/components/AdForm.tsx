@@ -61,7 +61,7 @@ export default function AdForm({
   return (
     <form
       action={handleSubmit}
-      className="mb-10 mx-6 lg:max-w-4xl lg:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap"
+      className="mb-10 mx-6 mt-16 lg:max-w-4xl lg:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap"
     >
       <div className="grow pt-2">
         <AdTextInputs defaultValues={defaultTexts} />
@@ -81,8 +81,8 @@ export default function AdForm({
           <label htmlFor="">Quest Images</label>
           <UploadArea files={files} setFiles={setFiles} />
         </div>
-        <div className="flex justify-center align-center mt-4">
-          <SubmitButton>{id ? "Save" : "Publish"}</SubmitButton>
+        <div className="flex justify-left align-left mt-4">
+          <SubmitButton>{id ? "Save" : "Publish Quest"}</SubmitButton>
         </div>
       </div>
     </form>
