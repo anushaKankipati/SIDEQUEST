@@ -61,14 +61,14 @@ export default function SkillTags({tags, setTags }: SkillTagsProps) {
 
   return (
     <div className="skill-tags-container">
-      <label htmlFor="skillInput">Skills</label>
+      <label htmlFor="skillInput">Quest Tags</label>
       <input
         id="skillInput"
         type="text"
         value={currentInput}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        placeholder="Add a skill..."
+        placeholder="Add a relevant skill..."
       />
 
       {/* Render suggestions */}
