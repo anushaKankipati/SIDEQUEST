@@ -10,6 +10,9 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import DeleteButton from "@/src/components/DeleteButton";
 import prisma from "@/libs/prismadb";
+import Image from "next/image";
+import { getSession } from "next-auth/react";
+
 
 type Props = {
   params: {
@@ -25,7 +28,11 @@ export async function getQuestById(id: string): Promise<any> {
     },
     include: {
       user: {
-        select: { email: true },
+        select: { 
+          email: true,
+          profile_image: true,
+          name: true,
+        },
       },
     },
   });
@@ -37,14 +44,16 @@ export async function getQuestById(id: string): Promise<any> {
   };
 }
 
+
 export default async function SingleAdPage(args: Props) {
-  const session = await getServerSession(authOptions);
-  const { id } = await args.params;
-  const adDoc = await getQuestById(id);
-  const isHourlyRateQuest = adDoc?.category === "hourly";
+  const { id } = args.params
+  const adDoc = await getQuestById(id)
+
   if (!adDoc) {
-    return "Not Found";
+    return "Not Found"
   }
+  const session = await getServerSession(authOptions)
+  const isHourlyRateQuest = adDoc?.category === "hourly"
   return (
     <div className="flex absolute inset-0 top-16">
       <div className="w-1/2 grow flex flex-col relative">
@@ -59,6 +68,22 @@ export default async function SingleAdPage(args: Props) {
 
       <div className="w-1/2 p-8 grow shrink-0 overflow-y-scroll">
         <h1 className="text-2xl font-bold">{adDoc.title}</h1>
+
+        {/* User Information */}
+        <div className="mt-4 flex items-center space-x-4">
+          
+          <div className=" flex items-center space-x-2">
+            <p className="font-semibold">Posted by {adDoc.user.name}</p>
+            <Image
+              src={adDoc.user.profile_image || "/placeholder.svg"}
+              alt={`${adDoc.user.name}'s profile picture`}
+              width={30}
+              height={30}
+              className="rounded-full"
+            />
+          </div>
+        </div>
+
         {session && session?.user?.email === adDoc.userEmail && (
           <div className="mt-2 flex gap-2">
             <Link
@@ -76,9 +101,7 @@ export default async function SingleAdPage(args: Props) {
           <br />
           Last Update: {formatDate(adDoc.updatedAt)}
         </p>
-        <label>
-          {isHourlyRateQuest ? "Hourly Rate" : "Price Upon Completion"}
-        </label>
+        <label>{isHourlyRateQuest ? "Hourly Rate" : "Price Upon Completion"}</label>
         <p>
           {formatMoney(adDoc.price)}
           {isHourlyRateQuest && "/hr"}
@@ -109,5 +132,5 @@ export default async function SingleAdPage(args: Props) {
         ) : null}
       </div>
     </div>
-  );
+  )
 }
