@@ -15,7 +15,7 @@ export default function Header({ session }: { session: Session | null }) {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b p-4 flex items-center justify-between h-16 bg-white">
+    <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
       <Link href="/">
         <TextLogo />
       </Link>
@@ -79,6 +79,15 @@ export default function Header({ session }: { session: Session | null }) {
                       }}
                     >
                       My Profile
+                    </button>
+                    <button
+                      className="p-2 block text-center cursor-pointer w-full"
+                      onClick={() => {
+                        setShowDropdown(false);
+                        router.push("/settings");
+                      }}
+                    >
+                      Settings
                     </button>
                     <button
                       className="p-2 block w-full cursor-pointer"
