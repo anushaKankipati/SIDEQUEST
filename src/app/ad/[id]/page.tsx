@@ -29,6 +29,7 @@ export async function getQuestById(id: string): Promise<any> {
     include: {
       user: {
         select: { 
+          id: true,
           email: true,
           profile_image: true,
           name: true,
@@ -71,16 +72,21 @@ export default async function SingleAdPage(args: Props) {
 
         {/* User Information */}
         <div className="mt-4 flex items-center space-x-4">
+          <div className="flex items-center space-x-1">
+          <p className="font-semibold">Posted by</p>
+          <Link href={`/profile/${adDoc.user.id}`} className="font-semibold hover:underline">
+            {adDoc.user.name}
+          </Link>
           
-          <div className=" flex items-center space-x-2">
-            <p className="font-semibold">Posted by {adDoc.user.name}</p>
-            <Image
-              src={adDoc.user.profile_image || "/placeholder.svg"}
-              alt={`${adDoc.user.name}'s profile picture`}
-              width={30}
-              height={30}
-              className="rounded-full"
-            />
+            {adDoc.user.profile_image && (
+              <Image
+                src={adDoc.user.profile_image || "/placeholder.svg"}
+                alt={`${adDoc.user.name}'s profile`}
+                width={30}
+                height={30}
+                className="rounded-full"
+              />
+            )}
           </div>
         </div>
 
