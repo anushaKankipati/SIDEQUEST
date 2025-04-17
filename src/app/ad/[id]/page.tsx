@@ -79,13 +79,15 @@ export default async function SingleAdPage(args: Props) {
           </Link>
           
             {adDoc.user.profile_image && (
-              <Image
-                src={adDoc.user.profile_image || "/placeholder.svg"}
-                alt={`${adDoc.user.name}'s profile`}
-                width={30}
-                height={30}
-                className="rounded-full"
-              />
+              <div className="relative w-[30px] h-[30px] rounded-full overflow-hidden">
+                <Image
+                  src={adDoc.user.profile_image || "/placeholder.svg"}
+                  alt={`${adDoc.user.name}'s profile`}
+                  fill
+                  className="object-cover"
+                  sizes="30px"
+                />
+              </div>
             )}
           </div>
         </div>
