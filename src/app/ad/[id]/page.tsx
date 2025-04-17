@@ -13,7 +13,6 @@ import prisma from "@/libs/prismadb";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
 
-
 type Props = {
   params: {
     id: string;
@@ -28,7 +27,7 @@ export async function getQuestById(id: string): Promise<any> {
     },
     include: {
       user: {
-        select: { 
+        select: {
           id: true,
           email: true,
           profile_image: true,
@@ -45,16 +44,16 @@ export async function getQuestById(id: string): Promise<any> {
   };
 }
 
-
 export default async function SingleAdPage(args: Props) {
-  const { id } = args.params
-  const adDoc = await getQuestById(id)
+  const params = await args.params;
+  const { id } = params;
+  const adDoc = await getQuestById(id);
 
   if (!adDoc) {
-    return "Not Found"
+    return "Not Found";
   }
-  const session = await getServerSession(authOptions)
-  const isHourlyRateQuest = adDoc?.category === "hourly"
+  const session = await getServerSession(authOptions);
+  const isHourlyRateQuest = adDoc?.category === "hourly";
   return (
     <div className="flex absolute inset-0 top-16">
       <div className="w-1/2 grow flex flex-col relative">
@@ -73,11 +72,14 @@ export default async function SingleAdPage(args: Props) {
         {/* User Information */}
         <div className="mt-4 flex items-center space-x-4">
           <div className="flex items-center space-x-1">
-          <p className="font-semibold">Posted by</p>
-          <Link href={`/profile/${adDoc.user.id}`} className="font-semibold hover:underline">
-            {adDoc.user.name}
-          </Link>
-          
+            <p className="font-semibold">Posted by</p>
+            <Link
+              href={`/profile/${adDoc.user.id}`}
+              className="font-semibold hover:underline"
+            >
+              {adDoc.user.name}
+            </Link>
+
             {adDoc.user.profile_image && (
               <Image
                 src={adDoc.user.profile_image || "/placeholder.svg"}
@@ -107,7 +109,9 @@ export default async function SingleAdPage(args: Props) {
           <br />
           Last Update: {formatDate(adDoc.updatedAt)}
         </p>
-        <label>{isHourlyRateQuest ? "Hourly Rate" : "Price Upon Completion"}</label>
+        <label>
+          {isHourlyRateQuest ? "Hourly Rate" : "Price Upon Completion"}
+        </label>
         <p>
           {formatMoney(adDoc.price)}
           {isHourlyRateQuest && "/hr"}
@@ -138,5 +142,5 @@ export default async function SingleAdPage(args: Props) {
         ) : null}
       </div>
     </div>
-  )
+  );
 }
