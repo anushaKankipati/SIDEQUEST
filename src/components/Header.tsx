@@ -9,8 +9,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import TextLogo from "./TextLogo";
 import { Redirect } from "next";
+import type { User } from "@prisma/client"
 
-export default function Header({ session }: { session: Session | null }) {
+interface Props {
+  user: User | null;
+  session: Session | null;
+}
+
+export default function Header({ session, user }: Props) {
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
@@ -47,13 +53,15 @@ export default function Header({ session }: { session: Session | null }) {
                 onClick={() => setShowDropdown((prev) => !prev)}
                 title="profile-button"
               >
-                <Image
-                  className={"rounded-md" + (showDropdown ? "z-50" : "")}
-                  src={session.user.image as string}
-                  alt={"avatar"}
-                  width={36}
-                  height={36}
-                />
+                <div className="relative w-9 h-9 rounded-md overflow-hidden">
+                  <Image
+                    className={`object-cover w-full h-full ${showDropdown ? "z-50" : ""}`}
+                    src={user?.profile_image || session?.user?.image || ""}
+                    alt="avatar"
+                    fill
+                    sizes="36px"
+                  />
+                </div>
               </button>
               {showDropdown && (
                 <>

@@ -18,11 +18,11 @@ export default function ProfileDisplay({ user }: ProfileDisplayProps) {
             <div className="w-36 h-36 rounded-full border-4 border-white shadow-lg bg-gray-100 overflow-hidden">
             {user.profile_image ? (
                 <Image
-                src={user.profile_image}
-                alt={`${user.name}'s profile picture`}
-                width={144}
-                height={144}
-                className="object-cover w-full h-full"
+                  src={user.profile_image}
+                  alt={`${user.name}'s profile picture`}
+                  width={144}
+                  height={144}
+                  className="object-cover w-full h-full"
                 />
             ) : (
                 <div className="flex items-center justify-center w-full h-full text-gray-500">
@@ -35,7 +35,7 @@ export default function ProfileDisplay({ user }: ProfileDisplayProps) {
             <div>
             <h1 className="text-3xl font-bold text-gray-900 mt-1">{user.name}</h1>
             <p className="text-gray-600 text-m mt-2">{user.email}</p>
-            <p className="text-gray-500 text-s mt-4">Joined: {new Date(user.createdAt).toDateString()}</p>
+            <p className="text-gray-500 text-s mt-4">Joined: {new Date(user.createdAt).toLocaleDateString()} </p>
             </div>
         </div>
 
