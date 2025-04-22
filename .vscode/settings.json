@@ -4,6 +4,7 @@
     "Crosshairs",
     "dsphere",
     "nextauth",
+    "prismadb",
     "roundlogo"
   ]
 }
