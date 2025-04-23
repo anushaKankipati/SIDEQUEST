@@ -1,4 +1,4 @@
-import NextAuth, {AuthOptions, SessionStrategy} from "next-auth";
+import NextAuth, { SessionStrategy} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import CredentialsProvider from "next-auth/providers/credentials";
