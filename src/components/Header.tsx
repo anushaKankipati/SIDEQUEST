@@ -83,6 +83,15 @@ export default function Header({ session, user }: Props) {
                       className="p-2 block text-center cursor-pointer w-full"
                       onClick={() => {
                         setShowDropdown(false);
+                        router.push("/my-favorites");
+                      }}
+                    >
+                      Favorites
+                    </button>
+                    <button
+                      className="p-2 block text-center cursor-pointer w-full"
+                      onClick={() => {
+                        setShowDropdown(false);
                         router.push("/my-profile");
                       }}
                     >
