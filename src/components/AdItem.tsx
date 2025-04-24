@@ -6,10 +6,14 @@ import FavoriteButton from "./FavoriteButton";
 import { Ad } from "../models/Ad";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { Location } from "./LocationPicker";
+import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
-export default function AdItem({ad}:{ad:Ad}){
+
+export default function AdItem({ad,favorites,userEmail,onFavoriteChange}:{ad:Ad; favorites:string[]; userEmail:string|null;onFavoriteChange:(adId:string,isFavorited:boolean)=>void;}){
     const isHourlyRateQuest = ad.category === "hourly";
     const currentLocation = useCurrentLocation  (state => state.currLocation);
+    
     return (
       
         <Link
@@ -37,7 +41,7 @@ export default function AdItem({ad}:{ad:Ad}){
                       : formatMoney(ad.price)}
                   </span>
                 </div>
-                <FavoriteButton />
+                <FavoriteButton adId={ad.id} userEmail={userEmail} isFavorited = {favorites?.includes(ad.id)} onFavoriteChange={(isFavorited)=> onFavoriteChange(ad.id, isFavorited)}/>
               </div>
             </div>
             <p className="mt-3 mb-3">
