@@ -22,7 +22,7 @@ export async function createProfile(formData: FormData) {
       about: data.about as string,
       Certifications: data.certifications as string,
       skills: skills,
-      profile_image: data.profile_image as string,
+      image: data.image as string,
     }
 
     // console.log("Prepared profile data:", newProfileData)
@@ -59,7 +59,7 @@ export async function updateProfile(formData: FormData) {
       about: data.about as string,
       Certifications: data.certifications as string,
       skills: skills,
-      profile_image: data.profile_image as string,
+      image: data.image as string,
     }
 
     // console.log("Prepared profile data:", profileData)

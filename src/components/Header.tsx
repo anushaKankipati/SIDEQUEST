@@ -39,7 +39,7 @@ export default function Header({ session, user }: Props) {
         {!session?.user && (
           <>
             <button
-              onClick={() => signIn("google")}
+              onClick={() => router.push("/login")}
               className="bg-theme-green text-white h-full text-theme-green inline-flex gap-1 items-center px-2 py-2"
             >
               Login/Sign Up to Post Tasks
@@ -56,7 +56,7 @@ export default function Header({ session, user }: Props) {
                 <div className="relative w-9 h-9 rounded-md overflow-hidden">
                   <Image
                     className={`object-cover w-full h-full ${showDropdown ? "z-50" : ""}`}
-                    src={user?.profile_image || session?.user?.image || ""}
+                    src={user?.image || session?.user?.image || "/images/defaultavatar.jpg"}
                     alt="avatar"
                     fill
                     sizes="36px"

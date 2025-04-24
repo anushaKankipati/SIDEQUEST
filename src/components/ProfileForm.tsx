@@ -37,7 +37,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
         certifications: user.Certifications || "",
       })
       setSkills(user.skills)
-      setProfilePic(user.profile_image ? ({ url: user.profile_image } as UploadResponse) : undefined)
+      setProfilePic(user.image ? ({ url: user.image } as UploadResponse) : undefined)
     }
   }, [user])
 
@@ -49,7 +49,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
     submitData.append("about", formData.about)
     submitData.append("certifications", formData.certifications)
     submitData.append("skills", JSON.stringify(skills))
-    submitData.append("profile_image", profilePic?.url || "")
+    submitData.append("image", profilePic?.url || "")
 
     try {
       const result = user ? await updateProfile(submitData) : await createProfile(submitData)

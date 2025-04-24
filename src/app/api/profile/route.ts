@@ -15,6 +15,7 @@ export async function POST(req: Request) {
       data: {
         ...data,
         email: session.user.email,
+        image: data.image || "/images/defaultavatar.jpg"
       },
     })
     return NextResponse.json(user)

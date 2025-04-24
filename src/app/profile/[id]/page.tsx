@@ -74,9 +74,9 @@ export default async function ProfilePage(args: Props) {
             <div className="flex items-start space-x-6">
               {/* Profile Image */}
               <div className="w-36 h-36 rounded-full border-4 border-white shadow-lg bg-gray-100 overflow-hidden">
-                {user.profile_image ? (
+                {user.image ? (
                   <Image
-                    src={user.profile_image || "/placeholder.svg"}
+                    src={user.image || "/placeholder.svg"}
                     alt={`${user.name}'s profile picture`}
                     width={144}
                     height={144}

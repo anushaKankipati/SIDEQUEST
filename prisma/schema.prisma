@@ -17,7 +17,7 @@ model User {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   email          String?   @unique
   name           String?
-  profileImage   String?
+  image          String?
   emailVerified  DateTime?
   hashedPassword String?
   skills         String[]

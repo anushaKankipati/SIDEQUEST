@@ -30,7 +30,7 @@ export async function getQuestById(id: string): Promise<any> {
         select: {
           id: true,
           email: true,
-          profile_image: true,
+          image: true,
           name: true,
         },
       },
@@ -40,7 +40,7 @@ export async function getQuestById(id: string): Promise<any> {
     ...quest,
     createdAt: new Date(quest?.createdAt.toISOString() as string),
     updatedAt: new Date(quest?.updatedAt.toISOString() as string),
-    userEmail: quest?.user.email,
+    userEmail: quest?.user.email
   };
 }
 
@@ -80,10 +80,10 @@ export default async function SingleAdPage(args: Props) {
               {adDoc.user.name}
             </Link>
 
-            {adDoc.user.profile_image && (
+            {adDoc.user.image && (
               <div className="relative w-[30px] h-[30px] rounded-full overflow-hidden">
                 <Image
-                  src={adDoc.user.profile_image || "/placeholder.svg"}
+                  src={adDoc.user.image || "/placeholder.svg"}
                   alt={`${adDoc.user.name}'s profile`}
                   fill
                   className="object-cover"
