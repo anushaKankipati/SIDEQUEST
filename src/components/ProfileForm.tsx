@@ -31,8 +31,8 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   useEffect(() => {
     if (user) {
       setFormData({
-        name: user.name,
-        email: user.email,
+        name: user.name as string,
+        email: user.email as string,
         about: user.about || "",
         certifications: user.Certifications || "",
       })
