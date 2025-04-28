@@ -19,7 +19,13 @@ export default async function MyFavoritesPageWrapper() {
   });
 
   if (!user || user.favoriteIds.length === 0) {
-    return <h1>No Favorites Found</h1>;
+    return (
+      <div className="container mb-6 my-12 mx-auto">
+        <h1 className="text-2xl font-bold mb-6 text-center pt-10">
+          No Favorites Found
+        </h1>
+      </div>
+    );
   }
 
   const favoriteAds = await prisma.quest.findMany({

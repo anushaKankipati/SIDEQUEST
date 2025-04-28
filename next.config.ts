@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
         hostname: "ik.imagekit.io",
       },
     ],
+    domains: ['avatars.githubusercontent.com'],
   },
 };
 

@@ -33,7 +33,7 @@ export async function createAd(formData: FormData) {
         create: {
           email: session?.user?.email as string,
           name: session?.user?.name || null,
-          profile_image: session?.user?.image || null,
+          image: session?.user?.image || null,
         },
       },
     },

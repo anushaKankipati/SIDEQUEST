@@ -2,23 +2,29 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextLogo from "./TextLogo";
 import { Redirect } from "next";
 import type { User } from "@prisma/client"
 
 interface Props {
   user: User | null;
-  session: Session | null;
 }
 
-export default function Header({ session, user }: Props) {
+export default function Header({ user }: Props) {
+  const session = useSession();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.refresh();
+    }
+  }, [session?.status, router]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
@@ -26,7 +32,7 @@ export default function Header({ session, user }: Props) {
         <TextLogo />
       </Link>
       <nav className="items-center flex gap-4 *:rounded">
-        {session?.user && (
+        {session?.data?.user && (
           <Link
             href="/new"
             className="border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2"
@@ -36,17 +42,17 @@ export default function Header({ session, user }: Props) {
           </Link>
         )}
         <span className="border-r"></span>
-        {!session?.user && (
+        {!session?.data?.user && (
           <>
             <button
-              onClick={() => signIn("google")}
+              onClick={() => router.push("/login")}
               className="bg-theme-green text-white h-full text-theme-green inline-flex gap-1 items-center px-2 py-2"
             >
               Login/Sign Up to Post Tasks
             </button>
           </>
         )}
-        {session?.user && (
+        {session?.data?.user && (
           <>
             <div className="relative">
               <button
@@ -56,7 +62,7 @@ export default function Header({ session, user }: Props) {
                 <div className="relative w-9 h-9 rounded-md overflow-hidden">
                   <Image
                     className={`object-cover w-full h-full ${showDropdown ? "z-50" : ""}`}
-                    src={user?.profile_image || session?.user?.image || ""}
+                    src={user?.image || session?.data.user?.image || "/images/defaultavatar.jpg"}
                     alt="avatar"
                     fill
                     sizes="36px"
