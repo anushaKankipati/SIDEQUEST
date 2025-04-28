@@ -12,8 +12,8 @@ export default {
         "light-hover-green": "var(--light-hover-green)",
       },
       screens: {
-        tall: { raw: "(min-height: 826px)" },
-        short: { raw: "(max-height: 825px)" },
+        tall: { raw: "(min-height: 693px)" },
+        short: { raw: "(max-height: 692px)" },
       },
     },
   },
