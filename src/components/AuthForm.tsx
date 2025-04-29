@@ -8,7 +8,7 @@ import Button from "./Button";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import { signIn, useSession } from "next-auth/react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { toast } from "react-hot-toast";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 type Variant = "LOGIN" | "REGISTER";
 
 export default function AuthForm() {
-  const session = useSession(); 
+  const session = useSession();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -54,12 +54,28 @@ export default function AuthForm() {
     if (variant === "REGISTER") {
       axios
         .post("/api/register", data)
-        .then(() => setVariant("LOGIN"))
-        .catch(() => toast.error("Error Registering User"))
+        .then((res: AxiosResponse<any>) => {
+          const data = res.data;
+
+          if (res.status !== 200 && res.status !== 201) {
+            toast.error(data.error || "Unknown registration error");
+            return;
+          }
+
+          toast.success("Registration successful!");
+          setVariant("LOGIN");
+        })
+        .catch((error: any) => {
+          // Axios error responses are also slightly different
+          if (error.response && error.response.data) {
+            toast.error(error.response.data.error || "Registration failed.");
+          } else {
+            toast.error("Registration error: " + error.message);
+          }
+        })
         .finally(() => {
           setIsLoading(false);
           router.push("/login");
-          router.refresh();
         });
     }
 
