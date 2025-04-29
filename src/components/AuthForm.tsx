@@ -100,6 +100,8 @@ export default function AuthForm() {
         });
     }
   };
+
+  //TODO: add a guard here to make sure there is no duplicate email
   const socialAction = (action: string) => {
     setIsLoading(true);
     console.log("\n\nsocialAction called\n\n");
@@ -165,13 +167,6 @@ export default function AuthForm() {
               icon={BsGoogle}
               onClick={() => {
                 socialAction("google");
-              }}
-            />
-            <AuthSocialButton
-              title="github"
-              icon={BsGithub}
-              onClick={() => {
-                socialAction("github");
               }}
             />
           </div>
