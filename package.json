@@ -23,6 +23,7 @@
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "imagekit": "^5.2.0",
     "imagekitio-react": "^4.2.0",
     "mongoose": "^8.8.3",
