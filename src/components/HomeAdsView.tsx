@@ -4,12 +4,65 @@ import { Ad } from "../models/Ad";
 import AdItem from "../components/AdItem";
 import SearchForm from "../components/SearchForm";
 import { defaultRadius, toTitleCase } from "../../libs/helpers";
+import { getSession } from "next-auth/react"
 
 export default function HomeAdsView() {
   const [ads, setAds] = useState<Ad[] | null>(null);
   const [adsParams, setAdsParams] = useState<URLSearchParams | null>(
     new URLSearchParams()
   );
+
+  const [favorites, setFavorites] = useState<string[]>([]); // Ensure favorites is initialized as an empty array
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchSession = async () => {
+      const session = await getSession();
+      if (session?.user?.email) {
+        setUserEmail(session.user.email);
+      } //maybe initialize setFavorites if not successful
+    };
+
+    fetchSession();
+  }, []);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if(!userEmail) return;
+      try {
+        console.log("Fetching favs for email:", userEmail);
+        const response = await fetch(`/api/favorites?userEmail=${userEmail}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }); 
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Failed to fetch favorites:", errorData.message||response.statusText);
+          throw new Error(errorData.message||"Failed to fetch favorites");
+        }
+        const data = await response.json();
+        setFavorites(data.favoriteIds || []); // Initialize the favorites state with fetched data or an empty array
+      } catch (error) {
+        console.error("Failed to fetch favorites:", error);
+        setFavorites([]); // Fallback to an empty array in case of an error
+      }
+    };
+
+    fetchFavorites();
+  }, [userEmail]);
+
+  const handleFavoriteChange = async (adId: string, isFavorited: boolean) => {
+      setFavorites((prevFavorites) => {
+        if (!prevFavorites) return []; // Ensure prevFavorites is always defined
+        if (isFavorited) {
+          return prevFavorites.filter((id) => id !== adId);
+        } else {
+          return [...prevFavorites, adId];
+        }
+      });
+
+  };
 
   useEffect(() => {
     fetchAds();
@@ -48,7 +101,7 @@ export default function HomeAdsView() {
     fetchAds(params);
   }
   const tagDirty =
-    adsParams?.get("input_tags");
+adsParams?.get("input_tags");
   const formDirty =
     adsParams?.get("phrase") ||
     adsParams?.get("category") ||
@@ -69,12 +122,18 @@ export default function HomeAdsView() {
           {ads &&
             ads.map((ad) => (
               <div key={ad.id} className="w-full">
-                <AdItem ad={ad} />
+                <AdItem
+                  key={ad.id}
+                  ad={ad}
+                  favorites={favorites}
+                  userEmail={userEmail} //userEmail of user that is currently logged in
+                  onFavoriteChange={(adId, isFavorited) => handleFavoriteChange(adId,isFavorited)}
+                />
               </div>
             ))}
         </div>
         {ads && ads?.length === 0 && (
-          <div className="text-gray-400">No Products Found</div>
+          <div className="text-gray-400">No Quests Found</div>
         )}
         {ads === null && <div className="text-gray-400">Loading...</div>}
       </div>

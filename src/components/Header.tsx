@@ -2,17 +2,29 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextLogo from "./TextLogo";
 import { Redirect } from "next";
+import type { User } from "@prisma/client"
 
-export default function Header({ session }: { session: Session | null }) {
+interface Props {
+  user: User | null;
+}
+
+export default function Header({ user }: Props) {
+  const session = useSession();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.refresh();
+    }
+  }, [session?.status, router]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
@@ -20,7 +32,7 @@ export default function Header({ session }: { session: Session | null }) {
         <TextLogo />
       </Link>
       <nav className="items-center flex gap-4 *:rounded">
-        {session?.user && (
+        {session?.data?.user && (
           <Link
             href="/new"
             className="border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2"
@@ -30,30 +42,32 @@ export default function Header({ session }: { session: Session | null }) {
           </Link>
         )}
         <span className="border-r"></span>
-        {!session?.user && (
+        {!session?.data?.user && (
           <>
             <button
-              onClick={() => signIn("google")}
+              onClick={() => router.push("/login")}
               className="bg-theme-green text-white h-full text-theme-green inline-flex gap-1 items-center px-2 py-2"
             >
               Login/Sign Up to Post Tasks
             </button>
           </>
         )}
-        {session?.user && (
+        {session?.data?.user && (
           <>
             <div className="relative">
               <button
                 onClick={() => setShowDropdown((prev) => !prev)}
                 title="profile-button"
               >
-                <Image
-                  className={"rounded-md" + (showDropdown ? "z-50" : "")}
-                  src={session.user.image as string}
-                  alt={"avatar"}
-                  width={36}
-                  height={36}
-                />
+                <div className="relative w-9 h-9 rounded-md overflow-hidden">
+                  <Image
+                    className={`object-cover w-full h-full ${showDropdown ? "z-50" : ""}`}
+                    src={user?.image || session?.data.user?.image || "/images/defaultavatar.jpg"}
+                    alt="avatar"
+                    fill
+                    sizes="36px"
+                  />
+                </div>
               </button>
               {showDropdown && (
                 <>
@@ -70,6 +84,15 @@ export default function Header({ session }: { session: Session | null }) {
                       }}
                     >
                       My Quests
+                    </button>
+                    <button
+                      className="p-2 block text-center cursor-pointer w-full"
+                      onClick={() => {
+                        setShowDropdown(false);
+                        router.push("/my-favorites");
+                      }}
+                    >
+                      Favorites
                     </button>
                     <button
                       className="p-2 block text-center cursor-pointer w-full"

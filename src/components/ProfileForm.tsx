@@ -8,10 +8,10 @@ import { useRouter } from "next/navigation"
 import type { UploadResponse } from "imagekit/dist/libs/interfaces"
 import type { User } from "@prisma/client"
 
-import SingleImageUpload from "@/src/components/SingleImageUpload"
 import SubmitButton from "./SubmitButton"
 import SkillTags from "./SkillTags"
 import { createProfile, updateProfile } from "@/src/app/actions/profileActions"
+import SingleImageUpload from "./SingleImageUpload"
 
 interface ProfileFormProps {
   user: User | null
@@ -31,13 +31,13 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   useEffect(() => {
     if (user) {
       setFormData({
-        name: user.name,
-        email: user.email,
+        name: user.name as string,
+        email: user.email as string,
         about: user.about || "",
         certifications: user.Certifications || "",
       })
       setSkills(user.skills)
-      setProfilePic(user.profile_image ? ({ url: user.profile_image } as UploadResponse) : undefined)
+      setProfilePic(user.image ? ({ url: user.image } as UploadResponse) : undefined)
     }
   }, [user])
 
@@ -49,7 +49,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
     submitData.append("about", formData.about)
     submitData.append("certifications", formData.certifications)
     submitData.append("skills", JSON.stringify(skills))
-    submitData.append("profile_image", profilePic?.url || "")
+    submitData.append("image", profilePic?.url || "")
 
     try {
       const result = user ? await updateProfile(submitData) : await createProfile(submitData)
@@ -58,7 +58,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
       } else {
         toast.success(`Profile Successfully ${user ? "Updated" : "Created"}`)
         router.push("/my-profile")
-        router.refresh() // This is important to trigger a re-render of the page
+        router.refresh()
       }
     } catch (error) {
       console.error("Error saving profile:", error)
@@ -71,17 +71,11 @@ export default function ProfileForm({ user }: ProfileFormProps) {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleUploadSuccess = (file: UploadResponse | undefined) => {
-    setProfilePic(file)
-  }
-
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap">
       <div className="grow pt-2">
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-            Name
-          </label>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
           <input
             type="text"
             id="name"
@@ -89,12 +83,11 @@ export default function ProfileForm({ user }: ProfileFormProps) {
             value={formData.name}
             onChange={handleInputChange}
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
           <input
             type="email"
             id="email"
@@ -102,34 +95,41 @@ export default function ProfileForm({ user }: ProfileFormProps) {
             value={formData.email}
             onChange={handleInputChange}
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-            About
-          </label>
+          <label htmlFor="about" className="block text-sm font-medium text-gray-700">About</label>
           <textarea
             id="about"
             name="about"
             value={formData.about}
             onChange={handleInputChange}
             rows={5}
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           ></textarea>
         </div>
         <div className="mb-4">
-          <label htmlFor="certifications" className="block text-sm font-medium text-gray-700">
-            Certifications
-          </label>
+          <label htmlFor="certifications" className="block text-sm font-medium text-gray-700">Certifications</label>
           <textarea
             id="certifications"
             name="certifications"
             value={formData.certifications}
             onChange={handleInputChange}
             rows={4}
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           ></textarea>
         </div>
       </div>
+
       <div className="grow lg:pt-2">
+      <label htmlFor="dateCreated" className="block text-sm font-medium text-gray-700">
+            Profile Image
+          </label>
+        <div className="mb-4">
+          <SingleImageUpload file={profilePic} setFile={setProfilePic} />
+        </div>
+
         <div className="mb-4">
           <label htmlFor="dateCreated" className="block text-sm font-medium text-gray-700">
             Date Created
@@ -142,19 +142,17 @@ export default function ProfileForm({ user }: ProfileFormProps) {
               user ? new Date(user.createdAt).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]
             }
             readOnly
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           />
         </div>
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">My SKILLS</label>
           <SkillTags tags={skills} setTags={setSkills} />
         </div>
-        {/* <div className="mt-8">
-          <label className="block text-sm font-medium text-gray-700">Profile Picture</label>
-          <SingleImageUpload onUploadSuccess={handleUploadSuccess} initialImage={user?.profile_image || undefined} />
-        </div> */}
+
         <SubmitButton>{user ? "Update Profile" : "Create Profile"}</SubmitButton>
       </div>
     </form>
   )
 }
-

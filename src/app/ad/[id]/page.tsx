@@ -13,7 +13,6 @@ import prisma from "@/libs/prismadb";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
 
-
 type Props = {
   params: {
     id: string;
@@ -28,9 +27,10 @@ export async function getQuestById(id: string): Promise<any> {
     },
     include: {
       user: {
-        select: { 
+        select: {
+          id: true,
           email: true,
-          profile_image: true,
+          image: true,
           name: true,
         },
       },
@@ -40,20 +40,20 @@ export async function getQuestById(id: string): Promise<any> {
     ...quest,
     createdAt: new Date(quest?.createdAt.toISOString() as string),
     updatedAt: new Date(quest?.updatedAt.toISOString() as string),
-    userEmail: quest?.user.email,
+    userEmail: quest?.user.email
   };
 }
 
-
 export default async function SingleAdPage(args: Props) {
-  const { id } = args.params
-  const adDoc = await getQuestById(id)
+  const params = await args.params;
+  const { id } = params;
+  const adDoc = await getQuestById(id);
 
   if (!adDoc) {
-    return "Not Found"
+    return "Not Found";
   }
-  const session = await getServerSession(authOptions)
-  const isHourlyRateQuest = adDoc?.category === "hourly"
+  const session = await getServerSession(authOptions);
+  const isHourlyRateQuest = adDoc?.category === "hourly";
   return (
     <div className="flex absolute inset-0 top-16">
       <div className="w-1/2 grow flex flex-col relative">
@@ -71,16 +71,26 @@ export default async function SingleAdPage(args: Props) {
 
         {/* User Information */}
         <div className="mt-4 flex items-center space-x-4">
-          
-          <div className=" flex items-center space-x-2">
-            <p className="font-semibold">Posted by {adDoc.user.name}</p>
-            <Image
-              src={adDoc.user.profile_image || "/placeholder.svg"}
-              alt={`${adDoc.user.name}'s profile picture`}
-              width={30}
-              height={30}
-              className="rounded-full"
-            />
+          <div className="flex items-center space-x-1">
+            <p className="font-semibold">Posted by</p>
+            <Link
+              href={`/profile/${adDoc.user.id}`}
+              className="font-semibold hover:underline"
+            >
+              {adDoc.user.name}
+            </Link>
+
+            {adDoc.user.image && (
+              <div className="relative w-[30px] h-[30px] rounded-full overflow-hidden">
+                <Image
+                  src={adDoc.user.image || "/placeholder.svg"}
+                  alt={`${adDoc.user.name}'s profile`}
+                  fill
+                  className="object-cover"
+                  sizes="30px"
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -101,7 +111,9 @@ export default async function SingleAdPage(args: Props) {
           <br />
           Last Update: {formatDate(adDoc.updatedAt)}
         </p>
-        <label>{isHourlyRateQuest ? "Hourly Rate" : "Price Upon Completion"}</label>
+        <label>
+          {isHourlyRateQuest ? "Hourly Rate" : "Price Upon Completion"}
+        </label>
         <p>
           {formatMoney(adDoc.price)}
           {isHourlyRateQuest && "/hr"}
@@ -132,5 +144,5 @@ export default async function SingleAdPage(args: Props) {
         ) : null}
       </div>
     </div>
-  )
+  );
 }

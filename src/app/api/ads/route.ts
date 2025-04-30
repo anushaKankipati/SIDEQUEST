@@ -84,7 +84,7 @@ export async function GET(req: Request) {
           },
         },
         { $match: filter },
-        { $sort: { createdAt: -1 } },
+        { $sort: { "dist.calculated": 1, createdAt: -1 } },
       ],
       cursor: {},
     });
