@@ -55,15 +55,16 @@ export default function AuthForm() {
       axios
         .post("/api/register", data)
         .then((res: AxiosResponse<any>) => {
-          const data = res.data;
+          const newData = res.data;
 
           if (res.status !== 200 && res.status !== 201) {
-            toast.error(data.error || "Unknown registration error");
+            toast.error(newData.error || "Unknown registration error");
             return;
           }
 
-          toast.success("Registration successful!");
+          signIn('credentials', data);
           setVariant("LOGIN");
+          toast.success("Registration successful!");
         })
         .catch((error: any) => {
           // Axios error responses are also slightly different
