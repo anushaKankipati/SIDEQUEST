@@ -1,6 +1,7 @@
 import getCurrentUser from "@/src/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
+import { pusherServer } from "@/libs/pusher";
 
 interface IParams {
   conversationId?: string;
@@ -56,6 +57,20 @@ export async function POST(request: Request, { params }: { params: IParams }) {
         },
       },
     });
+
+    // push an update if the user has seen the message
+    await pusherServer.trigger(currentUser.email, "conversation:update", {
+      id: conversationId,
+      messages: [updatedMessage],
+    });
+
+    // if you haven't seen the message
+    if (lastMessage.seenIds.indexOf(currentUser.id) !== -1) {
+      return NextResponse.json(conversation);
+    }
+
+    await pusherServer.trigger(conversationId!, "message:update", updatedMessage);
+
     return NextResponse.json(updatedMessage);
   } catch (error: any) {
     console.log(error, "ERROR_MESSAGES");
