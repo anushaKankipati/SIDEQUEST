@@ -24,7 +24,7 @@ export default function ConversationBox({
   const router = useRouter();
 
   const handleClick = useCallback(() => {
-    router.push(`conversations/${data.id}`);
+    router.push(`/conversations/${data.id}`);
   }, [data.id, router]);
 
   const lastMessage = useMemo(() => {
@@ -113,10 +113,15 @@ export default function ConversationBox({
               </p>
             )}
           </div>
-          <p className={clsx(`
+          <p
+            className={clsx(
+              `
               truncate
               text-sm
-            `, hasSeen ? "text-gray-500" : "text-black font-medium")}>
+            `,
+              hasSeen ? "text-gray-500" : "text-black font-medium"
+            )}
+          >
             {lastMessageText}
           </p>
         </div>
