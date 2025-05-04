@@ -13,7 +13,6 @@ export default function SettingsModal({ otherUsers }: SettingsModalProps) {
   const firstUser = otherUsers[0];
   return (
     <>
-      {/* TODO: finish this modal */}
       <div className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-md border p-4">
         <div className="flex flex-col space-y-2 items-center p-4">
           <h2 className="">Conversation Settings</h2>
