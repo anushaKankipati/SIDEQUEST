@@ -64,9 +64,6 @@ export default function Form({otherUsers}: FormProps) {
             onClick={() => setShowConversationSettings(false)}
             className="bg-black/50 fixed inset-0 z-40"
           ></div>
-          {/* <div className="absolute z-50 right-[50%] top-[50%] bg-white rounded-md w-24 border">
-            <DeleteConversationButton />
-          </div> */}
           <SettingsModal otherUsers={otherUsers}/>
         </>
       )}
