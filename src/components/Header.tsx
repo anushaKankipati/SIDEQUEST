@@ -18,17 +18,13 @@ interface Props {
 }
 
 export default function Header({ user }: Props) {
-  const session = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const routes = useRoutes();
 
-  // TODO: look into refactoring this such that the client doesn't rerender if they are already logged int, this should only happen once when they look in
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.refresh();
-    }
-  }, [session?.status, router]);
+  // Use the server-side user prop to determine authentication state
+  const isAuthenticated = user !== null && user !== undefined;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
@@ -49,7 +45,7 @@ export default function Header({ user }: Props) {
         </ul>
       </div>
       <nav className="items-center flex gap-4 *:rounded">
-        {session?.data?.user && (
+        {isAuthenticated && (
           <Link
             href="/new"
             className="border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2"
@@ -59,7 +55,7 @@ export default function Header({ user }: Props) {
           </Link>
         )}
         <span className="border-r"></span>
-        {!session?.data?.user && (
+        {!isAuthenticated && (
           <>
             <button
               onClick={() => router.push("/login")}
@@ -69,7 +65,7 @@ export default function Header({ user }: Props) {
             </button>
           </>
         )}
-        {session?.data?.user && (
+        {isAuthenticated && (
           <>
             <div className="relative">
               <button
@@ -81,11 +77,7 @@ export default function Header({ user }: Props) {
                     className={`object-cover w-full h-full ${
                       showDropdown ? "z-50" : ""
                     }`}
-                    src={
-                      user?.image ||
-                      session?.data.user?.image ||
-                      "/images/defaultavatar.jpg"
-                    }
+                    src={user?.image || "/images/defaultavatar.jpg"}
                     alt="avatar"
                     fill
                     sizes="36px"
