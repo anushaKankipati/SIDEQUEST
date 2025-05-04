@@ -10,15 +10,16 @@ import { useState } from "react";
 import DeleteConversationButton from "./DeleteConversationButton";
 import { User } from "@prisma/client";
 import SettingsModal from "./SettingsModal";
+import ImageUploadModal from "./ImageUploadModal";
 
 interface FormProps {
   otherUsers: User[]
 }
 
-
 export default function Form({otherUsers}: FormProps) {
   const [showConversationSettings, setShowConversationSettings] =
     useState<boolean>(false);
+  const [showImageUpload, setShowImageUpload] = useState<boolean>(false);
   const { conversationId } = useConversation();
   const {
     register,
@@ -73,7 +74,12 @@ export default function Form({otherUsers}: FormProps) {
       <HiPhoto
         size={30}
         className="text-theme-green cursor-pointer hover:text-green-800"
+        onClick={() => setShowImageUpload(true)}
       />
+      {showImageUpload && (
+        <ImageUploadModal onClose={() => setShowImageUpload(false)} />
+      )}
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-center gap-2 lg:gap-4 w-full"

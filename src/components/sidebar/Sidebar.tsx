@@ -1,4 +1,3 @@
-import MobileFooter from "./MobileFooter";
 
 export default async function Sidebar({
   children,
@@ -7,7 +6,7 @@ export default async function Sidebar({
 }) {
   return (
     <div className="h-full">
-      <MobileFooter />
+
       <main className="h-full">
         {children}
       </main>
