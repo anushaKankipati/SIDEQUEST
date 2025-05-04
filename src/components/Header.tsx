@@ -23,6 +23,7 @@ export default function Header({ user }: Props) {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const routes = useRoutes();
 
+  // TODO: look into refactoring this such that the client doesn't rerender if they are already logged int, this should only happen once when they look in
   useEffect(() => {
     if (session?.status === "authenticated") {
       router.refresh();
