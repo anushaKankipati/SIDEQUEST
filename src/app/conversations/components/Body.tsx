@@ -10,7 +10,7 @@ import { pusherClient } from "@/libs/pusher";
 import { find } from "lodash";
 
 interface BodyProps {
-  initialMessages: FullMessageType[] | undefined;
+  initialMessages: FullMessageType[];
 }
 
 export default function Body({ initialMessages }: BodyProps) {

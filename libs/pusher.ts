@@ -1,4 +1,3 @@
-import Pusher from "pusher";
 import PusherServer from "pusher";
 import PusherClient from "pusher-js";
 

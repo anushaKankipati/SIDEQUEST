@@ -5,8 +5,13 @@ import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { HiPhoto } from "react-icons/hi2";
 import MessageInput from "./MessageInput";
 import { HiPaperAirplane } from "react-icons/hi";
+import { IoSettingsOutline } from "react-icons/io5";
+import { useState } from "react";
+import DeleteConversationButton from "./DeleteConversationButton";
 
 export default function Form() {
+  const [showConversationSettings, setShowConversationSettings] =
+    useState<boolean>(false);
   const { conversationId } = useConversation();
   const {
     register,
@@ -38,9 +43,38 @@ export default function Form() {
       gap-2
       lg:gap-4
       w-full
+      relative
     "
     >
-      <HiPhoto size={30} className="text-theme-green" />
+      <IoSettingsOutline
+        size={30}
+        className="text-gray-400 cursor-pointer hover:text-gray-600"
+        onClick={() => setShowConversationSettings((prev) => !prev)}
+      />
+      {showConversationSettings && (
+        <>
+          <div
+            onClick={() => setShowConversationSettings(false)}
+            className="bg-black/50 fixed inset-0 z-40"
+          ></div>
+          <div className="absolute z-50 right-[40%] top-[25%] bg-white rounded-md w-24 border">
+            {/* <button
+                            className="p-2 block text-center cursor-pointer w-full"
+                            onClick={() => {
+                              setShowConversationSettings(false);
+                            }}
+                          >
+                            My Quests
+                          </button> */}
+            <DeleteConversationButton />
+          </div>
+        </>
+      )}
+
+      <HiPhoto
+        size={30}
+        className="text-theme-green cursor-pointer hover:text-green-800"
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-center gap-2 lg:gap-4 w-full"
