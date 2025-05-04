@@ -1,4 +1,3 @@
-import DesktopSidebar from "./DesktopSidebar";
 import MobileFooter from "./MobileFooter";
 
 export default async function Sidebar({
@@ -10,7 +9,6 @@ export default async function Sidebar({
     <div className="h-full">
       <MobileFooter />
       <main className="h-full">
-        <DesktopSidebar />
         {children}
       </main>
     </div>
