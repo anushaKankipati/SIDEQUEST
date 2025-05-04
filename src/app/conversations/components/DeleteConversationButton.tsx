@@ -56,7 +56,7 @@ export default function DeleteConversationButton() {
   return (
     <button
       onClick={() => setShowDeleteQuestion(true)}
-      className="border border-red-600 text-red-600 rounded-md py-1 px-4 inline-flex gap-1 items-center"
+      className="border border-red-600 text-red-600 rounded-md py-1 px-4 inline-flex gap-1 items-center w-full"
     >
       <FontAwesomeIcon icon={faTrash} />
       <span>Delete</span>
