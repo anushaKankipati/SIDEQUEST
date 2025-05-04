@@ -12,7 +12,6 @@ export async function createProfile(formData: FormData) {
   }
 
   const data = Object.fromEntries(formData)
-//   console.log("Received form data:", data)
 
   try {
     const skills = data.skills ? JSON.parse(data.skills as string) : []
@@ -25,15 +24,11 @@ export async function createProfile(formData: FormData) {
       image: data.image as string,
     }
 
-    // console.log("Prepared profile data:", newProfileData)
-
     const newProfile = await prisma.user.upsert({
       where: { email: session.user.email },
       update: newProfileData,
       create: newProfileData,
     })
-
-    // console.log("Profile created/updated:", newProfile)
 
     return { success: true, data: newProfile }
   } catch (error) {
@@ -50,7 +45,6 @@ export async function updateProfile(formData: FormData) {
   }
 
   const data = Object.fromEntries(formData)
-//   console.log("Received form data:", data)
 
   try {
     const skills = data.skills ? JSON.parse(data.skills as string) : []
@@ -62,14 +56,11 @@ export async function updateProfile(formData: FormData) {
       image: data.image as string,
     }
 
-    // console.log("Prepared profile data:", profileData)
-
     const updatedProfile = await prisma.user.update({
       where: { email: session.user.email },
       data: profileData,
     })
 
-    // console.log("Profile updated:", updatedProfile)
 
     return { success: true, data: updatedProfile }
   } catch (error) {

@@ -7,6 +7,7 @@ import AdItem from "@/src/components/AdItem";
 import Link from "next/link";
 import prisma from "@/libs/prismadb";
 import Image from "next/image";
+import MessageButton from "./MessageButton";
 
 type Props = {
   params: {
@@ -102,13 +103,15 @@ export default async function ProfilePage(args: Props) {
             </div>
 
             {/* Edit Profile Button - Only show for current user */}
-            {isCurrentUser && (
+            {isCurrentUser ? (
               <Link
                 href="/edit-profile"
                 className="absolute top-0 right-0 mt-4 rounded-full hover:bg-light-hover-green text-theme-green w-11 h-11 inline-flex items-center justify-center"
               >
                 <FontAwesomeIcon icon={faPencil} className="w-6 h-6" />
               </Link>
+            ) : (
+              <MessageButton userId={user.id} />
             )}
           </div>
 

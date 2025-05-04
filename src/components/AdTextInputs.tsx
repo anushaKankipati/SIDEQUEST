@@ -86,12 +86,12 @@ export default function AdTextInputs({ defaultValues }: Props) {
         defaultValue={defaultValues.time_estimate}
       />
 
-      <label htmlFor="contactIn">Contact Information</label>
+      <label htmlFor="contactIn">Additional Contact Information</label>
 
       <textarea
         name="contact"
         id="contactIn"
-        placeholder="mobile: 669-225-6980"
+        placeholder="Enter an optional external contact info. Messaging interface provided in app"
         defaultValue={defaultValues.contact}
       ></textarea>
     </>

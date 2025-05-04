@@ -6,7 +6,6 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const userEmail = searchParams.get("userEmail"); //userId
-  //console.log("Received userEmail in API:", userEmail);
   if (!userEmail) {
     return new Response(JSON.stringify({ message: "Missing userEmail" }), {
       status: 400,

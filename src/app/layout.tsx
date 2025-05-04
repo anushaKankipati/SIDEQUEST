@@ -5,8 +5,9 @@ import Header from "../components/Header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { Toaster } from "react-hot-toast";
-import prisma from "@/libs/prismadb"
+import prisma from "@/libs/prismadb";
 import AuthContext from "../context/AuthContext";
+import ActiveStatus from "../components/ActiveStatus";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,11 +43,10 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthContext>
-
-        <Header user={user} />
-        <Toaster position="top-center"/>
-        {children}
-
+          <Header user={user} />
+          <Toaster position="top-center" />
+          <ActiveStatus />
+          {children}
         </AuthContext>
       </body>
     </html>
