@@ -8,8 +8,8 @@ export default async function Sidebar({
 }) {
   return (
     <div className="h-full">
-      <MobileFooter/>
-      <main className="lg:pl-20 h-full">
+      <MobileFooter />
+      <main className="h-full">
         <DesktopSidebar />
         {children}
       </main>

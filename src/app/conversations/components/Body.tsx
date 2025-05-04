@@ -8,6 +8,7 @@ import MessageBox from "./MessageBox";
 import axios from "axios";
 import { pusherClient } from "@/libs/pusher";
 import { find } from "lodash";
+import BackButton from "./BackButton";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
@@ -64,14 +65,18 @@ export default function Body({ initialMessages }: BodyProps) {
   }, [conversationId]);
 
   return (
-    <div className="mt-14 flex-1 overflow-y-auto">
-      {messages?.map((message, i) => (
-        <MessageBox
-          isLast={i === messages?.length - 1}
-          key={message.id}
-          data={message}
-        />
-      ))}
+    <div className="mt-14 flex-1 overflow-y-auto relative">
+      <BackButton/>
+      <div className="lg:mt-0 mt-8">
+        {messages?.map((message, i) => (
+          <MessageBox
+            isLast={i === messages?.length - 1}
+            key={message.id}
+            data={message}
+          />
+        ))}
+
+      </div>
       <div ref={bottomRef} className="pt-24" />
     </div>
   );

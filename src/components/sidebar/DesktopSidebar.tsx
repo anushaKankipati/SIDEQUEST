@@ -2,11 +2,8 @@
 
 import useRoutes from "@/src/hooks/useRoute";
 import { useState } from "react";
-import AdItem from "../AdItem";
-import DesktopItem from "./DesktopItem";
 
 export default function DesktopSidebar() {
-  const routes = useRoutes();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -30,48 +27,21 @@ export default function DesktopSidebar() {
     >
       <nav
         className="
-      mt-4
-      flex
-      flex-col
-      justify-between
-    "
-      >
-        <ul
-          role="list"
-          className="
-        flex 
-        flex-col
-        items-center
-        space-y-1
-      "
-        >
-          {routes.map((item) => 
-            <DesktopItem
-              key={item.label}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              active={item.active}
-            />
-          )}
-        </ul>
-      </nav>
-      <nav className="
         mt-4
         flex 
         flex-col
         justify-between
         items-center
-      ">
-        <div 
-          onClick={() => setIsOpen(true)} 
+      "
+      >
+        <div
+          onClick={() => setIsOpen(true)}
           className="
             cursor-pointer 
             hover:opacity-75
             transition
-        ">
-
-        </div>
+        "
+        ></div>
       </nav>
     </div>
   );
