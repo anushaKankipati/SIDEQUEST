@@ -105,8 +105,6 @@ export default function AuthForm() {
   //TODO: add a guard here to make sure there is no duplicate email
   const socialAction = (action: string) => {
     setIsLoading(true);
-    console.log("\n\nsocialAction called\n\n");
-    //next auth social Signin
     signIn(action, { redirect: false })
       .then((callback) => {
         if (callback?.error) {
