@@ -102,6 +102,7 @@ export default async function ProfilePage(args: Props) {
             </div>
 
             {/* Edit Profile Button - Only show for current user */}
+            {/* TODO: conditionally render a message button */}
             {isCurrentUser && (
               <Link
                 href="/edit-profile"

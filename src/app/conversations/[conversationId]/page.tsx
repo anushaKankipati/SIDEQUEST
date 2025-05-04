@@ -6,6 +6,7 @@ import getMessages from "../../actions/getMessages";
 import Body from "../components/Body";
 import Form from "../components/Form";
 import { FullMessageType } from "@/src/types";
+import getOtherConversationUsers from "../../actions/getOtherConversationUsers";
 
 interface IParams {
   conversationId: string;
@@ -15,6 +16,7 @@ export default async function ConversationId({ params }: { params: IParams }) {
   const { conversationId } = await params;
   const conversation = await getConversationById(conversationId);
   const messages = await getMessages(conversationId) || [];
+  const otherUsers = await getOtherConversationUsers(conversationId) || [];
 
   if (!conversation) {
     return (
@@ -31,7 +33,7 @@ export default async function ConversationId({ params }: { params: IParams }) {
       <div className="h-full flex flex-col">
         {/* add avatar and name above */}
         <Body initialMessages={messages} />
-        <Form />
+        <Form otherUsers={otherUsers}/>
       </div>
     </div>
   );

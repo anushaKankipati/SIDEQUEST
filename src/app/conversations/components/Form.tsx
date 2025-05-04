@@ -8,8 +8,15 @@ import { HiPaperAirplane } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useState } from "react";
 import DeleteConversationButton from "./DeleteConversationButton";
+import { User } from "@prisma/client";
+import SettingsModal from "./SettingsModal";
 
-export default function Form() {
+interface FormProps {
+  otherUsers: User[]
+}
+
+
+export default function Form({otherUsers}: FormProps) {
   const [showConversationSettings, setShowConversationSettings] =
     useState<boolean>(false);
   const { conversationId } = useConversation();
@@ -43,7 +50,6 @@ export default function Form() {
       gap-2
       lg:gap-4
       w-full
-      relative
     "
     >
       <IoSettingsOutline
@@ -57,17 +63,10 @@ export default function Form() {
             onClick={() => setShowConversationSettings(false)}
             className="bg-black/50 fixed inset-0 z-40"
           ></div>
-          <div className="absolute z-50 right-[40%] top-[25%] bg-white rounded-md w-24 border">
-            {/* <button
-                            className="p-2 block text-center cursor-pointer w-full"
-                            onClick={() => {
-                              setShowConversationSettings(false);
-                            }}
-                          >
-                            My Quests
-                          </button> */}
+          {/* <div className="absolute z-50 right-[50%] top-[50%] bg-white rounded-md w-24 border">
             <DeleteConversationButton />
-          </div>
+          </div> */}
+          <SettingsModal otherUsers={otherUsers}/>
         </>
       )}
 
