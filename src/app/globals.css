@@ -8,11 +8,11 @@
     --light-hover-green: rgb(220 252 231 / var(--tw-bg-opacity, 1));
 }
 
-input[type="text"], input[type="number"], select, textarea{
+input[type="text"], input[type="number"], input[type="url"], select, textarea{
     @apply w-full border p-2 rounded;
 }
 
-input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+input[type="text"]:focus, input[type="number"]:focus, input[type="url"]:focus, select:focus, textarea:focus {
     @apply outline-none ring-1 ring-theme-green border-theme-green;
 }
 
