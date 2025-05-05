@@ -86,18 +86,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
             className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-            className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
-          />
-        </div>
+        
         <div className="mb-4">
           <label htmlFor="about" className="block text-sm font-medium text-gray-700">About</label>
           <textarea

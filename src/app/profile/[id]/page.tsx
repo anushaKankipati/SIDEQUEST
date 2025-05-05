@@ -7,7 +7,7 @@ import AdItem from "@/src/components/AdItem";
 import Link from "next/link";
 import prisma from "@/libs/prismadb";
 import Image from "next/image";
-import MessageButton from "./MessageButton";
+import MessageButton from "../../../components/MessageButton";
 
 type Props = {
   params: {
@@ -95,7 +95,6 @@ export default async function ProfilePage(args: Props) {
                 <h1 className="text-3xl font-bold text-gray-900 mt-1">
                   {user.name}
                 </h1>
-                <p className="text-gray-600 text-m mt-2">{user.email}</p>
                 <p className="text-gray-500 text-s mt-4">
                   Joined: {formatDate(user.createdAt)}
                 </p>
@@ -111,7 +110,9 @@ export default async function ProfilePage(args: Props) {
                 <FontAwesomeIcon icon={faPencil} className="w-6 h-6" />
               </Link>
             ) : (
-              <MessageButton userId={user.id} />
+              <div className="absolute top-0 right-0 mt-4">
+                <MessageButton userId={user.id} />
+              </div>
             )}
           </div>
 
