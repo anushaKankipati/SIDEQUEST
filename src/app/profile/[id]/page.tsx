@@ -95,7 +95,6 @@ export default async function ProfilePage(args: Props) {
                 <h1 className="text-3xl font-bold text-gray-900 mt-1">
                   {user.name}
                 </h1>
-                <p className="text-gray-600 text-m mt-2">{user.email}</p>
                 <p className="text-gray-500 text-s mt-4">
                   Joined: {formatDate(user.createdAt)}
                 </p>
