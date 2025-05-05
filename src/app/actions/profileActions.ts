@@ -15,12 +15,14 @@ export async function createProfile(formData: FormData) {
 
   try {
     const skills = data.skills ? JSON.parse(data.skills as string) : []
+    const socials = data.socials ? JSON.parse(data.socials as string) : []
     const newProfileData = {
       name: data.name as string,
       email: session.user.email,
       about: data.about as string,
       Certifications: data.certifications as string,
       skills: skills,
+      socials: socials,
       image: data.image as string,
     }
 
@@ -48,11 +50,13 @@ export async function updateProfile(formData: FormData) {
 
   try {
     const skills = data.skills ? JSON.parse(data.skills as string) : []
+    const socials = data.socials ? JSON.parse(data.socials as string) : []
     const profileData = {
       name: data.name as string,
       about: data.about as string,
       Certifications: data.certifications as string,
       skills: skills,
+      socials: socials,
       image: data.image as string,
     }
 

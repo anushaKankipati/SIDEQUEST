@@ -10,6 +10,7 @@ import type { User } from "@prisma/client"
 
 import SubmitButton from "./SubmitButton"
 import SkillTags from "./SkillTags"
+import SocialLinks from "./SocialLinks"
 import { createProfile, updateProfile } from "@/src/app/actions/profileActions"
 import SingleImageUpload from "./SingleImageUpload"
 
@@ -21,12 +22,14 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   const router = useRouter()
   const [profilePic, setProfilePic] = useState<UploadResponse | undefined>(undefined)
   const [skills, setSkills] = useState<string[]>(user?.skills || [])
+  const [socials, setSocials] = useState<string[]>(user?.socials || [])
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
     about: user?.about || "",
     certifications: user?.Certifications || "",
   })
+  const [socialErrors, setSocialErrors] = useState<{ [key: number]: string }>({})
 
   useEffect(() => {
     if (user) {
@@ -37,6 +40,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
         certifications: user.Certifications || "",
       })
       setSkills(user.skills)
+      setSocials(user.socials)
       setProfilePic(user.image ? ({ url: user.image } as UploadResponse) : undefined)
     }
   }, [user])
@@ -49,6 +53,17 @@ export default function ProfileForm({ user }: ProfileFormProps) {
     submitData.append("about", formData.about)
     submitData.append("certifications", formData.certifications)
     submitData.append("skills", JSON.stringify(skills))
+    submitData.append("socials", JSON.stringify(socials))
+    
+    // Add https:// to social links if they don't have a protocol
+    const processedSocials = socials.map(social => {
+      if (!social.startsWith("http://") && !social.startsWith("https://")) {
+        return `https://${social}`
+      }
+      return social
+    })
+    submitData.append("socials", JSON.stringify(processedSocials))
+    
     submitData.append("image", profilePic?.url || "")
 
     try {
@@ -69,6 +84,45 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  function handleSocialChange(index: number, value: string) {
+    const newSocials = [...socials]
+    newSocials[index] = value
+    setSocials(newSocials)
+
+    // Clear error when input is empty
+    if (!value) {
+      const newErrors = { ...socialErrors }
+      delete newErrors[index]
+      setSocialErrors(newErrors)
+      return
+    }
+
+    // Validate URL
+    try {
+      // If URL doesn't start with http:// or https://, add https://
+      let urlToValidate = value
+      if (!value.startsWith("http://") && !value.startsWith("https://")) {
+        urlToValidate = `https://${value}`
+      }
+      
+      new URL(urlToValidate) // This will throw if the URL is invalid
+      // Clear error if URL is valid
+      const newErrors = { ...socialErrors }
+      delete newErrors[index]
+      setSocialErrors(newErrors)
+    } catch (error) {
+      setSocialErrors(prev => ({ ...prev, [index]: "Please enter a valid URL" }))
+    }
+  }
+
+  function addSocial() {
+    setSocials([...socials, ""])
+  }
+
+  function removeSocial(index: number) {
+    setSocials(socials.filter((_, i) => i !== index))
   }
 
   return (
@@ -109,12 +163,17 @@ export default function ProfileForm({ user }: ProfileFormProps) {
             className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           ></textarea>
         </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Social Media Links</label>
+          <SocialLinks links={socials} setLinks={setSocials} />
+        </div>
       </div>
 
       <div className="grow lg:pt-2">
-      <label htmlFor="dateCreated" className="block text-sm font-medium text-gray-700">
-            Profile Image
-          </label>
+        <label htmlFor="dateCreated" className="block text-sm font-medium text-gray-700">
+          Profile Image
+        </label>
         <div className="mb-4">
           <SingleImageUpload file={profilePic} setFile={setProfilePic} />
         </div>
