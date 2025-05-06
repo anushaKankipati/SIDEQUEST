@@ -116,6 +116,7 @@ export default function SearchForm({ onSearch }: Props) {
               name="min"
               type="number"
               min="0"
+              step = "0.1"
               onKeyDown={(e) => {
                 if (e.key =="e"||e.key == "-"){
                   e.preventDefault();
@@ -131,6 +132,7 @@ export default function SearchForm({ onSearch }: Props) {
               name="max"
               type="number"
               min="0"
+              step = "0.1"
               onKeyDown={(e) => {
                 if (e.key =="e"||e.key == "-"){
                   e.preventDefault();

@@ -1,6 +1,7 @@
 import prisma from "@/libs/prismadb"
 
 import getSession from "./getSession"
+import ActiveStatus from "@/src/components/ActiveStatus";
 
 export default async function getUsers() {
   const session = await getSession(); 
@@ -19,7 +20,8 @@ export default async function getUsers() {
         }
       }
     }); 
-    return users.sort((a, b) => {
+    const activeUsers = users.filter((user) => user.activeStatus); // filter out inactive users
+    return activeUsers.sort((a, b) => {
       // Calculate completeness score for each user
       const getScore = (user: any) => {
         let score = 0;
