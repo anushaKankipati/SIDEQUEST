@@ -65,7 +65,7 @@ export default function Body({ initialMessages }: BodyProps) {
   }, [conversationId]);
 
   return (
-    <div className="mt-14 flex-1 overflow-y-auto relative">
+    <div className="mt-14 flex-1 overflow-y-auto">
       <BackButton/>
       <div className="lg:mt-0 mt-8">
         {messages?.map((message, i) => (
