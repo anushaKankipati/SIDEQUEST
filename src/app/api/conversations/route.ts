@@ -2,6 +2,22 @@ import getCurrentUser from "../../actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
 import { pusherServer } from "@/libs/pusher";
+import getConversations from "../../actions/getConversations";
+
+export async function GET(request: Request) {
+  try {
+    const currentUser = await getCurrentUser(); 
+    if (!currentUser?.id || !currentUser?.email) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const conversations = await getConversations();
+    return NextResponse.json(conversations);
+
+  } catch(error: any) {
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
 
 export async function POST(request: Request) {
   try {
