@@ -22,7 +22,8 @@ model User {
   hashedPassword String?
   skills         String[]
   about          String?
-  Certifications String?
+  activeStatus   Boolean @default(false)
+  certifications Certification[]
   socials        String[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -107,3 +108,19 @@ model Quest {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade) // TODO: confirm this works when we do a prisma delete and not an admin delete
 }
+model Certification {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  documentUrl  String?
+  documentFile Json?    // Store the UploadResponse object
+  issuedDate   DateTime
+  expiryDate   DateTime
+  issuer       String
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+}
+
