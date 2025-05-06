@@ -1,43 +1,9 @@
-import prisma from "@/libs/prismadb";
-import UserCard from "@/src/components/UserCard";
 
-async function getUsers() {
-  try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        image: true,
-        about: true,
-        skills: true,
-        createdAt: true,
-      },
-    });
-
-    // Sort users based on profile completeness
-    return users.sort((a, b) => {
-      // Calculate completeness score for each user
-      const getScore = (user: any) => {
-        let score = 0;
-        if (user.about) score += 2;
-        if (user.skills && user.skills.length > 0) score += user.skills.length;
-        return score;
-      };
-
-      const scoreA = getScore(a);
-      const scoreB = getScore(b);
-
-      // Sort by score in descending order
-      return scoreB - scoreA;
-    });
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    return [];
-  }
-}
+import getUsers from "@/src/app/actions/getUsers"
+import UserCard from "@/src/components/UserCard"
 
 export default async function Users() {
-  const users = await getUsers();
+  const users = await getUsers()
 
   return (
     <div className="fixed inset-0 top-16">
@@ -57,5 +23,5 @@ export default async function Users() {
         </div>
       </div>
     </div>
-  );
+  )
 }
