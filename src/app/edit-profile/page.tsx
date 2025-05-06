@@ -12,6 +12,9 @@ export default async function EditProfilePage() {
 
   const user = await prisma.user.findUnique({
     where: { email: session.user.email },
+    include: {
+      certifications: true
+    }
   })
 
   return (
