@@ -14,6 +14,7 @@ export default {
       screens: {
         tall: { raw: "(min-height: 770px)" },
         short: { raw: "(max-height: 769px)" },
+        "xs": "520px",
       },
     },
   },
