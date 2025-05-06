@@ -1,13 +1,12 @@
 "use client";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { User } from "@prisma/client";
-import useRoutes from "../hooks/useRoute";
 import PrimaryLeftHeader from "./PrimaryLeftHeader";
 import MobileLeftHeader from "./MobileLeftHeader";
 
