@@ -16,10 +16,8 @@ interface Props {
 }
 
 export default function Header({ user }: Props) {
-  const { data: session } = useSession();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const routes = useRoutes();
 
   // Use the server-side user prop to determine authentication state
   const isAuthenticated = user !== null && user !== undefined;

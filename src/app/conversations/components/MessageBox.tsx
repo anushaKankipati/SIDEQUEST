@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 interface MessageBoxProps {
-  isLast: Boolean;
+  isLast: boolean;
   data: FullMessageType;
 }
 

@@ -1,7 +1,6 @@
 import prisma from "@/libs/prismadb"
 
 import getSession from "./getSession"
-import ActiveStatus from "@/src/components/ActiveStatus";
 
 export default async function getUsers() {
   const session = await getSession(); 

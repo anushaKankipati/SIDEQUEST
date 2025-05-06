@@ -2,7 +2,6 @@
 
 import useConversation from "@/src/hooks/useConversation";
 import { FullMessageType } from "@/src/types";
-import { init } from "next/dist/compiled/webpack/webpack";
 import { useState, useRef, useEffect } from "react";
 import MessageBox from "./MessageBox";
 import axios from "axios";

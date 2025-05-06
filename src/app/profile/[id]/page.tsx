@@ -4,7 +4,6 @@ import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faLink, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin, faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
-import AdItem from "@/src/components/AdItem";
 import Link from "next/link";
 import prisma from "@/libs/prismadb";
 import Image from "next/image";

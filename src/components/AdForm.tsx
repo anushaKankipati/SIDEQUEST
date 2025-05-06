@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast from "react-hot-toast";
 import AdTextInputs, { AdTexts } from "./AdTextInputs";
-import LocationPicker, { Location } from "./LocationPicker";
+import  { Location } from "./LocationPicker";
 import SubmitButton from "./SubmitButton";
 import UploadArea from "./UploadArea";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
-import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
 import SkillTags from "./SkillTags";

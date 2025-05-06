@@ -1,12 +1,11 @@
 import { Loader } from "@googlemaps/js-api-loader";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Location } from "./LocationPicker";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 
 
 export default function DistancePicker({
     onChange,
-    defaultRadius,
   }:{
     onChange:({radius, center} : {radius: number, center: Location}) => void;
     defaultRadius:number;

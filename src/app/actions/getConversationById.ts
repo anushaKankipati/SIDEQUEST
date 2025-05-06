@@ -1,7 +1,6 @@
 import prisma from "@/libs/prismadb";
 
 import getCurrentUser from "./getCurrentUser";
-import ConversationId from "../conversations/[conversationId]/page";
 
 export default async function getConversationById(conversationId: string) {
   try {
