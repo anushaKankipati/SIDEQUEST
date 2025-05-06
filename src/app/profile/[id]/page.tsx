@@ -2,7 +2,7 @@ import { formatDate } from "@/libs/helpers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faLink, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin, faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import AdItem from "@/src/components/AdItem";
 import Link from "next/link";
@@ -31,11 +31,13 @@ export async function getUserById(id: string): Promise<any> {
           category: true,
           createdAt: true,
         },
+        
         orderBy: {
           createdAt: "desc",
         },
         take: 5, // Show only the 5 most recent quests
       },
+      certifications: true,
     },
   });
 
@@ -102,40 +104,47 @@ export default async function ProfilePage(args: Props) {
                 {user.socials && user.socials.length > 0 && (
                   <div className="flex flex-wrap gap-4 mt-2 mb-2">
                     {user.socials.map((social: string, index: number) => {
-                      const url = new URL(social);
-                      let icon = null;
-                      let label = url.hostname;
-
-                      if (url.hostname.includes('github.com')) {
-                        icon = <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />;
-                        label = 'GitHub';
-                      } else if (url.hostname.includes('linkedin.com')) {
-                        icon = <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5" />;
-                        label = 'LinkedIn';
-                      } else if (url.hostname.includes('youtube.com')) {
-                        icon = <FontAwesomeIcon icon={faYoutube} className="w-5 h-5" />;
-                        label = 'YouTube';
-                      } else if (url.hostname.includes('instagram.com')) {
-                        icon = <FontAwesomeIcon icon={faInstagram} className="w-5 h-5" />;
-                        label = 'Instagram';
-                      } else {
-                        icon = <FontAwesomeIcon icon={faLink} className="w-5 h-5" />;
-                        label = url.hostname.replace('www.', '');
+                      if (!social) return null;
+                      
+                      try {
+                        const url = new URL(social);
+                        let icon = null;
+                        let label = url.hostname;
+    
+                        if (url.hostname.includes('github.com')) {
+                          icon = <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />;
+                          label = 'GitHub';
+                        } else if (url.hostname.includes('linkedin.com')) {
+                          icon = <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5" />;
+                          label = 'LinkedIn';
+                        } else if (url.hostname.includes('youtube.com')) {
+                          icon = <FontAwesomeIcon icon={faYoutube} className="w-5 h-5" />;
+                          label = 'YouTube';
+                        } else if (url.hostname.includes('instagram.com')) {
+                          icon = <FontAwesomeIcon icon={faInstagram} className="w-5 h-5" />;
+                          label = 'Instagram';
+                        } else {
+                          icon = <FontAwesomeIcon icon={faLink} className="w-5 h-5" />;
+                          label = url.hostname.replace('www.', '');
+                        }
+    
+                        return (
+                          <a
+                            key={index}
+                            href={social}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-theme-green hover:text-emerald-600 transition-colors"
+                            title={social}
+                          >
+                            {icon}
+                            <span className="text-sm">{label}</span>
+                          </a>
+                        );
+                      } catch (error) {
+                        console.warn(`Invalid URL skipped in socials: ${social}`, error);
+                        return null;
                       }
-
-                      return (
-                        <a
-                          key={index}
-                          href={social}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-theme-green hover:text-emerald-600 transition-colors"
-                          title={social}
-                        >
-                          {icon}
-                          <span className="text-sm">{label}</span>
-                        </a>
-                      );
                     })}
                   </div>
                 )}
@@ -179,12 +188,46 @@ export default async function ProfilePage(args: Props) {
               </div>
             )}
 
-            {user.Certifications && (
+            {user.certifications && (
               <div className="p-6 bg-gray-100 rounded-2xl">
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
                   Certifications
                 </h3>
-                <p className="mt-1 text-gray-700">{user.Certifications}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {user.certifications.map((cert: any, index: number) => (
+                    <div key={index} className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                      <h4 className="font-medium text-gray-900 mb-2">{cert.name}</h4>
+                      <p className="text-sm text-gray-600 mb-2">Issued by: {cert.issuer}</p>
+                      <div className="text-sm text-gray-600 mb-3">
+                        <p>Issued: {new Date(cert.issuedDate).toLocaleDateString()}</p>
+                        <p>Expires: {new Date(cert.expiryDate).toLocaleDateString()}</p>
+                      </div>
+                      {(cert.documentUrl || cert.documentFile) && (
+                        <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                          <div className="flex items-center gap-3">
+                            <FontAwesomeIcon icon={faFileAlt} className="text-gray-400 text-xl" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-900 truncate">
+                                {cert.documentFile ? (cert.documentFile as any).name : 'External Document'}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {cert.documentFile ? `${((cert.documentFile as any).size / 1024 / 1024).toFixed(2)} MB` : 'External Link'}
+                              </p>
+                            </div>
+                            <a
+                              href={cert.documentUrl || (cert.documentFile as any)?.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 text-theme-green hover:text-emerald-600 transition-colors"
+                            >
+                              <span className="text-sm">View</span>
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
