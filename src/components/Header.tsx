@@ -1,17 +1,15 @@
 "use client";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Session } from "next-auth";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import TextLogo from "./TextLogo";
-import { Redirect } from "next";
+import { useState } from "react";
 import type { User } from "@prisma/client";
 import useRoutes from "../hooks/useRoute";
-import DesktopItem from "./sidebar/DesktopItem";
+import PrimaryLeftHeader from "./PrimaryLeftHeader";
+import MobileLeftHeader from "./MobileLeftHeader";
 
 interface Props {
   user: User | null;
@@ -28,24 +26,11 @@ export default function Header({ user }: Props) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
-      <div className="flex justify-between items-center space-x-2">
-        <Link href="/">
-          <TextLogo />
-        </Link>
-        <ul className="flex justify-evenly items-center list-none space-x-1">
-          {routes.map((item) => (
-            <DesktopItem
-              key={item.label}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              active={item.active}
-            />
-          ))}
-        </ul>
-      </div>
+      <MobileLeftHeader/>
+      <PrimaryLeftHeader/>
       <nav className="items-center flex gap-4 *:rounded">
         {isAuthenticated && (
+          // TODO: adjust right margin here 
           <Link
             href="/new"
             className="border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2"
