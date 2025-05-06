@@ -20,7 +20,7 @@ export default function DesktopItem({
   const isMessageIcon = label === "Chat";
   const unreadCount = useUnreadConversationCount();
   return (
-    <li>
+    <li className="list-none">
       <Link
         href={href}
         className={clsx(
