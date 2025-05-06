@@ -23,6 +23,7 @@ model User {
   skills         String[]
   about          String?
   Certifications String?
+  socials        String[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   Quest          Quest[]

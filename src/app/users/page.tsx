@@ -40,7 +40,7 @@ export default async function Users() {
   const users = await getUsers();
 
   return (
-    <div className="hidden lg:block fixed inset-0 top-16">
+    <div className="fixed inset-0 top-16">
       <div className="h-full">
         {/* Main content area - independently scrollable */}
         <div className="h-full overflow-y-auto bg-gray-100">

@@ -2,7 +2,8 @@ import { formatDate } from "@/libs/helpers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faGithub, faLinkedin, faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import AdItem from "@/src/components/AdItem";
 import Link from "next/link";
 import prisma from "@/libs/prismadb";
@@ -95,9 +96,49 @@ export default async function ProfilePage(args: Props) {
                 <h1 className="text-3xl font-bold text-gray-900 mt-1">
                   {user.name}
                 </h1>
-                <p className="text-gray-500 text-s mt-4">
+                <p className="text-gray-500 text-s mt-4 mb-3">
                   Joined: {formatDate(user.createdAt)}
                 </p>
+                {user.socials && user.socials.length > 0 && (
+                  <div className="flex flex-wrap gap-4 mt-2 mb-2">
+                    {user.socials.map((social: string, index: number) => {
+                      const url = new URL(social);
+                      let icon = null;
+                      let label = url.hostname;
+
+                      if (url.hostname.includes('github.com')) {
+                        icon = <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />;
+                        label = 'GitHub';
+                      } else if (url.hostname.includes('linkedin.com')) {
+                        icon = <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5" />;
+                        label = 'LinkedIn';
+                      } else if (url.hostname.includes('youtube.com')) {
+                        icon = <FontAwesomeIcon icon={faYoutube} className="w-5 h-5" />;
+                        label = 'YouTube';
+                      } else if (url.hostname.includes('instagram.com')) {
+                        icon = <FontAwesomeIcon icon={faInstagram} className="w-5 h-5" />;
+                        label = 'Instagram';
+                      } else {
+                        icon = <FontAwesomeIcon icon={faLink} className="w-5 h-5" />;
+                        label = url.hostname.replace('www.', '');
+                      }
+
+                      return (
+                        <a
+                          key={index}
+                          href={social}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-theme-green hover:text-emerald-600 transition-colors"
+                          title={social}
+                        >
+                          {icon}
+                          <span className="text-sm">{label}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
 
