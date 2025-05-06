@@ -10,7 +10,7 @@ interface ProfileDisplayProps {
 
 export default function ProfileDisplay({ user }: ProfileDisplayProps) {
   return (
-    <div className="max-w-4xl mx-auto p-6 mt-14">
+    <div className="border border-gray-300 rounded-xl max-w-4xl mx-auto p-6">
       {/* Profile Header */}
       <div className="relative">
         <div className="flex items-start space-x-6">
