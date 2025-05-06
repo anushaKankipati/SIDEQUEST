@@ -63,7 +63,7 @@ async function getRecommendedUsers(questTags: string[], questOwnerEmail: string)
       skills: true,
       email: true,
     },
-    take: 4, // Limit to 4 recommendations
+    take: 5, // Limit to 5 recommendations
   });
 
   // Sort users by number of matching skills
