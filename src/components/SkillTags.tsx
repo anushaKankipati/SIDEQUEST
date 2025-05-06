@@ -1,7 +1,7 @@
 "use client"; 
 
 import { useState } from "react";
-import preDefinedTags from "../../public/data/tags.json"
+import preDefinedTags from "../../public/data/cleaned_tags.json"
 
 
 type SkillTagsProps = {
