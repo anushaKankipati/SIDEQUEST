@@ -48,7 +48,7 @@ export default function MyFavoritesPage({
       <h1 className="text-2xl font-bold mb-6 text-center pt-10">
         Your Favorite Quests
       </h1>
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2">
+      <div className="flex mx-6 sm:mx-0 flex-col gap-6 lg:grid lg:grid-cols-2">
         {favoriteAds.map((ad) => (
           <AdItem
             key={ad.id}
