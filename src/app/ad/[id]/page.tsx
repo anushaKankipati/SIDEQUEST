@@ -45,6 +45,35 @@ export async function getQuestById(id: string): Promise<any> {
   };
 }
 
+async function getRecommendedUsers(questTags: string[], questOwnerEmail: string): Promise<any[]> {
+  const users = await prisma.user.findMany({
+    where: {
+      skills: {
+        hasSome: questTags
+      },
+      // Exclude the quest owner
+      NOT: {
+        email: questOwnerEmail
+      }
+    },
+    select: {
+      id: true,
+      name: true,
+      image: true,
+      skills: true,
+      email: true,
+    },
+    take: 5, // Limit to 5 recommendations
+  });
+
+  // Sort users by number of matching skills
+  return users.sort((a, b) => {
+    const aMatches = a.skills.filter((skill: string) => questTags.includes(skill)).length;
+    const bMatches = b.skills.filter((skill: string) => questTags.includes(skill)).length;
+    return bMatches - aMatches;
+  });
+}
+
 export default async function SingleAdPage(args: Props) {
   const params = await args.params;
   const { id } = params;
@@ -56,6 +85,9 @@ export default async function SingleAdPage(args: Props) {
   const session = await getServerSession(authOptions);
   const isHourlyRateQuest = adDoc?.category === "hourly";
   const isCurrentUser = session?.user?.email === adDoc.userEmail;
+
+  // Get recommended users if this is the current user's quest
+  const recommendedUsers = isCurrentUser ? await getRecommendedUsers(adDoc.tags, adDoc.userEmail) : [];
 
   return (
     <div className="flex absolute inset-0 top-16">
@@ -116,6 +148,68 @@ export default async function SingleAdPage(args: Props) {
             <DeleteButton id={adDoc.id.toString()} />
           </div>
         )}
+
+        {/* Recommended Users Section */}
+        {isCurrentUser && recommendedUsers.length > 0 && (
+          <div className="mt-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">Recommended Questers</h2>
+              <span className="text-sm text-gray-500">{recommendedUsers.length} matches found</span>
+            </div>
+            <div className="flex gap-4 overflow-x-auto pb-4">
+              {recommendedUsers.map((user) => (
+                <div key={user.id} className="relative flex-none w-[280px]">
+                  <Link
+                    href={`/profile/${user.id}`}
+                    className="block bg-gray-50 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200"
+                  >
+                    <div className="p-4">
+                      <div className="flex flex-col">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center space-x-3">
+                            <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                              <Image
+                                src={user.image || "/images/defaultavatar.jpg"}
+                                alt={`${user.name}'s profile`}
+                                fill
+                                className="object-cover"
+                                sizes="48px"
+                              />
+                            </div>
+                            <div>
+                              <div className="text-base font-medium text-gray-900 group-hover:text-theme-green transition-colors">
+                                {user.name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {user.skills.filter((skill: string) => adDoc.tags.includes(skill)).length} matching skills
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {user.skills
+                            .filter((skill: string) => adDoc.tags.includes(skill))
+                            .map((skill: string, index: number) => (
+                              <span 
+                                key={index} 
+                                className="text-xs tag"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="absolute top-4 right-4 z-10">
+                    <MessageButton userId={user.id} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <p className="mt-8 text-sm grey-400">
           Posted: {formatDate(adDoc.createdAt)}
           <br />
@@ -153,6 +247,7 @@ export default async function SingleAdPage(args: Props) {
           </>
         ) : null}
       </div>
+      
     </div>
   );
 }
