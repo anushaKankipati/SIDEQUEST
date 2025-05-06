@@ -1,18 +1,15 @@
 "use server";
 
-import { useState, useEffect } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import MyAdsPageClient from "@/src/components/MyAdsPageClient";
 import prisma from "@/libs/prismadb";
 
 async function fetchUserPostedAds(userEmail: string) {
-  // Fetch the user's posted ads
   const userAds = await prisma.quest.findMany({
     where: { user: { email: userEmail } },
   });
 
-  // Fetch the user's favorite ad IDs
   const user = await prisma.user.findUnique({
     where: { email: userEmail },
     select: { favoriteIds: true },
@@ -20,13 +17,10 @@ async function fetchUserPostedAds(userEmail: string) {
 
   const favoriteIds = user?.favoriteIds || [];
 
-  // Mark the user's posted ads as favorited if they are in the favoriteIds list
-  const adsWithFavoriteStatus = userAds.map((ad) => ({
+  return userAds.map((ad) => ({
     ...ad,
     isFavorited: favoriteIds.includes(ad.id),
   }));
-
-  return adsWithFavoriteStatus;
 }
 
 export default async function MyAdsPage() {
@@ -34,11 +28,26 @@ export default async function MyAdsPage() {
   const email = session?.user?.email;
 
   if (!email) {
-    return <h1>No Email Found</h1>;
+    return (
+      <div className="container mb-6 my-12 mx-auto">
+        <h1 className="text-2xl font-bold mb-6 text-center pt-10">
+          No Email Found
+        </h1>
+      </div>
+    );
   }
 
-  // Fetch only the user's posted ads with their favorite status
   const ads = await fetchUserPostedAds(email);
+
+  if (ads.length === 0) {
+    return (
+      <div className="container mb-6 my-12 mx-auto">
+        <h1 className="text-2xl font-bold mb-6 text-center pt-10">
+          No Quests Found
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <MyAdsPageClient
