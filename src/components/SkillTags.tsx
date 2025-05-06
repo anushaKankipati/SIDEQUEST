@@ -93,10 +93,10 @@ export default function SkillTags({tags, setTags }: SkillTagsProps) {
             {skill}
             <button
               type="button"
-              className="remove-tag"
+              className="remove-tag text-red-400 text-md font-medium"
               onClick={() => removeSkill(skill)}
             >
-              x
+              ×
             </button>
           </span>
         ))}
