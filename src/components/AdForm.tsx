@@ -51,9 +51,9 @@ export default function AdForm({
     }
     const result = id ? await updateAd(formData) : await createAd(formData);
     if (!result) {
-      toast.error(`Failed to ${id ? "Update" : "Create"} Task`);
+      toast.error(`Failed to ${id ? "Update" : "Create"} Quest`);
     } else {
-      toast.success(`Task Successfully ${id ? "Updated" : "Created"}`);
+      toast.success(`Quest Successfully ${id ? "Updated" : "Created"}`);
       redirect("/ad/" + result.id); //change made here
     }
   }

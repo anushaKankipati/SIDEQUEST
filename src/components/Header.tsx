@@ -46,7 +46,7 @@ export default function Header({ user }: Props) {
               onClick={() => router.push("/login")}
               className="bg-theme-green text-white h-full text-theme-green inline-flex gap-1 items-center px-2 py-2"
             >
-              Login/Sign Up to Post Tasks
+              Login/Sign Up to Post Quests
             </button>
           </>
         )}
