@@ -156,9 +156,9 @@ export default async function SingleAdPage(args: Props) {
               <h2 className="text-xl font-semibold text-gray-800">Recommended Questers</h2>
               <span className="text-sm text-gray-500">{recommendedUsers.length} matches found</span>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex gap-4 overflow-x-auto pb-4">
               {recommendedUsers.map((user) => (
-                <div key={user.id} className="relative">
+                <div key={user.id} className="relative flex-none w-[280px]">
                   <Link
                     href={`/profile/${user.id}`}
                     className="block bg-gray-50 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200"
