@@ -9,30 +9,43 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import TextLogo from "./TextLogo";
 import { Redirect } from "next";
-import type { User } from "@prisma/client"
+import type { User } from "@prisma/client";
+import useRoutes from "../hooks/useRoute";
+import DesktopItem from "./sidebar/DesktopItem";
 
 interface Props {
   user: User | null;
 }
 
 export default function Header({ user }: Props) {
-  const session = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const routes = useRoutes();
 
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.refresh();
-    }
-  }, [session?.status, router]);
+  // Use the server-side user prop to determine authentication state
+  const isAuthenticated = user !== null && user !== undefined;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
-      <Link href="/">
-        <TextLogo />
-      </Link>
+      <div className="flex justify-between items-center space-x-2">
+        <Link href="/">
+          <TextLogo />
+        </Link>
+        <ul className="flex justify-evenly items-center list-none space-x-1">
+          {routes.map((item) => (
+            <DesktopItem
+              key={item.label}
+              href={item.href}
+              label={item.label}
+              icon={item.icon}
+              active={item.active}
+            />
+          ))}
+        </ul>
+      </div>
       <nav className="items-center flex gap-4 *:rounded">
-        {session?.data?.user && (
+        {isAuthenticated && (
           <Link
             href="/new"
             className="border h-full border-theme-green text-theme-green inline-flex gap-1 items-center px-2 mr-4 py-2"
@@ -42,7 +55,7 @@ export default function Header({ user }: Props) {
           </Link>
         )}
         <span className="border-r"></span>
-        {!session?.data?.user && (
+        {!isAuthenticated && (
           <>
             <button
               onClick={() => router.push("/login")}
@@ -52,7 +65,7 @@ export default function Header({ user }: Props) {
             </button>
           </>
         )}
-        {session?.data?.user && (
+        {isAuthenticated && (
           <>
             <div className="relative">
               <button
@@ -61,8 +74,10 @@ export default function Header({ user }: Props) {
               >
                 <div className="relative w-9 h-9 rounded-md overflow-hidden">
                   <Image
-                    className={`object-cover w-full h-full ${showDropdown ? "z-50" : ""}`}
-                    src={user?.image || session?.data.user?.image || "/images/defaultavatar.jpg"}
+                    className={`object-cover w-full h-full ${
+                      showDropdown ? "z-50" : ""
+                    }`}
+                    src={user?.image || "/images/defaultavatar.jpg"}
                     alt="avatar"
                     fill
                     sizes="36px"

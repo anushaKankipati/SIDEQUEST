@@ -29,7 +29,6 @@ export default function HomeAdsView() {
     const fetchFavorites = async () => {
       if(!userEmail) return;
       try {
-        console.log("Fetching favs for email:", userEmail);
         const response = await fetch(`/api/favorites?userEmail=${userEmail}`, {
           method: "GET",
           headers: {

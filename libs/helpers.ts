@@ -15,7 +15,7 @@ export function formatMoney(amount: number): string {
 export const defaultRadius = 50 * 1000;
 
 export function formatDate(date: Date): string {
-  return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  return date.toLocaleDateString();
 }
 
 export function toTitleCase(text: string): string {

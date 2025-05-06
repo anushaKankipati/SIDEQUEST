@@ -12,6 +12,7 @@ import DeleteButton from "@/src/components/DeleteButton";
 import prisma from "@/libs/prismadb";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
+import MessageButton from "@/src/components/MessageButton";
 
 type Props = {
   params: {
@@ -54,6 +55,8 @@ export default async function SingleAdPage(args: Props) {
   }
   const session = await getServerSession(authOptions);
   const isHourlyRateQuest = adDoc?.category === "hourly";
+  const isCurrentUser = session?.user?.email === adDoc.userEmail;
+
   return (
     <div className="flex absolute inset-0 top-16">
       <div className="w-1/2 grow flex flex-col relative">
@@ -71,7 +74,7 @@ export default async function SingleAdPage(args: Props) {
 
         {/* User Information */}
         <div className="mt-4 flex items-center space-x-4">
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2">
             <p className="font-semibold">Posted by</p>
             <Link
               href={`/profile/${adDoc.user.id}`}
@@ -80,17 +83,24 @@ export default async function SingleAdPage(args: Props) {
               {adDoc.user.name}
             </Link>
 
-            {adDoc.user.image && (
-              <div className="relative w-[30px] h-[30px] rounded-full overflow-hidden">
-                <Image
-                  src={adDoc.user.image || "/placeholder.svg"}
-                  alt={`${adDoc.user.name}'s profile`}
-                  fill
-                  className="object-cover"
-                  sizes="30px"
-                />
-              </div>
-            )}
+            <div className="flex items-center space-x-2">
+              {adDoc.user.image && (
+                <div className="relative w-[30px] h-[30px] rounded-full overflow-hidden">
+                  <Image
+                    src={adDoc.user.image || "/placeholder.svg"}
+                    alt={`${adDoc.user.name}'s profile`}
+                    fill
+                    className="object-cover"
+                    sizes="30px"
+                  />
+                </div>
+              )}
+              {!isCurrentUser && session && (
+                <div className="ml-1">
+                  <MessageButton userId={adDoc.user.id} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
