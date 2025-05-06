@@ -19,7 +19,21 @@ export default async function getUsers() {
         }
       }
     }); 
-    return users; 
+    return users.sort((a, b) => {
+      // Calculate completeness score for each user
+      const getScore = (user: any) => {
+        let score = 0;
+        if (user.about) score += 2;
+        if (user.skills && user.skills.length > 0) score += user.skills.length;
+        return score;
+      };
+
+      const scoreA = getScore(a);
+      const scoreB = getScore(b);
+
+      // Sort by score in descending order
+      return scoreB - scoreA;
+    }); 
   } catch(error: any) {
     return []; 
   }

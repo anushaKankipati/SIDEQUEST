@@ -6,16 +6,19 @@ import { toast } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
 import type { UploadResponse } from "imagekit/dist/libs/interfaces"
-import type { User } from "@prisma/client"
+import type { User, Certification } from "@prisma/client"
 
 import SubmitButton from "./SubmitButton"
 import SkillTags from "./SkillTags"
 import SocialLinks from "./SocialLinks"
+import CertificationLinks from "./CertificationLinks"
 import { createProfile, updateProfile } from "@/src/app/actions/profileActions"
 import SingleImageUpload from "./SingleImageUpload"
 
 interface ProfileFormProps {
-  user: User | null
+  user: (User & {
+    certifications: Certification[];
+  }) | null
 }
 
 export default function ProfileForm({ user }: ProfileFormProps) {
@@ -23,39 +26,73 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   const [profilePic, setProfilePic] = useState<UploadResponse | undefined>(undefined)
   const [skills, setSkills] = useState<string[]>(user?.skills || [])
   const [socials, setSocials] = useState<string[]>(user?.socials || [])
+  const [certifications, setCertifications] = useState<Certification[]>(user?.certifications || [])
   const [formData, setFormData] = useState({
     name: user?.name || "",
-    email: user?.email || "",
     about: user?.about || "",
-    certifications: user?.Certifications || "",
   })
-  const [socialErrors, setSocialErrors] = useState<{ [key: number]: string }>({})
 
   useEffect(() => {
     if (user) {
       setFormData({
         name: user.name as string,
-        email: user.email as string,
-        about: user.about || "",
-        certifications: user.Certifications || "",
+        about: user.about || ""
       })
-      setSkills(user.skills)
-      setSocials(user.socials)
+      setSkills(user.skills || [])
+      setSocials(user.socials || [])
       setProfilePic(user.image ? ({ url: user.image } as UploadResponse) : undefined)
+      setCertifications(user.certifications || [])
     }
   }, [user])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+  
+    
+    const hasInvalidDates = certifications.some(cert => {
+      const issued = new Date(cert.issuedDate)
+      const expiry = new Date(cert.expiryDate)
+      return isNaN(issued.getTime()) || isNaN(expiry.getTime()) || issued >= expiry
+    });
+  
+    if (hasInvalidDates) {
+      return;
+    }
+    const hasInvalidSocialLinks = socials.some(link => {
+      if (!link || typeof link !== "string") return true
+      try {
+        let validated = link
+        if (!link.startsWith("http://") && !link.startsWith("https://")) {
+          validated = `https://${link}`
+        }
+        new URL(validated)
+        return false
+      } catch {
+        return true
+      }
+    })
+  
+    if (hasInvalidSocialLinks) {
+      return
+    }
+  
+    // Proceed with form submission...
     const submitData = new FormData()
     submitData.append("name", formData.name)
-    submitData.append("email", formData.email)
     submitData.append("about", formData.about)
-    submitData.append("certifications", formData.certifications)
+  
+    const certificationsToSubmit = certifications?.map(cert => ({
+      name: cert.name,
+      documentUrl: cert.documentUrl || null,
+      documentFile: cert.documentFile || null,
+      issuedDate: new Date(cert.issuedDate).toISOString(),
+      expiryDate: new Date(cert.expiryDate).toISOString(),
+      issuer: cert.issuer
+    })) || [];
+    submitData.append("certifications", JSON.stringify(certificationsToSubmit))
+  
     submitData.append("skills", JSON.stringify(skills))
-    submitData.append("socials", JSON.stringify(socials))
-    
-    // Add https:// to social links if they don't have a protocol
+  
     const processedSocials = socials.map(social => {
       if (!social.startsWith("http://") && !social.startsWith("https://")) {
         return `https://${social}`
@@ -63,9 +100,9 @@ export default function ProfileForm({ user }: ProfileFormProps) {
       return social
     })
     submitData.append("socials", JSON.stringify(processedSocials))
-    
+  
     submitData.append("image", profilePic?.url || "")
-
+  
     try {
       const result = user ? await updateProfile(submitData) : await createProfile(submitData)
       if (result.error) {
@@ -80,53 +117,43 @@ export default function ProfileForm({ user }: ProfileFormProps) {
       toast.error("An error occurred while saving the profile")
     }
   }
+  
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  function handleSocialChange(index: number, value: string) {
-    const newSocials = [...socials]
-    newSocials[index] = value
-    setSocials(newSocials)
-
-    // Clear error when input is empty
-    if (!value) {
-      const newErrors = { ...socialErrors }
-      delete newErrors[index]
-      setSocialErrors(newErrors)
-      return
+  function handleCertificationChange(index: number, field: keyof Certification, value: any) {
+    const newCertifications = [...certifications]
+    newCertifications[index] = {
+      ...newCertifications[index],
+      [field]: value
     }
-
-    // Validate URL
-    try {
-      // If URL doesn't start with http:// or https://, add https://
-      let urlToValidate = value
-      if (!value.startsWith("http://") && !value.startsWith("https://")) {
-        urlToValidate = `https://${value}`
-      }
-      
-      new URL(urlToValidate) // This will throw if the URL is invalid
-      // Clear error if URL is valid
-      const newErrors = { ...socialErrors }
-      delete newErrors[index]
-      setSocialErrors(newErrors)
-    } catch (error) {
-      setSocialErrors(prev => ({ ...prev, [index]: "Please enter a valid URL" }))
-    }
+    setCertifications(newCertifications)
   }
 
-  function addSocial() {
-    setSocials([...socials, ""])
+  function addCertification() {
+    setCertifications([...certifications, {
+      id: "",
+      name: '',
+      documentUrl: '',
+      documentFile: null,
+      issuedDate: new Date(),
+      expiryDate: new Date(),
+      issuer: '',
+      userId: user?.id || '',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }])
   }
 
-  function removeSocial(index: number) {
-    setSocials(socials.filter((_, i) => i !== index))
+  function removeCertification(index: number) {
+    setCertifications(certifications.filter((_, i) => i !== index))
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap">
+    <form onSubmit={handleSubmit} className="max-w-4xl mx-4 md:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap">
       <div className="grow pt-2">
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
@@ -152,16 +179,16 @@ export default function ProfileForm({ user }: ProfileFormProps) {
             className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
           ></textarea>
         </div>
+
         <div className="mb-4">
-          <label htmlFor="certifications" className="block text-sm font-medium text-gray-700">Certifications</label>
-          <textarea
-            id="certifications"
-            name="certifications"
-            value={formData.certifications}
-            onChange={handleInputChange}
-            rows={4}
-            className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
-          ></textarea>
+          <label className="block text-sm font-medium text-gray-700">Certifications</label>
+          <CertificationLinks 
+            certifications={certifications} 
+            setCertifications={setCertifications}
+            onCertificationChange={handleCertificationChange}
+            onAddCertification={addCertification}
+            onRemoveCertification={removeCertification}
+          />
         </div>
 
         <div className="mb-4">
