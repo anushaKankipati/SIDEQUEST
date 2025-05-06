@@ -30,13 +30,15 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   const [formData, setFormData] = useState({
     name: user?.name || "",
     about: user?.about || "",
+    activeStatus: user?.activeStatus || "Inactive",
   })
 
   useEffect(() => {
     if (user) {
       setFormData({
         name: user.name as string,
-        about: user.about || ""
+        about: user.about || "",
+        activeStatus: user.activeStatus ? "Active" : "Inactive",
       })
       setSkills(user.skills || [])
       setSocials(user.socials || [])
@@ -92,6 +94,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
     submitData.append("certifications", JSON.stringify(certificationsToSubmit))
   
     submitData.append("skills", JSON.stringify(skills))
+    submitData.append("activeStatus", String(formData.activeStatus))
   
     const processedSocials = socials.map(social => {
       if (!social.startsWith("http://") && !social.startsWith("https://")) {
@@ -151,6 +154,13 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   function removeCertification(index: number) {
     setCertifications(certifications.filter((_, i) => i !== index))
   }
+  function handleToggleChange() {
+    setFormData((prev) => ({
+      ...prev,
+      activeStatus: prev.activeStatus === "Active" ? "Inactive" : "Active",
+    }))
+  }
+ 
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-4 md:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap">
@@ -190,6 +200,31 @@ export default function ProfileForm({ user }: ProfileFormProps) {
             onRemoveCertification={removeCertification}
           />
         </div>
+
+        <div className="mb-4">
+ <span className="block text-sm font-medium text-gray-700 mb-0">
+   ACTIVE STATUS
+ </span>
+ <label htmlFor="activeStatus" className="relative inline-flex items-center cursor-pointer">
+   <input
+     type="checkbox"
+     id="activeStatus"
+     checked={formData.activeStatus === "Active"}
+     onChange={handleToggleChange}
+     className="sr-only"
+   />
+   <div
+     className={`w-12 h-6 rounded-full transition ${
+       formData.activeStatus === "Active" ? "bg-green-500" : "bg-gray-300"
+     }`}
+   ></div>
+   <div
+     className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+       formData.activeStatus === "Active" ? "transform translate-x-6" : ""
+     }`}
+   ></div>
+ </label>
+</div>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Social Media Links</label>

@@ -36,6 +36,9 @@ export default async function RootLayout({
     user = await prisma.user.findUnique({
       where: { email: session.user.email },
     });
+    if(user){
+      user.activeStatus = user.activeStatus ?? false;
+    }
   }
   return (
     <html lang="en">
