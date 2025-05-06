@@ -124,7 +124,7 @@ export default function AuthForm() {
 
   return (
     <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white px-4 py-4 shadow sm:rounded-lg sm:px-10">
+      <div className="bg-gray-50 px-4 py-4 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
             <Input id="name" label="Name" register={register} errors={errors} />
