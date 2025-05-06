@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import prisma from "@/libs/prismadb";
 import AuthContext from "../context/AuthContext";
 import ActiveStatus from "../components/ActiveStatus";
+import StripeAuthWrapper from "../components/StripeAuthWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,15 +40,11 @@ export default async function RootLayout({
   }
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <AuthContext>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <StripeAuthWrapper>
           <Header user={user} />
-          <Toaster position="top-center" />
-          <ActiveStatus />
           {children}
-        </AuthContext>
+        </StripeAuthWrapper>
       </body>
     </html>
   );

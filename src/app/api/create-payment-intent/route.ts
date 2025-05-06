@@ -1,22 +1,22 @@
-// app/api/create-payment-intent/route.ts
-import { stripe } from "@/libs/stripe";
+// app/api/stripe/create-setup-intent/route.ts
+
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
 
-export async function POST(req: Request) {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-04-30.basil",
+});
+
+export async function POST() {
   try {
-    const body = await req.json();
-    const { amount, payment_method_id } = body;
-
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: "usd",
-      payment_method: payment_method_id,
-      confirm: true,
-      capture_method: "manual",
+    const customer = await stripe.customers.create();
+    const setupIntent = await stripe.setupIntents.create({
+      customer: customer.id,
     });
 
-    return NextResponse.json({ paymentIntentId: paymentIntent.id });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
+    return NextResponse.json({ clientSecret: setupIntent.client_secret });
+  } catch (err) {
+    console.error("Stripe error:", err);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

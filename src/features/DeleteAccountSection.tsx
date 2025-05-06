@@ -1,7 +1,7 @@
 // src/features/DeleteAccountSection.tsx
 export default function DeleteAccountSection() {
     return (
-      <div className="border border-red-500 p-6 rounded-xl bg-red-50 text-red-700 space-y-4">
+      <div className="max-w-4xl mx-auto p-6 bg-red-50 rounded-2xl shadow-lg space-y-6 border border-red-500">
         <p>
           This action is permanent and will remove all your data. Please be sure before continuing.
         </p>

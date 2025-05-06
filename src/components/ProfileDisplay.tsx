@@ -2,8 +2,7 @@ import type { User } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faLink } from "@fortawesome/free-solid-svg-icons";
-import { faGithub, faLinkedin, faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 interface ProfileDisplayProps {
   user: User;
@@ -11,7 +10,7 @@ interface ProfileDisplayProps {
 
 export default function ProfileDisplay({ user }: ProfileDisplayProps) {
   return (
-    <div className="border border-gray-300 rounded-xl max-w-4xl mx-auto p-6">
+    <div className="rounded-xl max-w-4xl">
       {/* Profile Header */}
       <div className="relative">
         <div className="flex items-start space-x-6">
@@ -35,47 +34,8 @@ export default function ProfileDisplay({ user }: ProfileDisplayProps) {
             {/* Name, Email, CreatedAt */}
             <div>
             <h1 className="text-3xl font-bold text-gray-900 mt-1">{user.name}</h1>
-            <p className="text-gray-500 text-s mt-4 mb-3">Joined: {new Date(user.createdAt).toLocaleDateString()} </p>
-            {user.socials && user.socials.length > 0 && (
-              <div className="flex flex-wrap gap-4 mt-2 mb-2">
-                {user.socials.map((social, index) => {
-                  const url = new URL(social);
-                  let icon = null;
-                  let label = url.hostname;
-
-                  if (url.hostname.includes('github.com')) {
-                    icon = <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />;
-                    label = 'GitHub';
-                  } else if (url.hostname.includes('linkedin.com')) {
-                    icon = <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5" />;
-                    label = 'LinkedIn';
-                  } else if (url.hostname.includes('youtube.com')) {
-                    icon = <FontAwesomeIcon icon={faYoutube} className="w-5 h-5" />;
-                    label = 'YouTube';
-                  } else if (url.hostname.includes('instagram.com')) {
-                    icon = <FontAwesomeIcon icon={faInstagram} className="w-5 h-5" />;
-                    label = 'Instagram';
-                  } else {
-                    icon = <FontAwesomeIcon icon={faLink} className="w-5 h-5" />;
-                    label = url.hostname.replace('www.', '');
-                  }
-
-                  return (
-                    <a
-                      key={index}
-                      href={social}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-theme-green hover:text-emerald-600 transition-colors"
-                      title={social}
-                    >
-                      {icon}
-                      <span className="text-sm">{label}</span>
-                    </a>
-                  );
-                })}
-              </div>
-            )}
+            <p className="text-gray-600 text-m mt-2">{user.email}</p>
+            <p className="text-gray-500 text-s mt-4">Joined: {new Date(user.createdAt).toLocaleDateString()} </p>
             </div>
         </div>
 
