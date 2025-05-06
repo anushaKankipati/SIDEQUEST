@@ -128,7 +128,7 @@ export default function ProfileDisplay({ user }: ProfileDisplayProps) {
           className="xs:inline-flex xs:absolute top-0 right-0 mt-4 rounded-full hover:bg-light-hover-green text-theme-green w-11 h-11 items-center justify-center"
         >
           <div className="flex items-center justify-center ">
-            <div className="flex items-center gap-x-2 hover:bg-green-100 p-2 rounded-lg">
+            <div className="flex items-center gap-x-2 hover:bg-green-100 p-2 rounded-full">
               <FontAwesomeIcon icon={faPencil} className="w-6 h-6" />
               <p className="text-xl text-theme-green  xs:hidden">
                 Edit Profile
