@@ -7,24 +7,20 @@ import { ChevronRight, ChevronDown, Settings, CreditCard } from "lucide-react";
 
 const sections = {
   "Account Settings": [
-    { name: "Profile", href: "/settings/account#profile" },
     { name: "Password", href: "/settings/account#password" },
     { name: "Notifications", href: "/settings/account#notifications" },
     { name: "Delete Account", href: "/settings/account#delete" },
   ],
   "Payment Details": [
     { name: "Billing", href: "/settings/payment#billing" },
-    { name: "Transactions", href: "/settings/payment#transactions" },
   ],
 };
 
 const sectionIds = [
-  "profile",
   "password",
   "notifications",
   "delete",
   "billing",
-  "transactions",
 ];
 
 export default function SettingsSidebar() {
