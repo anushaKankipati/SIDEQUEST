@@ -35,7 +35,8 @@ export async function createProfile(formData: FormData) {
           expiryDate: new Date(cert.expiryDate),
           issuer: cert.issuer
         }))
-      }
+      },
+      activeStatus: data.activeStatus === "Active",
     }
 
     const newProfile = await prisma.user.upsert({
@@ -96,7 +97,8 @@ export async function updateProfile(formData: FormData) {
           expiryDate: new Date(cert.expiryDate),
           issuer: cert.issuer
         }))
-      }
+      },
+      activeStatus: data.activeStatus === "Active",
     }
 
     const updatedProfile = await prisma.user.update({
