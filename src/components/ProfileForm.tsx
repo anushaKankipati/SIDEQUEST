@@ -153,7 +153,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-4 md:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap">
+    <form onSubmit={handleSubmit} className="max-w-4xl mx-6 md:mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12 flex-wrap">
       <div className="grow pt-2">
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
