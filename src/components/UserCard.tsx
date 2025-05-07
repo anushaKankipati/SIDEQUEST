@@ -1,5 +1,5 @@
 "use client";
-
+import { User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { formatDate } from "@/libs/helpers";
