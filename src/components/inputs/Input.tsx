@@ -20,7 +20,6 @@ export default function Input({
   type,
   required,
   register,
-  errors,
   disabled,
 }: InputProps) {
   return (

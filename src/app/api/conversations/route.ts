@@ -14,7 +14,7 @@ export async function GET() {
     const conversations = await getConversations();
     return NextResponse.json(conversations);
 
-  } catch(error: any) {
+  } catch {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
@@ -111,7 +111,7 @@ export async function POST(request: Request) {
       }
     })
     return NextResponse.json(newConversation);
-  } catch (error: any) {
+  } catch {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

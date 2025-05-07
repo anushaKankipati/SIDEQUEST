@@ -30,9 +30,7 @@ export default function AutoCompleteMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const placesAutoCompleteRef = useRef<HTMLInputElement>(null);
   const currentLocation = useCurrentLocation((state) => state.currLocation);
-  const setCurrentLocation = useCurrentLocation(
-    (state) => state.setCurrLocation
-  );
+  
   const [place, setPlace] = useState<string | null>(null);
 
   useEffect(() => {
@@ -74,21 +72,17 @@ export default function AutoCompleteMap({
         lat: defaultLocation.lat,
         lng: defaultLocation.lng,
       });
-      setMarker(defaultLatLng, "Default Location");
+      setMarker(defaultLatLng);
    }
 
   }, [map]);
 
-  function setMarker(location: google.maps.LatLng, name: string) {
+  function setMarker(location: google.maps.LatLng) {
     if (!map) {
       return;
     }
     map.setCenter(location);
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      map: map,
-      position: location,
-      title: "Marker",
-    });
+    
   }
 
   // Infowindow library for info pop ups
@@ -114,7 +108,7 @@ export default function AutoCompleteMap({
         setPlace(place.formatted_address as string);
         const position = place.geometry?.location;
         if (position) {
-          setMarker(position, place.name!);
+          setMarker(position);
         } // TODO: quirk to work out later: let the default location be displayed before the autocomplete
         // else {
         //   const currentPosition = new google.maps.LatLng({

@@ -29,7 +29,7 @@ export default async function getConversations() {
       }
     }); 
     return conversations; 
-  } catch(error: any) {
+  } catch {
     return [];
   }
 

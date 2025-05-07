@@ -35,7 +35,7 @@ export default async function getUsers() {
       // Sort by score in descending order
       return scoreB - scoreA;
     }); 
-  } catch(error: any) {
+  } catch {
     return []; 
   }
 

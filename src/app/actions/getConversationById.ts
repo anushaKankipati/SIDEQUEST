@@ -17,5 +17,5 @@ export default async function getConversationById(conversationId: string) {
       },
     });
     return conversation;
-  } catch (error: any) {}
+  } catch {}
 }

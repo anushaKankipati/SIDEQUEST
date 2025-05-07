@@ -68,7 +68,7 @@ export default function CertificationLinks({
           }
         }
         setErrors(newErrors)
-      } catch (error) {
+      } catch{
         setErrors(prev => ({
           ...prev,
           [index]: { ...prev[index], [field]: "Please enter a valid URL" }
