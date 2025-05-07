@@ -1,5 +1,13 @@
-import ProfilePage from "@/src/features/ProfilePage";
+// src/app/settings/page.tsx
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function SettingsRootPage() {
-  return <ProfilePage />;
+export default function SettingsRedirect() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/settings/account#password");
+  }, [router]);
+
+  return null;
 }
