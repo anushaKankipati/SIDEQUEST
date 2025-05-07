@@ -1,6 +1,6 @@
 import { formatDate } from "@/libs/helpers";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faLink, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin, faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";

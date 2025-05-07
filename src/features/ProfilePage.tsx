@@ -1,6 +1,6 @@
 // src/shared/ProfilePage.tsx (this is still a server component)
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 import prisma from "@/libs/prismadb";
 import ProfileForm from "@/src/components/ProfileForm";
 import ProfileDisplay from "@/src/components/ProfileDisplay";

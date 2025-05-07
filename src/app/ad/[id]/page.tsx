@@ -4,7 +4,7 @@ import Gallery from "@/src/components/Gallery";
 import LocationMap from "@/src/components/LocationMap";
 import { formatDate, formatMoney } from "@/libs/helpers";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";

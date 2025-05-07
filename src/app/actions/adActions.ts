@@ -1,6 +1,6 @@
 "use server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 import { revalidatePath } from "next/cache";
 import prisma from "@/libs/prismadb";
 import toast from "react-hot-toast";

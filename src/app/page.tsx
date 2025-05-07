@@ -2,7 +2,7 @@
 import { getServerSession } from "next-auth";
 import HomeAdsView from "../components/HomeAdsView";
 import LandingView from "../components/LandingView";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 
 export default async function HomeView() {
   const session = await getServerSession(authOptions);

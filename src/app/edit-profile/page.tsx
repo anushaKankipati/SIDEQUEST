@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "../api/auth/[...nextauth]/route"
+import { authOptions } from "@/src/app/utils/authOptions"
 import prisma from "@/libs/prismadb"
 import ProfileForm from "@/src/components/ProfileForm"
 

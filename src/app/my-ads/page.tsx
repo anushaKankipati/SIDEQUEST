@@ -1,7 +1,7 @@
 "use server";
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 import MyAdsPageClient from "@/src/components/MyAdsPageClient";
 import prisma from "@/libs/prismadb";
 

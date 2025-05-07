@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "../components/Header";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 import { Toaster } from "react-hot-toast";
 import prisma from "@/libs/prismadb";
 import AuthContext from "../context/AuthContext";

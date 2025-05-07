@@ -1,6 +1,6 @@
 import prisma from "@/libs/prismadb"; // Assuming this path is correct
 //import { getServerSession } from "next-auth/next"
-//import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+//import { authOptions } from "@/src/app/utils/authOptions";
 
 export async function GET(request: Request) {
 
