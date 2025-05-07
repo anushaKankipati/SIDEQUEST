@@ -43,7 +43,7 @@ export default function UserSearch({ initialUsers }: UserSearchProps) {
   return (
     <div className="flex flex-col items-center">
       <div className="w-full max-w-7xl px-4 mb-6">
-        <div className="flex items-center justify-between">
+        <div className="flex gap-y-2 xs:gap-y-0 xs:flex-row flex-col items-center justify-between">
           <h1 className="text-2xl font-bold">Discover Questers</h1>
           
           {/* Search input with mode buttons */}
