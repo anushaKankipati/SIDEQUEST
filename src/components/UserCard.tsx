@@ -20,10 +20,10 @@ interface UserCardProps {
 export default function UserCard({ user }: UserCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-md hover:shadow-lg relative transition-shadow p-4 h-full">
-      <div className="absolute top-4 right-4">
+      <div className="hidden xs:block xs:absolute xs:top-4 xs:right-4">
         <MessageButton userId={user.id} />
       </div>
-      
+
       <Link href={`/profile/${user.id}`}>
         <div className="flex items-center space-x-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
@@ -36,11 +36,21 @@ export default function UserCard({ user }: UserCardProps) {
             />
           </div>
           <div className="min-w-0 flex-1">
-            <h2 className="text-xl font-semibold text-gray-900 truncate">{user.name}</h2>
-            <p className="text-sm text-gray-500">Joined {formatDate(user.createdAt)}</p>
+            <h2 className="text-xl font-semibold text-gray-900 truncate">
+              {user.name}
+            </h2>
+            <p className="text-sm text-gray-500">
+              Joined {formatDate(user.createdAt)}
+            </p>
           </div>
         </div>
-        
+        <div className="flex items-center justify-center">
+          <div className="xs:hidden flex items-center justify-center p-1 rounded-md hover:bg-green-100">
+            <MessageButton userId={user.id} />
+            <p className="font-medium text-theme-green">Message</p>
+          </div>
+        </div>
+
         <div className="mt-4 min-h-[40px]">
           {user.about ? (
             <p className="text-gray-600 line-clamp-2">{user.about}</p>
@@ -48,7 +58,7 @@ export default function UserCard({ user }: UserCardProps) {
             <p className="text-gray-400 italic">No description available</p>
           )}
         </div>
-        
+
         <div className="mt-4 min-h-[32px]">
           {user.skills && user.skills.length > 0 ? (
             <div className="flex flex-wrap gap-2">
@@ -73,4 +83,4 @@ export default function UserCard({ user }: UserCardProps) {
       </Link>
     </div>
   );
-} 
+}
