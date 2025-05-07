@@ -1,7 +1,7 @@
 import { Ad } from "@/src/models/Ad";
 import { FilterQuery } from "mongoose";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/utils/authOptions";
 import prisma from "@/libs/prismadb";
 
 interface AggregationResult<T = unknown> {
