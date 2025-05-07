@@ -30,8 +30,12 @@ export default function AutoCompleteMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const placesAutoCompleteRef = useRef<HTMLInputElement>(null);
   const currentLocation = useCurrentLocation((state) => state.currLocation);
+  useCurrentLocation(
+    (state) => state.setCurrLocation
+  );
   
   const [place, setPlace] = useState<string | null>(null);
+  
 
   useEffect(() => {
     if (isLoaded && google && google.maps && google.maps.places) {
@@ -82,7 +86,11 @@ export default function AutoCompleteMap({
       return;
     }
     map.setCenter(location);
-    
+    new google.maps.marker.AdvancedMarkerElement({
+      map: map,
+      position: location,
+      title: "Marker",
+    });
   }
 
   // Infowindow library for info pop ups
