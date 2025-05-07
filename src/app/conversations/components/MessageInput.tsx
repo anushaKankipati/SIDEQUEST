@@ -17,7 +17,6 @@ export default function MessageInput({
   type,
   required,
   register,
-  errors,
 }: MessageInputProps) {
   return (
     <div className="relative  w-full">

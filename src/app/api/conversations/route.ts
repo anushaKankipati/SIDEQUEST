@@ -4,7 +4,7 @@ import prisma from "@/libs/prismadb";
 import { pusherServer } from "@/libs/pusher";
 import getConversations from "../../actions/getConversations";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const currentUser = await getCurrentUser(); 
     if (!currentUser?.id || !currentUser?.email) {
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const conversations = await getConversations();
     return NextResponse.json(conversations);
 
-  } catch(error: any) {
+  } catch {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
@@ -111,7 +111,7 @@ export async function POST(request: Request) {
       }
     })
     return NextResponse.json(newConversation);
-  } catch (error: any) {
+  } catch {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

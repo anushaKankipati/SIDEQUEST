@@ -29,7 +29,7 @@ export default function MyAdsPageClient({
 
   return (
     <div className="container mb-6 my-12 mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center pt-10">Quests You've Posted</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center pt-10">Quests You Posted</h1>
       <div className="flex mx-6 sm:mx-0 flex-col gap-6 lg:grid lg:grid-cols-2">
         {ads.map((ad) => (
           <AdItem

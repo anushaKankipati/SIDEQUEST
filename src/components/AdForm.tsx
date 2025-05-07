@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast from "react-hot-toast";
 import AdTextInputs, { AdTexts } from "./AdTextInputs";
-import LocationPicker, { Location } from "./LocationPicker";
+import  { Location } from "./LocationPicker";
 import SubmitButton from "./SubmitButton";
 import UploadArea from "./UploadArea";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
-import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { redirect } from "next/navigation";
 import { createAd, updateAd } from "../app/actions/adActions";
 import SkillTags from "./SkillTags";
@@ -51,9 +49,9 @@ export default function AdForm({
     }
     const result = id ? await updateAd(formData) : await createAd(formData);
     if (!result) {
-      toast.error(`Failed to ${id ? "Update" : "Create"} Task`);
+      toast.error(`Failed to ${id ? "Update" : "Create"} Quest`);
     } else {
-      toast.success(`Task Successfully ${id ? "Updated" : "Created"}`);
+      toast.success(`Quest Successfully ${id ? "Updated" : "Created"}`);
       redirect("/ad/" + result.id); //change made here
     }
   }

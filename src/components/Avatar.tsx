@@ -8,7 +8,7 @@ interface AvatarProps {
 
 export default function Avatar({ user }: AvatarProps) {
   const { members } = useActiveList();
-  const isActive = members.indexOf(user?.email!) !== -1;
+  const isActive = members.includes(user?.email ?? "");
   return (
     <div className="relative">
       <div

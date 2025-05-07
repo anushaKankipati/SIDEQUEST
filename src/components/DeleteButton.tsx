@@ -2,7 +2,6 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -14,10 +13,10 @@ export default function DeleteButton({id}: {id:string}) {
     fetch(`/api/ads?id=${id}`, { method: "DELETE" }).then(() => {
       setShowDeleteQuestion(false);
       router.push("/");
-      toast.success("Task Successfully Deleted");  
+      toast.success("Quest Successfully Deleted");  
     }).catch((e) => {
-      console.log("Error deleting task: " + e); 
-      toast.error("Error Deleting Task"); 
+      console.log("Error deleting Quest: " + e); 
+      toast.error("Error Deleting Quest"); 
     });
   }
   if (showDeleteQuestion) {

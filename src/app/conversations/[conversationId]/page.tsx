@@ -5,7 +5,6 @@ import getConversationById from "../../actions/getConversationById";
 import getMessages from "../../actions/getMessages";
 import Body from "../components/Body";
 import Form from "../components/Form";
-import { FullMessageType } from "@/src/types";
 import getOtherConversationUsers from "../../actions/getOtherConversationUsers";
 
 interface IParams {

@@ -1,16 +1,13 @@
 "use client";
-import Email from "next-auth/providers/email";
 import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Image from "next/image";
 import Input from "./inputs/Input";
 import Button from "./Button";
 import AuthSocialButton from "./AuthSocialButton";
-import { BsGithub, BsGoogle } from "react-icons/bs";
+import { BsGoogle } from "react-icons/bs";
 import { signIn, useSession } from "next-auth/react";
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-hot-toast";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 
 type Variant = "LOGIN" | "REGISTER";

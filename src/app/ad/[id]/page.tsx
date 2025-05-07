@@ -11,7 +11,6 @@ import Link from "next/link";
 import DeleteButton from "@/src/components/DeleteButton";
 import prisma from "@/libs/prismadb";
 import Image from "next/image";
-import { getSession } from "next-auth/react";
 import MessageButton from "@/src/components/MessageButton";
 
 type Props = {

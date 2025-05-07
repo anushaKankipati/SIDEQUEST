@@ -15,5 +15,5 @@ export default async function getMessages(conversationId: string) {
       },
     });
     return messages;
-  } catch (error: any) {}
+  } catch {}
 }

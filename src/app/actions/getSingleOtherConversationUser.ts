@@ -8,7 +8,7 @@ export default async function getSingleOtherConversationUser(conversationId: str
     }
     return users[0];
 
-  } catch (error: any) {
+  } catch {
     return null; 
   }
 }
