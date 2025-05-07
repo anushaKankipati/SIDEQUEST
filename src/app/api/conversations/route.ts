@@ -4,7 +4,7 @@ import prisma from "@/libs/prismadb";
 import { pusherServer } from "@/libs/pusher";
 import getConversations from "../../actions/getConversations";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const currentUser = await getCurrentUser(); 
     if (!currentUser?.id || !currentUser?.email) {

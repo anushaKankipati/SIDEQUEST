@@ -4,7 +4,6 @@ import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faLink, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin, faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
-import AdItem from "@/src/components/AdItem";
 import Link from "next/link";
 import prisma from "@/libs/prismadb";
 import Image from "next/image";
@@ -77,7 +76,7 @@ export default async function ProfilePage(args: Props) {
           <div className="relative">
             <div className="flex items-start space-x-6">
               {/* Profile Image */}
-              <div className="w-36 h-36 rounded-full border-4 border-white shadow-lg bg-gray-100 overflow-hidden">
+              <div className="w-36 h-36 rounded-full border-4 border-white shadow-lg bg-gray-100 overflow-hidden relative">
                 {user.image ? (
                   <Image
                     src={user.image || "/placeholder.svg"}
@@ -155,9 +154,14 @@ export default async function ProfilePage(args: Props) {
             {isCurrentUser ? (
               <Link
                 href="/edit-profile"
-                className="absolute top-0 right-0 mt-4 rounded-full hover:bg-light-hover-green text-theme-green w-11 h-11 inline-flex items-center justify-center"
+                className="xs:inline-flex xs:absolute top-0 right-0 mt-4 rounded-full hover:bg-light-hover-green text-theme-green w-11 h-11 items-center justify-center"
               >
-                <FontAwesomeIcon icon={faPencil} className="w-6 h-6" />
+                <div className="flex items-center justify-center">
+                  <div className="flex items-center gap-x-2 hover:bg-green-100 p-2 rounded-full">
+                    <FontAwesomeIcon icon={faPencil} className="w-6 h-6" />
+                    <p className="text-xl text-theme-green xs:hidden">Edit Profile</p>
+                  </div>
+                </div>
               </Link>
             ) : (
               <div className="absolute top-0 right-0 mt-4">
@@ -188,7 +192,7 @@ export default async function ProfilePage(args: Props) {
               </div>
             )}
 
-            {user.certifications && (
+            {user.certifications && user.certifications.length > 0 && (
               <div className="p-6 bg-gray-100 rounded-2xl">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">
                   Certifications

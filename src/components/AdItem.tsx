@@ -6,8 +6,6 @@ import FavoriteButton from "./FavoriteButton";
 import { Ad } from "../models/Ad";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { Location } from "./LocationPicker";
-import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
 
 export default function AdItem({ad,favorites,userEmail,onFavoriteChange}:{ad:Ad; favorites:string[]; userEmail:string|null;onFavoriteChange:(adId:string,isFavorited:boolean)=>void;}){

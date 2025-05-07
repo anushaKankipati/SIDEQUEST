@@ -6,14 +6,7 @@ import { formatDate } from "@/libs/helpers";
 import MessageButton from "./MessageButton";
 
 interface UserCardProps {
-  user: {
-    id: string;
-    name: string | null;
-    image: string | null;
-    about: string | null;
-    skills: string[] | null;
-    createdAt: Date;
-  };
+  user: User;
 }
 
 export default function UserCard({ user }: UserCardProps) {
