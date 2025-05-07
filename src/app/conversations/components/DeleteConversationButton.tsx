@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import useConversation from "@/src/hooks/useConversation";
 import axios from "axios";
-import ConversationId from "../[conversationId]/page";
 
 export default function DeleteConversationButton() {
   const [showDeleteQuestion, setShowDeleteQuestion] = useState<boolean>(false);

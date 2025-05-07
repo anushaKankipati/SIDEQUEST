@@ -22,7 +22,7 @@ const imageKitLoader = ({ src, width, height, quality, aiCrop }: LoaderProps) =>
     params.push('fo-auto');
   }
   const paramsString = params.join(",");
-  var urlEndpoint = process.env.NEXT_PUBLIC_IK_ENDPOINT as string;
+  let urlEndpoint = process.env.NEXT_PUBLIC_IK_ENDPOINT as string;
   if(urlEndpoint[urlEndpoint.length-1] === "/") urlEndpoint = urlEndpoint.substring(0, urlEndpoint.length - 1);
   return `${urlEndpoint}/${src}?tr=${paramsString}`
 }

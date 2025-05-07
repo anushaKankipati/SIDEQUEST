@@ -1,6 +1,5 @@
 import prisma from "@/libs/prismadb"; 
 import getCurrentUser from "./getCurrentUser";
-import { tree } from "next/dist/build/templates/app-page";
 
 export default async function getConversations() {
   const currentUser = await getCurrentUser(); 
@@ -30,7 +29,7 @@ export default async function getConversations() {
       }
     }); 
     return conversations; 
-  } catch(error: any) {
+  } catch {
     return [];
   }
 

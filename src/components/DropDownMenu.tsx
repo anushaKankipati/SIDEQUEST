@@ -5,7 +5,7 @@ interface DropdownProps {
   items: string[];
 }
 
-export default function Dropdown({ title, items }: DropdownProps) {
+export default function Dropdown({ items }: DropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggle = () => setIsOpen(!isOpen);

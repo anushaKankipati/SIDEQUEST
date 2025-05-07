@@ -7,7 +7,6 @@ import MessageInput from "./MessageInput";
 import { HiPaperAirplane } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useState } from "react";
-import DeleteConversationButton from "./DeleteConversationButton";
 import { User } from "@prisma/client";
 import SettingsModal from "./SettingsModal";
 import ImageUploadModal from "./ImageUploadModal";

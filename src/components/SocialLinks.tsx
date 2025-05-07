@@ -30,7 +30,7 @@ export default function SocialLinks({ links, setLinks }: SocialLinksProps) {
       const newErrors = { ...errors }
       delete newErrors[index]
       setErrors(newErrors)
-    } catch (error) {
+    } catch {
       setErrors(prev => ({ ...prev, [index]: "Please enter a valid URL" }))
     }
   }

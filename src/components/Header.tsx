@@ -1,13 +1,12 @@
 "use client";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { User } from "@prisma/client";
-import useRoutes from "../hooks/useRoute";
 import PrimaryLeftHeader from "./PrimaryLeftHeader";
 import MobileLeftHeader from "./MobileLeftHeader";
 
@@ -16,10 +15,8 @@ interface Props {
 }
 
 export default function Header({ user }: Props) {
-  const { data: session } = useSession();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const routes = useRoutes();
 
   // Use the server-side user prop to determine authentication state
   const isAuthenticated = user !== null && user !== undefined;
@@ -46,7 +43,7 @@ export default function Header({ user }: Props) {
               onClick={() => router.push("/login")}
               className="bg-theme-green text-white h-full text-theme-green inline-flex gap-1 items-center px-2 py-2"
             >
-              Login/Sign Up to Post Tasks
+              Login/Sign Up to Post Quests
             </button>
           </>
         )}
