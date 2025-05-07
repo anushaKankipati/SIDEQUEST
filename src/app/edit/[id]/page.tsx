@@ -4,21 +4,26 @@ import { authOptions } from "@/src/app/utils/authOptions";
 import AdForm from "@/src/components/AdForm";
 import { getQuestById } from "../../ad/[id]/page";
 
-type Props = {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string };
-};
+export default async function EditPage(
+  {
+    params,
+  }: {
+    params: Promise<{ id: string }>;
+    searchParams: Promise<Record<string, string>>;
+  }
+) {
+  // pull out your dynamic route param
+  const { id } = await params;
+  // (if you needed query-string values, you could do:)
+  // const qs = await searchParams
 
-export default async function EditPage(props: Props) {
   const session = await getServerSession(authOptions);
-  const {id} = await props.params;
   const adDoc = await getQuestById(id);
+
   if (!adDoc) {
     return "404 Not Found";
   }
-  if (session?.user?.email !== adDoc?.userEmail) {
+  if (session?.user?.email !== adDoc.userEmail) {
     return "not yours";
   }
 

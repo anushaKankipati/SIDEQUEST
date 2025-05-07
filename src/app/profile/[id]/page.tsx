@@ -5,62 +5,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faLink, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin, faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
-import prisma from "@/libs/prismadb";
 import Image from "next/image";
 import MessageButton from "../../../components/MessageButton";
 
-type Props = {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string };
-};
+import { getUserById } from "./actions";          // ← pulled in from actions.ts
 
-export async function getUserById(id: string): Promise<any> {
-  const user = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      Quest: {
-        select: {
-          id: true,
-          title: true,
-          price: true,
-          category: true,
-          createdAt: true,
-        },
-        
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 5, // Show only the 5 most recent quests
-      },
-      certifications: true,
-    },
-  });
+export default async function ProfilePage(
+  {
+    params,
+  }: {
+    params: Promise<{ id: string }>;
+    searchParams: Promise<Record<string, string>>;
+  }
+) {
+  // unwrap the promise-wrapped params
+  const { id } = await params;
 
-  if (!user) return null;
-
-  return {
-    ...user,
-    createdAt: new Date(user.createdAt.toISOString()),
-    updatedAt: new Date(user.updatedAt.toISOString()),
-  };
-}
-
-export default async function ProfilePage(args: Props) {
-  const params = await args.params;
-  const { id } = params;
-
-  // Validate that the ID is a valid MongoDB ObjectId
-  const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(id);
-  if (!isValidObjectId) {
+  // validate the ID
+  if (!/^[0-9a-fA-F]{24}$/.test(id)) {
     return <div className="p-8">User not found</div>;
   }
 
   const user = await getUserById(id);
-
   if (!user) {
     return <div className="p-8">User not found</div>;
   }

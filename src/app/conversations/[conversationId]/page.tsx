@@ -1,4 +1,4 @@
-"use server"; 
+"use server";
 
 import EmptyState from "@/src/components/EmptyState";
 import getConversationById from "../../actions/getConversationById";
@@ -7,15 +7,16 @@ import Body from "../components/Body";
 import Form from "../components/Form";
 import getOtherConversationUsers from "../../actions/getOtherConversationUsers";
 
-interface IParams {
-  conversationId: string;
-}
-
-export default async function ConversationId({ params }: { params: IParams }) {
+// no more IParams interface – inline is fine
+export default async function ConversationId(
+  { params }: { params: Promise<{ conversationId: string }> }
+) {
+  // now await the promise to get your param
   const { conversationId } = await params;
+
   const conversation = await getConversationById(conversationId);
-  const messages = await getMessages(conversationId) || [];
-  const otherUsers = await getOtherConversationUsers(conversationId) || [];
+  const messages = (await getMessages(conversationId)) || [];
+  const otherUsers = (await getOtherConversationUsers(conversationId)) || [];
 
   if (!conversation) {
     return (
@@ -32,7 +33,7 @@ export default async function ConversationId({ params }: { params: IParams }) {
       <div className="h-full flex flex-col">
         {/* add avatar and name above */}
         <Body initialMessages={messages} />
-        <Form otherUsers={otherUsers}/>
+        <Form otherUsers={otherUsers} />
       </div>
     </div>
   );
