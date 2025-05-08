@@ -10,12 +10,18 @@ export default function DeleteButton({id}: {id:string}) {
   const router = useRouter(); 
 
   function HandleDelete() {
-    fetch(`/api/ads?id=${id}`, { method: "DELETE" }).then(() => {
+    fetch(`${window.location.origin}/api/ads?id=${id}`, { 
+      method: "DELETE",
+      credentials: 'include' // This ensures cookies are sent with the request
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       setShowDeleteQuestion(false);
       router.push("/");
       toast.success("Quest Successfully Deleted");  
     }).catch((e) => {
-      console.log("Error deleting Quest: " + e); 
+      console.error("Error deleting Quest:", e); 
       toast.error("Error Deleting Quest"); 
     });
   }
