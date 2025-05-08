@@ -4,14 +4,16 @@ import { Ad } from "../models/Ad";
 import AdItem from "../components/AdItem";
 import SearchForm from "../components/SearchForm";
 import { defaultRadius, toTitleCase } from "../../libs/helpers";
-import { getSession } from "next-auth/react"
+import { getSession } from "next-auth/react";
+import { FaSearchDollar } from "react-icons/fa";
+import MobileSearchBar from "./MobileSearchBar";
 
 export default function HomeAdsView() {
   const [ads, setAds] = useState<Ad[] | null>(null);
   const [adsParams, setAdsParams] = useState<URLSearchParams | null>(
     new URLSearchParams()
   );
-
+  const [mobileSidebarOpen, setMobileSideBarOpen] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<string[]>([]); // Ensure favorites is initialized as an empty array
   const [userEmail, setUserEmail] = useState<string | null>(null);
   useEffect(() => {
@@ -27,18 +29,21 @@ export default function HomeAdsView() {
 
   useEffect(() => {
     const fetchFavorites = async () => {
-      if(!userEmail) return;
+      if (!userEmail) return;
       try {
         const response = await fetch(`/api/favorites?userEmail=${userEmail}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-        }); 
+        });
         if (!response.ok) {
           const errorData = await response.json();
-          console.error("Failed to fetch favorites:", errorData.message||response.statusText);
-          throw new Error(errorData.message||"Failed to fetch favorites");
+          console.error(
+            "Failed to fetch favorites:",
+            errorData.message || response.statusText
+          );
+          throw new Error(errorData.message || "Failed to fetch favorites");
         }
         const data = await response.json();
         setFavorites(data.favoriteIds || []); // Initialize the favorites state with fetched data or an empty array
@@ -52,15 +57,14 @@ export default function HomeAdsView() {
   }, [userEmail]);
 
   const handleFavoriteChange = async (adId: string, isFavorited: boolean) => {
-      setFavorites((prevFavorites) => {
-        if (!prevFavorites) return []; // Ensure prevFavorites is always defined
-        if (isFavorited) {
-          return prevFavorites.filter((id) => id !== adId);
-        } else {
-          return [...prevFavorites, adId];
-        }
-      });
-
+    setFavorites((prevFavorites) => {
+      if (!prevFavorites) return []; // Ensure prevFavorites is always defined
+      if (isFavorited) {
+        return prevFavorites.filter((id) => id !== adId);
+      } else {
+        return [...prevFavorites, adId];
+      }
+    });
   };
 
   useEffect(() => {
@@ -99,8 +103,7 @@ export default function HomeAdsView() {
     });
     fetchAds(params);
   }
-  const tagDirty =
-adsParams?.get("input_tags");
+  const tagDirty = adsParams?.get("input_tags");
   const formDirty =
     adsParams?.get("phrase") ||
     adsParams?.get("category") ||
@@ -109,10 +112,27 @@ adsParams?.get("input_tags");
   return (
     <div className="flex w-full h-screen">
       <SearchForm onSearch={handleSearch} />
-      <div className="p-4 grow w-3/5 overflow-y-auto mt-16">
+      <MobileSearchBar onSearch={handleSearch} isOpen={mobileSidebarOpen} setIsOpen={setMobileSideBarOpen}/>
+      <div className="p-4 grow md:w-3/5 overflow-y-auto mt-16">
+        <div className="flex items-center">
+          <div
+            className="
+              flex 
+              items-center
+              p-2
+              hover:bg-green-100
+              rounded-lg
+              md:hidden
+            "
+            onClick={() => setMobileSideBarOpen((prev) => !prev)}
+          >
+            <FaSearchDollar className="text-theme-green" size={30} />
+            <p className="text-theme-green font-medium">Search for Quests</p>
+          </div>
+        </div>
         <h2 className="font-bold mt-2 mb-4">
           {tagDirty
-            ? ("Search Results for Selected Tags")
+            ? "Search Results for Selected Tags"
             : formDirty
             ? "Search Results for " + toTitleCase(formDirty.toString())
             : "Latest Quests"}
@@ -126,7 +146,9 @@ adsParams?.get("input_tags");
                   ad={ad}
                   favorites={favorites}
                   userEmail={userEmail} //userEmail of user that is currently logged in
-                  onFavoriteChange={(adId, isFavorited) => handleFavoriteChange(adId,isFavorited)}
+                  onFavoriteChange={(adId, isFavorited) =>
+                    handleFavoriteChange(adId, isFavorited)
+                  }
                 />
               </div>
             ))}
