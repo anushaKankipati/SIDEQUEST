@@ -21,10 +21,11 @@ export default function Header({ user }: Props) {
   // Use the server-side user prop to determine authentication state
   const isAuthenticated = user !== null && user !== undefined;
 
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
-      <MobileLeftHeader/>
-      <PrimaryLeftHeader/>
+      <MobileLeftHeader showRoutes={isAuthenticated}/>
+      <PrimaryLeftHeader showRoutes={isAuthenticated}/>
       <nav className="items-center flex gap-4 *:rounded">
         {isAuthenticated && (
           // TODO: adjust right margin here 

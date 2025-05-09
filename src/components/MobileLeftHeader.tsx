@@ -7,7 +7,13 @@ import Link from "next/link";
 import useRoutes from "../hooks/useRoute";
 import DesktopItem from "./sidebar/DesktopItem";
 
-export default function MobileLeftHeader() {
+interface MobileLeftHeaderProps {
+  showRoutes: boolean;
+}
+
+export default function MobileLeftHeader({
+  showRoutes,
+}: MobileLeftHeaderProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const routes = useRoutes();
   return (
@@ -25,15 +31,16 @@ export default function MobileLeftHeader() {
             <Link href="/" className="text-gray-500 hover:bg-gray-100 p-3">
               <FaHome size={24} />
             </Link>
-            {routes.map((item) => (
-              <DesktopItem
-                key={item.label}
-                href={item.href}
-                label={item.label}
-                icon={item.icon}
-                active={item.active}
-              />
-            ))}
+            {showRoutes &&
+              routes.map((item) => (
+                <DesktopItem
+                  key={item.label}
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  active={item.active}
+                />
+              ))}
           </div>
         </>
       )}
