@@ -2,25 +2,26 @@ import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/src/app/utils/authOptions"
 import prisma from "@/libs/prismadb";
-import getCurrentUser from "../../actions/getCurrentUser";
+import { Prisma } from "@prisma/client";
 
 export async function DELETE() {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
-      return NextResponse.json({error: "Unauthorized"}, {status: 401});
+    const session = await getServerSession(authOptions)
+    if (!session || !session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
     const deletedUser = await prisma.user.delete({
       where: {
-        id: currentUser.id
+        email: session.user.email,
       }
-    }); 
-    if (!deletedUser) {
-      return NextResponse.json({error: "Internal Server Error"}, {status: 500});
+    });
+    return NextResponse.json(deletedUser);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-    return NextResponse.json({body: "No Content"}, {status: 204});
-  } catch(error) {
-    return NextResponse.json({error: "Internal Server Error"}, {status: 500});
+    console.error("Delete user error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 

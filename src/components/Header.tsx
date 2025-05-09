@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { User } from "@prisma/client";
 import PrimaryLeftHeader from "./PrimaryLeftHeader";
 import MobileLeftHeader from "./MobileLeftHeader";
@@ -20,6 +20,7 @@ export default function Header({ user }: Props) {
 
   // Use the server-side user prop to determine authentication state
   const isAuthenticated = user !== null && user !== undefined;
+
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-theme-green border-b-2 p-4 flex items-center justify-between h-16 bg-white">
