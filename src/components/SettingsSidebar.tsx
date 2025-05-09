@@ -10,9 +10,9 @@ const sections = {
     { name: "Notifications", href: "/settings/account#notifications" },
     { name: "Delete Account", href: "/settings/account#delete" },
   ],
-  "Payment Details": [
-    { name: "Billing", href: "/settings/payment#billing" },
-  ],
+  // "Payment Details": [
+  //   { name: "Billing", href: "/settings/payment#billing" },
+  // ],
 };
 
 const sectionIds = [
