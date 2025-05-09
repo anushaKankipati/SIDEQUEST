@@ -90,7 +90,7 @@ export default async function SingleAdPage(args: Props) {
 
   return (
     <div className="flex flex-col md:flex-row absolute inset-0 top-16 overflow-y-auto">
-      <div className="order-last md:order-first w-full md:w-1/2 grow flex flex-col relative md:h-screen mx-8 md:mx-0">
+      <div className="order-last md:order-first w-full md:w-1/2 grow flex flex-col relative md:h-screen px-8 md:px-0">
         {adDoc.files && adDoc.files.length > 0 ? (
           <div className="md:h-full h-[300px] w-full bg-black text-white flex flex-col relative">
             <Gallery files={adDoc.files} />
