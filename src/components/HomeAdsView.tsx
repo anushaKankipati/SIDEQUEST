@@ -123,6 +123,7 @@ export default function HomeAdsView() {
               hover:bg-green-100
               rounded-lg
               md:hidden
+              cursor-pointer
             "
             onClick={() => setMobileSideBarOpen((prev) => !prev)}
           >
