@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { User } from "@prisma/client";
 import PrimaryLeftHeader from "./PrimaryLeftHeader";
 import MobileLeftHeader from "./MobileLeftHeader";
