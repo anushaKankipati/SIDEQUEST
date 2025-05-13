@@ -9,8 +9,8 @@ export default function SettingsLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
 
-      {/* Sidebar */}
-      <aside className="w-64 sticky top-[4rem] h-[calc(100vh-4.5rem)] bg-green-600 text-white px-4 py-6 shadow-lg">
+      {/* Sidebar - hidden on mobile, visible on lg screens */}
+      <aside className="hidden lg:block w-64 sticky top-[4rem] h-[calc(100vh-4.5rem)] bg-green-600 text-white px-4 py-6 shadow-lg">
         <SettingsSidebar />
       </aside>
     </div>
