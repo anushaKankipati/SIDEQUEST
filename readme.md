@@ -12,7 +12,7 @@ The solution: SIDEQUE$T is a safe, user-friendly marketplace to connect job seek
 
 - **For job seekers AND posters**: Platforms such as Fiverr, Upwork, and Taskrabbit only focus on users posting their skills and what they can complete, rather than having actual task postings. LinkedIn is only for salaried jobs, not one-off tasks for quick cash.
 
-- **Wide variety of skills allowed**: Another competitor, SideShift, markets itself as a platform that connects Gen Z with flexible, paid gigs in content creation, social media, and marketing. However, sidequest does not limit to just these fields. From haircuts to teaching surf lessons, you can complete someone's quest or find someone to complete yours.
+- **Wide variety of skills allowed**: Another competitor, SideShift, markets itself as a platform that connects Gen Z with flexible, paid gigs in content creation, social media, and marketing. However, SIDEQUE$T does not limit to just these fields. From haircuts to teaching surf lessons, you can complete someone's quest or find someone to complete yours.
 
 **Join the SIDEQUE$T Community Today!**
 
