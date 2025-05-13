@@ -26,7 +26,7 @@ Get your money up.
 To clone:
 Navigate to desired directory
 ```
-git clone https://github.com/CSEN-SCU/csen-174-s24-project-edurent
+git clone https://github.com/anushaKankipati/SIDEQUEST.git
 
 cd into local folder
 
