@@ -7,7 +7,6 @@ import { defaultRadius, toTitleCase } from "../../libs/helpers";
 import { getSession } from "next-auth/react";
 import { FaSearchDollar } from "react-icons/fa";
 import MobileSearchBar from "./MobileSearchBar";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function HomeAdsView() {
   const [ads, setAds] = useState<Ad[] | null>(null);
