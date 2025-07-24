@@ -102,6 +102,9 @@ export default function HomeAdsView() {
       }
     });
     fetchAds(params);
+    if (mobileSidebarOpen) {
+      setMobileSideBarOpen(false); 
+    }
   }
   const tagDirty = adsParams?.get("input_tags");
   const formDirty =
