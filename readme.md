@@ -20,6 +20,14 @@ Say goodbye to scraping enough money to get by every month or feeling like your 
 
 Get your money up.
 
+## Try it out Yourself!
+https://sidequest-blue.vercel.app/
+
+## SIDEQUE$T Conference Presentation 
+
+[Senior_Design_Presentation_part1.pdf](https://github.com/user-attachments/files/21448585/Senior_Design_Presentation_part1.pdf)
+
+[Senior_Design_Presentation_part2.pdf](https://github.com/user-attachments/files/21448586/Senior_Design_Presentation_part2.pdf)
 
 ## Getting Started (Development)
 
