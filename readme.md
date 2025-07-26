@@ -20,7 +20,7 @@ Say goodbye to scraping enough money to get by every month or feeling like your 
 
 Get your money up.
 
-## Try it out Yourself!
+## Try SIDEQUE$T? out Yourself!
 https://sidequest-blue.vercel.app/
 
 ## SIDEQUE$T Conference Presentation 
