@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { pusherClient } from "@/libs/pusher";
+import { getPusherClient } from "@/libs/pusher.client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import useConversation from "./useConversation";
@@ -25,6 +25,7 @@ const useUnreadConversationCount = () => {
   };
 
   useEffect(() => {
+    const pusherClient = getPusherClient();
     fetchConversations();
     const handler = () => fetchConversations();
 

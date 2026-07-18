@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useJsApiLoader } from "@react-google-maps/api";
-import { Library } from "@googlemaps/js-api-loader";
+import { Libraries, useJsApiLoader } from "@react-google-maps/api";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { FormattedAutocompleteLocation } from "@/libs/types";
 import { Location } from "./LocationPicker";
@@ -13,7 +12,7 @@ interface AutoCompleteMapProps {
   onFormattedLocationChange: (location: FormattedAutocompleteLocation) => void;
 }
 
-const libs: Library[] = ["core", "maps", "marker", "places"];
+const libs: Libraries = ["core", "maps", "marker", "places"];
 export default function AutoCompleteMap({
   defaultLocation,
   mapHeight,

@@ -8,7 +8,7 @@ import clsx from "clsx";
 import {MdOutlineGroupAdd} from "react-icons/md"; 
 import ConversationBox from "./ConversationBox";
 import { useSession } from "next-auth/react";
-import { pusherClient } from "@/libs/pusher";
+import { getPusherClient } from "@/libs/pusher.client";
 import { find } from "lodash";
 
 interface ConversationListProps {
@@ -30,6 +30,7 @@ export default function ConversationList({initialItems}: ConversationListProps) 
     if (!pusherKey) {
       return; 
     }
+    const pusherClient = getPusherClient();
     pusherClient.subscribe(pusherKey);
     const newHandler = (conversation: FullConversationType) => {
       setItems((current) => {
