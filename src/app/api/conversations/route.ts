@@ -1,7 +1,7 @@
 import getCurrentUser from "../../actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
-import { pusherServer } from "@/libs/pusher";
+import { getPusherServer } from "@/libs/pusher.server";
 import getConversations from "../../actions/getConversations";
 
 export async function GET() {
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       });
       newConversation.users.forEach(user => {
         if (user.email) {
-          pusherServer.trigger(user.email, "conversation:new", newConversation);
+          getPusherServer().trigger(user.email, "conversation:new", newConversation);
         }
       })
       return NextResponse.json(newConversation);
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
     // TODO: why map vs for each
     newConversation.users.map(user => {
       if (user.email) {
-        pusherServer.trigger(user.email, "conversation:new", newConversation);
+        getPusherServer().trigger(user.email, "conversation:new", newConversation);
       }
     })
     return NextResponse.json(newConversation);

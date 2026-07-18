@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import getCurrentUser from "@/src/app/actions/getCurrentUser";
 import prisma from "@/libs/prismadb";
-import { pusherServer } from "@/libs/pusher";
+import { getPusherServer } from "@/libs/pusher.server";
 
 export async function POST(
   request: NextRequest,
@@ -44,7 +44,7 @@ export async function POST(
     });
 
     // notify only this user’s channel
-    await pusherServer.trigger(
+    await getPusherServer().trigger(
       currentUser.email,
       "conversation:update",
       { id: conversationId, messages: [updatedMessage] }
@@ -56,7 +56,7 @@ export async function POST(
     }
 
     // otherwise broadcast the new seen-status
-    await pusherServer.trigger(
+    await getPusherServer().trigger(
       conversationId,
       "message:update",
       updatedMessage

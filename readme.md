@@ -31,24 +31,19 @@ https://sidequest-blue.vercel.app/
 
 ## Getting Started (Development)
 
-To clone:
-Navigate to desired directory
-```
+Install [Bun](https://bun.sh/docs/installation), then clone and start the repository:
+
+```sh
 git clone https://github.com/anushaKankipati/SIDEQUEST.git
+cd SIDEQUEST
+bun install
+bun run dev
+```
 
-cd into local folder
+For a lockfile-verified install (for example, in CI):
 
-npm install 
-
-// try the following to run development server
-npm run dev
-
-// if that doesn't work, then delete node_modules and run
-npm install
-
-// then try
-npm run dev
-
+```sh
+bun install --frozen-lockfile
 ```
 
 ## Environment file

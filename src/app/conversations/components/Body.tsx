@@ -5,7 +5,7 @@ import { FullMessageType } from "@/src/types";
 import { useState, useRef, useEffect } from "react";
 import MessageBox from "./MessageBox";
 import axios from "axios";
-import { pusherClient } from "@/libs/pusher";
+import { getPusherClient } from "@/libs/pusher.client";
 import { find } from "lodash";
 import BackButton from "./BackButton";
 
@@ -23,6 +23,7 @@ export default function Body({ initialMessages }: BodyProps) {
   }, [conversationId]);
 
   useEffect(() => {
+    const pusherClient = getPusherClient();
     pusherClient.subscribe(conversationId);
     bottomRef?.current?.scrollIntoView();
 

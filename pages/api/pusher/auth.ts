@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
-import { pusherServer } from "@/libs/pusher";
+import { getPusherServer } from "@/libs/pusher.server";
 import {authOptions} from "@/src/app/utils/authOptions";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const session = await getServerSession(request, response, authOptions);
   if (!session?.user?.email) {
-    return response.status(401); 
+    response.status(401).json({ error: "Unauthorized" });
+    return;
   }
 
   const socketId = request.body.socket_id; 
@@ -15,7 +16,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
   const data = {
     user_id: session.user.email,
   }
-  const authResponse = pusherServer.authorizeChannel(socketId, channel, data); 
+  const authResponse = getPusherServer().authorizeChannel(socketId, channel, data);
 
-  return response.send(authResponse); 
+  response.send(authResponse);
 }

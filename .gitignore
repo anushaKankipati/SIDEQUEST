@@ -29,6 +29,7 @@
 
 # debug
 npm-debug.log*
+bun-error.log*
 yarn-debug.log*
 yarn-error.log*
 
